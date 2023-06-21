@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="pl.edu.us.warhammer_card.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_fragment_Karta"
+            app:destination="@id/fragment_Karta" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="pl.edu.us.warhammer_card.ui.gallery.GalleryFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="pl.edu.us.warhammer_card.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_test"
+        android:name="pl.edu.us.warhammer_card.ui.test.TestFragment"
+        android:label="@string/menu_test"
+        tools:layout="@layout/fragment_test" />
+
+    <fragment
+        android:id="@+id/fragment_Karta"
+        android:name="pl.edu.us.warhammer_card.ui.home.KartaFragment"
+        android:label="@string/karta"
+        tools:layout="@layout/fragment_karta" >
+        <action
+            android:id="@+id/action_fragment_Karta_to_fragment_karta_front"
+            app:destination="@id/fragment_karta_front" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_karta_front"
+        android:name="pl.edu.us.warhammer_card.ui.karta.KartaFrontFragment"
+        android:label="@string/karta"
+        tools:layout="@layout/fragment_karta_front" >
+        <action
+            android:id="@+id/action_fragment_karta_front_to_fragment_karta_cechy"
+            app:destination="@id/fragment_karta_cechy" />
+        <action
+            android:id="@+id/action_fragment_karta_front_to_fragment_karta_umiejetnosci"
+            app:destination="@id/fragment_karta_umiejetnosci" />
+        <action
+            android:id="@+id/action_fragment_karta_front_to_fragment_karta_umiejetnosci2"
+            app:destination="@id/fragment_karta_umiejetnosci2" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_karta_cechy"
+        android:name="pl.edu.us.warhammer_card.ui.karta.KartaCechyFragment"
+        android:label="@string/cecha"
+        tools:layout="@layout/fragment_karta_cechy" >
+        <action
+            android:id="@+id/action_fragment_karta_cechy_to_fragment_karta_front"
+            app:destination="@id/fragment_karta_front" />
+        <action
+            android:id="@+id/action_fragment_karta_cechy_to_fragment_karta_umiejetnosci"
+            app:destination="@id/fragment_karta_umiejetnosci" />
+        <action
+            android:id="@+id/action_fragment_karta_cechy_to_fragment_karta_umiejetnosci2"
+            app:destination="@id/fragment_karta_umiejetnosci2" />
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/fragment_karta_umiejetnosci"
+        android:name="pl.edu.us.warhammer_card.ui.karta.KartaUmiejetnosciFragment"
+        android:label="@string/umiejetnosci"
+        tools:layout="@layout/fragment_karta_umiejetnosci" >
+        <action
+            android:id="@+id/action_fragment_karta_umiejetnosci_to_fragment_karta_cechy"
+            app:destination="@id/fragment_karta_cechy" />
+        <action
+            android:id="@+id/action_fragment_karta_umiejetnosci_to_fragment_karta_front"
+            app:destination="@id/fragment_karta_front" />
+        <action
+            android:id="@+id/action_fragment_karta_umiejetnosci_to_fragment_karta_umiejetnosci2"
+            app:destination="@id/fragment_karta_umiejetnosci2" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_karta_umiejetnosci2"
+        android:name="pl.edu.us.warhammer_card.ui.karta.KartaUmiejetnosciFragment2"
+        android:label="@string/umiejetnosci2"
+        tools:layout="@layout/fragment_karta_umiejetnosci2" >
+
+        <action
+            android:id="@+id/action_fragment_karta_umiejetnosci2_to_fragment_karta_front"
+            app:destination="@id/fragment_karta_front" />
+        <action
+            android:id="@+id/action_fragment_karta_umiejetnosci2_to_fragment_karta_umiejetnosci"
+            app:destination="@id/fragment_karta_umiejetnosci" />
+        <action
+            android:id="@+id/action_fragment_karta_umiejetnosci2_to_fragment_karta_cechy"
+            app:destination="@id/fragment_karta_cechy" />
+    </fragment>
+</navigation>

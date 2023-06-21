@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.karta.KartaCechyFragment"
+    android:id="@+id/fragment_karta_cechy"
+    >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*">
+
+        <!-- Nagłówek kolumn -->
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cecha" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/pocz_ntkowa" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/rozwin_cia" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/aktualna" />
+
+        </TableRow>
+
+        <!-- Wiersze danych -->
+
+        <!-- Wiersz 1 -->
+        <TableRow>
+
+            <TextView
+                android:id="@+id/nazwa1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="none"
+                android:text=""
+                android:textSize="15pt" />
+
+            <EditText
+                android:id="@+id/poczatek1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/rozwoj1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/aktualna1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="none"
+                android:focusable="false" />
+
+        </TableRow>
+
+        <!-- Dodaj kolejne wiersze podobnie -->
+
+        <!-- Wiersz 2 -->
+        <TableRow>
+
+            <TextView
+                android:id="@+id/nazwa2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="none"
+                android:textSize="15pt"/>
+
+            <EditText
+                android:id="@+id/poczatek2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/rozwoj2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/aktualna2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="none"
+                android:focusable="false"/>
+
+        </TableRow>
+
+        <!-- Wiersz 3 -->
+        <TableRow>
+
+            <TextView
+                android:id="@+id/nazwa3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="none"
+                android:textSize="15pt"
+                />
+
+            <EditText
+                android:id="@+id/poczatek3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/rozwoj3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/aktualna3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="none"
+                android:focusable="false"/>
+
+        </TableRow>
+
+
+        <!-- Wiersz 4 -->
+        <TableRow>
+
+            <TextView
+                android:id="@+id/nazwa4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="none"
+                android:textSize="15pt"
+                />
+
+            <EditText
+                android:id="@+id/poczatek4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/rozwoj4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/aktualna4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="none"
+                android:focusable="false"/>
+
+        </TableRow>
+
+        <!-- Wiersz 5 -->
+        <TableRow>
+
+            <TextView
+                android:id="@+id/nazwa5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="none"
+                android:textSize="15pt"
+                />
+
+            <EditText
+                android:id="@+id/poczatek5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/rozwoj5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/aktualna5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="none"
+                android:focusable="false"/>
+
+        </TableRow>
+
+
+
+        <!-- Wiersz 6 -->
+        <TableRow>
+
+            <TextView
+                android:id="@+id/nazwa6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="none"
+                android:textSize="15pt"
+                />
+
+            <EditText
+                android:id="@+id/poczatek6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/rozwoj6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/aktualna6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="none"
+                android:focusable="false"/>
+
+        </TableRow>
+
+
+        <!-- Wiersz 7 -->
+        <TableRow>
+
+            <TextView
+                android:id="@+id/nazwa7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="none"
+                android:textSize="15pt"
+                />
+
+            <EditText
+                android:id="@+id/poczatek7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/rozwoj7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/aktualna7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="none"
+                android:focusable="false"/>
+
+        </TableRow>
+
+        <!-- Wiersz 8 -->
+        <TableRow>
+
+            <TextView
+                android:id="@+id/nazwa8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="none"
+                android:textSize="15pt"
+                />
+
+            <EditText
+                android:id="@+id/poczatek8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/rozwoj8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/aktualna8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="none"
+                android:focusable="false"/>
+
+        </TableRow>
+
+        <!-- Wiersz 9 -->
+        <TableRow>
+
+            <TextView
+                android:id="@+id/nazwa9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="none"
+                android:textSize="15pt"
+                />
+
+            <EditText
+                android:id="@+id/poczatek9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/rozwoj9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/aktualna9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="none"
+                android:focusable="false"/>
+
+        </TableRow>
+
+
+        <!-- Wiersz 10 -->
+        <TableRow>
+
+            <TextView
+                android:id="@+id/nazwa10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="none"
+                android:textSize="15pt"
+                />
+
+            <EditText
+                android:id="@+id/poczatek10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/rozwoj10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/aktualna10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_0"
+                android:inputType="none"
+                android:focusable="false"
+                />
+
+        </TableRow>
+
+
+    </TableLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/bottom_navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="685dp">
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="484dp" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="485dp" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="70dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="wrap_content"
+            android:text="3"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="485dp" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="485dp" />
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="70dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="wrap_content"
+            android:text="5"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="485dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
