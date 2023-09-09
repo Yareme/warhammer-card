@@ -1,4 +1,4 @@
-package pl.edu.us.warhammer_card.ui.karta;
+package pl.edu.us.warhammer_card.ui.karta.KartaUmiejetnosci;
 
 import android.content.ContentValues;
 import android.database.Cursor;

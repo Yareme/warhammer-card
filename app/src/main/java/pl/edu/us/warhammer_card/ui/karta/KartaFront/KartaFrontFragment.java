@@ -1,4 +1,4 @@
-package pl.edu.us.warhammer_card.ui.karta;
+package pl.edu.us.warhammer_card.ui.karta.KartaFront;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;

@@ -45,7 +45,7 @@
 
     <fragment
         android:id="@+id/fragment_karta_front"
-        android:name="pl.edu.us.warhammer_card.ui.karta.KartaFrontFragment"
+        android:name="pl.edu.us.warhammer_card.ui.karta.KartaFront.KartaFrontFragment"
         android:label="@string/karta"
         tools:layout="@layout/fragment_karta_front" >
         <action
@@ -61,7 +61,7 @@
 
     <fragment
         android:id="@+id/fragment_karta_cechy"
-        android:name="pl.edu.us.warhammer_card.ui.karta.KartaCechyFragment"
+        android:name="pl.edu.us.warhammer_card.ui.karta.KartaCechy.KartaCechyFragment"
         android:label="@string/cecha"
         tools:layout="@layout/fragment_karta_cechy" >
         <action
@@ -79,7 +79,7 @@
 
     <fragment
         android:id="@+id/fragment_karta_umiejetnosci"
-        android:name="pl.edu.us.warhammer_card.ui.karta.KartaUmiejetnosciFragment"
+        android:name="pl.edu.us.warhammer_card.ui.karta.KartaUmiejetnosci.KartaUmiejetnosciFragment"
         android:label="@string/umiejetnosci"
         tools:layout="@layout/fragment_karta_umiejetnosci" >
         <action
@@ -95,7 +95,7 @@
 
     <fragment
         android:id="@+id/fragment_karta_umiejetnosci2"
-        android:name="pl.edu.us.warhammer_card.ui.karta.KartaUmiejetnosciFragment2"
+        android:name="pl.edu.us.warhammer_card.ui.karta.KartaUmiejetnosci.KartaUmiejetnosciFragment2"
         android:label="@string/umiejetnosci2"
         tools:layout="@layout/fragment_karta_umiejetnosci2" >
 
