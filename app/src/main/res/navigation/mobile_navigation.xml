@@ -39,8 +39,8 @@
         android:label="@string/karta"
         tools:layout="@layout/fragment_karta" >
         <action
-            android:id="@+id/action_fragment_Karta_to_fragment_karta_front"
-            app:destination="@id/fragment_karta_front" />
+            android:id="@+id/action_fragment_Karta_to_fragment_karta_main"
+            app:destination="@id/fragment_karta_main" />
     </fragment>
 
     <fragment
@@ -109,4 +109,27 @@
             android:id="@+id/action_fragment_karta_umiejetnosci2_to_fragment_karta_cechy"
             app:destination="@id/fragment_karta_cechy" />
     </fragment>
+
+    <fragment
+        android:id="@+id/fragment_karta_main"
+        android:name="pl.edu.us.warhammer_card.ui.karta.KartaMainFragment"
+        android:label="KartaMain"
+        tools:layout="@layout/fragment_karta_main" >
+
+        <action
+            android:id="@+id/action_fragment_karta_main_to_fragment_karta_front"
+            app:destination="@id/fragment_karta_front" />
+        <action
+            android:id="@+id/action_fragment_karta_main_to_fragment_karta_umiejetnosci2"
+            app:destination="@id/fragment_karta_umiejetnosci2" />
+        <action
+            android:id="@+id/action_fragment_karta_main_to_fragment_karta_cechy"
+            app:destination="@id/fragment_karta_cechy" />
+        <action
+            android:id="@+id/action_fragment_karta_main_to_fragment_karta_umiejetnosci"
+            app:destination="@id/fragment_karta_umiejetnosci" />
+    </fragment>
+
+
+
 </navigation>

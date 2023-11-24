@@ -63,7 +63,7 @@ public class KartaFrontFragment extends Fragment {
 
         karta=getKarta(db,kartaId);
 
-        binding.button2.setOnClickListener(new View.OnClickListener() {
+      /*  binding.button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -101,7 +101,9 @@ public class KartaFrontFragment extends Fragment {
                 NavController navController = navHostFragment.getNavController();
                 navController.navigate(R.id.action_fragment_karta_front_to_fragment_karta_umiejetnosci2,args);
             }
-        });
+        });*/
+
+
 
 
         TextWatcher textWatcher = new TextWatcher() {

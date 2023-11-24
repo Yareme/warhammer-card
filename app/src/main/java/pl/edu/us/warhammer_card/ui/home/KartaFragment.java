@@ -43,6 +43,9 @@ public class KartaFragment   extends Fragment {
         Bundle args = getArguments();
         assert args != null;
         int kampanieId = args.getInt("key");
+        Log.d("Karta", String.valueOf("KampaniaID="+kampanieId));
+
+
        // binding.button.setText(kampanieId);
 
         List<Karta> data = getKartaList(db,kampanieId);
@@ -59,7 +62,7 @@ public class KartaFragment   extends Fragment {
 
                 NavHostFragment navHostFragment = (NavHostFragment) ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
                 NavController navController = navHostFragment.getNavController();
-                navController.navigate(R.id.action_fragment_Karta_to_fragment_karta_front,args);
+                navController.navigate(R.id.action_fragment_Karta_to_fragment_karta_main,args);
 
             }
         });
@@ -79,7 +82,7 @@ public class KartaFragment   extends Fragment {
 
                 NavHostFragment navHostFragment = (NavHostFragment) ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
                 NavController navController = navHostFragment.getNavController();
-                navController.navigate(R.id.action_fragment_Karta_to_fragment_karta_front,args);
+                navController.navigate(R.id.action_fragment_Karta_to_fragment_karta_main,args);
 
             }
         });
@@ -92,11 +95,9 @@ public class KartaFragment   extends Fragment {
 
                 Bundle args = new Bundle();
                 args.putInt("KartaId", data.get(position).getId());
-
                 NavHostFragment navHostFragment = (NavHostFragment) ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
                 NavController navController = navHostFragment.getNavController();
-
-                navController.navigate(R.id.action_fragment_Karta_to_fragment_karta_front,args);
+                navController.navigate(R.id.action_fragment_Karta_to_fragment_karta_main,args);
 
 
             }
@@ -141,7 +142,7 @@ public class KartaFragment   extends Fragment {
             karta.setImie(cursor.getString(cursor.getColumnIndexOrThrow("imie")));
 
             listaKarta.add(karta);
-            Log.d("Karta", String.valueOf(karta.getId()));
+            Log.d("Karta", String.valueOf("KartaID="+karta.getId()));
 
         }
         cursor.close();
