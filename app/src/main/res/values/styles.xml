@@ -1,0 +1,17 @@
+<resources>
+    <!-- Motyw aplikacji -->
+    <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Kolor główny -->
+        <item name="colorPrimary">#FD6A4611</item>
+        <item name="colorPrimaryVariant">#3700B3</item>
+        <item name="colorAccent">#03DAC5</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
+    </style>
+
+    <style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">#9A6A4611</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+</resources>

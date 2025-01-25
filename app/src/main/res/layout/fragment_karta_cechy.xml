@@ -457,6 +457,7 @@
 
 
 
+<!--
     <LinearLayout
         android:id="@+id/bottom_navigation"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -524,5 +525,6 @@
             tools:layout_editor_absoluteY="485dp" />
 
     </LinearLayout>
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

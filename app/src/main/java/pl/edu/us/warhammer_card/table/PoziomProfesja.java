@@ -7,7 +7,28 @@ public class PoziomProfesja {
     String nazwa;
     int profesjaId;
     int statusId;
+    String schemat_cech;
 
+    int[] schematCechTabel;
+
+    public int[] getSchematCechTabel() {
+        return schematCechTabel;
+    }
+
+    public void setSchematCechTabel(int[] schematCechTabel) {
+        this.schematCechTabel = schematCechTabel;
+    }
+
+
+    public String getSchemat_cech() {
+        return schemat_cech;
+    }
+
+    public void setSchemat_cech(String schemat_cech) {
+
+        this.schematCechTabel=convertStringToArray(schemat_cech);
+        this.schemat_cech = schemat_cech;
+    }
     public int getId() {
         return id;
     }
@@ -38,5 +59,18 @@ public class PoziomProfesja {
 
     public void setStatusId(int statusId) {
         this.statusId = statusId;
+    }
+
+
+
+    public static int[] convertStringToArray(String str) {
+        String[] strArray = str.split(",");
+        int[] intArray = new int[strArray.length];
+
+        for (int i = 0; i < strArray.length; i++) {
+            intArray[i] = Integer.parseInt(strArray[i]);
+        }
+
+        return intArray;
     }
 }

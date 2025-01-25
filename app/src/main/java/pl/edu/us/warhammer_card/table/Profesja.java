@@ -5,6 +5,8 @@ public class Profesja {
     String nazawa;
     int klasaId;
 
+
+
     public int getId() {
         return id;
     }
@@ -28,4 +30,7 @@ public class Profesja {
     public void setKlasaId(int klasaId) {
         this.klasaId = klasaId;
     }
+
+
+
 }

@@ -37,6 +37,11 @@ CREATE TABLE "status" (
 CREATE TABLE "rasa" (
     "id"          INTEGER PRIMARY KEY,
     "name"        TEXT,
+
+    "punkty_przeznaczenia" INTEGER,
+    "punkty_bohatera" INTEGER,
+    "punkty_dodatkowe" INTEGER,
+
     "wartość_min" INTEGER,
     "wartość_max" INTEGER
 );
@@ -67,10 +72,15 @@ CREATE TABLE "profesja" (
 );
 
 
-CREATE TABLE "poziom_profesji" (
+CREATE TABLE "poziom" (
     "id"                   INTEGER PRIMARY KEY,
-    "lvl"                  INTEGER ,
     "nazwa"                TEXT ,
+
+    "schemat_cech"          TEXT ,
+    "schemat_umiejetnosci"          TEXT ,
+    "schemat_talentow"          TEXT ,
+
+
 
     "profesja_id"          INTEGER ,
     "status_id"            INTEGER ,
@@ -107,15 +117,7 @@ CREATE TABLE "broń" (
 );
 
 
-CREATE TABLE "sugestia_broni" (
 
-    "poziom_profesji_id"                 INTEGER NOT NULL,
-    "broń_id"                           INTEGER NOT NULL,
-
-    FOREIGN KEY ("poziom_profesji_id") REFERENCES "poziom_profesji"("id")  ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY ("broń_id") REFERENCES "broń"("id") ON UPDATE CASCADE ON DELETE CASCADE
-
-);
 
 CREATE TABLE "rasa_profesja" (
     "id"                   INTEGER PRIMARY KEY,
@@ -150,6 +152,19 @@ CREATE TABLE "karta" (
     "wlosy"                              TEXT,
     "oczy"                               TEXT,
 
+
+    "punkty_przeznaczenia"               INTEGER,
+    "punkty_szczescia"                   INTEGER,
+
+    "punkty_bohatera"           I        INTEGER,
+    "punkty_determinacji"                INTEGER,
+
+    "punkty_dodatkowe"                   INTEGER,
+
+     "szybkosc"                          INTEGER,
+     "xp_aktualny"                       INTEGER,
+     "xp_wydany"                         INTEGER,
+
     "pensy"                              INTEGER,
     "sreblo"                             INTEGER,
     "złota_korona"                       INTEGER,
@@ -169,7 +184,7 @@ CREATE TABLE "karta" (
     "kampania_id"                        INTEGER,
     "rasa_id"                            INTEGER,
     "profesja_id"                        INTEGER,
-    "poziom_profesji_id"                 INTEGER,
+    "poziom_id"                 INTEGER,
 
     FOREIGN KEY ("kampania_id") REFERENCES "kampania"("id") ON UPDATE CASCADE ON DELETE CASCADE,
 
@@ -177,7 +192,7 @@ CREATE TABLE "karta" (
 
     FOREIGN KEY ("profesja_id") REFERENCES "profesja"("id") ON UPDATE CASCADE ON DELETE CASCADE,
 
-    FOREIGN KEY ("poziom_profesji_id") REFERENCES "poziom_profesji"("id") ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY ("poziom_id") REFERENCES "poziom"("id") ON UPDATE CASCADE ON DELETE CASCADE
 
 
 );
@@ -212,7 +227,7 @@ CREATE TABLE "karta_cecha" (
 
     "karta_id"           INTEGER NOT NULL,
     "cechy_id"           INTEGER,
-
+    "lvl_up"             INTEGER,
     "wartość_pociątkowa" INTEGER NOT NULL,
     "rozwój"             INTEGER NOT NULL,
 
@@ -221,15 +236,6 @@ CREATE TABLE "karta_cecha" (
 
 );
 
-CREATE TABLE "konfiguracja_rozwój" (
-
-    "cechy_id"                           INTEGER NOT NULL,
-    "poziom_profesji_id"                 INTEGER NOT NULL,
-
-    FOREIGN KEY ("cechy_id") REFERENCES "cechy"("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY ("poziom_profesji_id") REFERENCES "poziom_profesji_id"("id")   ON UPDATE CASCADE ON DELETE CASCADE
-
-);
 
 CREATE TABLE "karta_broń"(
 "karta_id"      INTEGER NOT NULL,
@@ -255,6 +261,7 @@ CREATE TABLE "karta_talent" (
     "karta_id"          INTEGER NOT NULL,
     "talent_id"         INTEGER NOT NULL,
     "poziom"            INTEGER NOT NULL,
+     "lvl_up"             INTEGER,
 
     FOREIGN KEY ("karta_id") REFERENCES "karta"("id") ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY ("talent_id") REFERENCES "talent"("id") ON UPDATE CASCADE ON DELETE CASCADE
@@ -265,6 +272,7 @@ CREATE TABLE "karta_umiętność" (
     "karta_id"                     INTEGER NOT NULL,
     "umiejętności_id"              INTEGER NOT NULL,
     "rozwój"                       INTEGER,
+     "lvl_up"             INTEGER,
 
      FOREIGN KEY ("karta_id") REFERENCES "karta"("id") ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY ("umiejętności_id") REFERENCES "umiejętności"("id") ON UPDATE CASCADE ON DELETE CASCADE
@@ -280,22 +288,7 @@ CREATE TABLE "karta_wypasarzenie" (
 
 );
 
-CREATE TABLE "konfiguracja_umijętności" (
-    "umiejętności_id"                    INTEGER NOT NULL,
-    "poziom_profesji_id"                 INTEGER NOT NULL,
 
-     FOREIGN KEY ("umiejętności_id") REFERENCES "umiejętności"("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY ("poziom_profesji_id") REFERENCES "poziom_profesji"("id") ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE TABLE "sugestia_wypozażenia" (
-
-    "wyposarzenie_id"           INTEGER NOT NULL,
-    "poziom_profesji_id"        INTEGER NOT NULL,
-
-    FOREIGN KEY ("wyposarzenie_id") REFERENCES "wyposarzenie"("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY ("poziom_profesji_id") REFERENCES "poziom_profesji"("id") ON UPDATE CASCADE ON DELETE CASCADE
-);
 
 CREATE TABLE "tradycja" (
     "id"          INTEGER NOT NULL,
@@ -317,6 +310,8 @@ CREATE TABLE "zaklęcia" (
     FOREIGN KEY ("tradycja_id") REFERENCES "tradycja"("id")  ON UPDATE CASCADE ON DELETE CASCADE
 
 );
+
+
 CREATE TABLE "kolor_oczu"(
 
     "id" INTEGER PRIMARY KEY,
@@ -918,23 +913,30 @@ VALUES
    INSERT INTO "umiejętności" ("nazwa", "czy_zaawansowana","cechy_id","opis")
    VALUES
         ("Atletyka",0,6," OPIS"),
+
         ("Broń Biała (Podstawowa)",0,1," OPIS"),
-        ("Broń Biała (Inna)",0,1," OPIS"),
+
         ("Charyzma",0,10," OPIS"),
         ("Dowodzenie",0,10," OPIS"),
         ("Hazard",0,8," OPIS"),
         ("Intuicja",0,5," OPIS"),
-        ("Jeździectwo",0,6," OPIS"),
+
+        ("Jeździectwo(Konie)",0,6," OPIS"),
         ("Mocna głowa",0,4," OPIS"),
+
         ("Nawigacja",0,5," OPIS"),
         ("Odporność",0,4," OPIS"),
         ("Opanowanie",0,9," OPIS"),
+
+
         ("Oswajanie",0,9," OPIS"),
 
         ("Percepcja",0,5," OPIS"),
         ("Plotkowanie",0,10," OPIS"),
+
         ("Powożenie",0,6," OPIS"),
         ("Przekupstwo",0,10," OPIS"),
+
         ("Skradanie",0,6," OPIS"),
         ("Sztuka",0,7," OPIS"),
         ("Sztuka Przetrwania",0,8," OPIS"),
@@ -943,7 +945,168 @@ VALUES
         ("Wioślarstwo",0,3," OPIS"),
         ("Wspinaczka",0,3," OPIS"),
         ("Występy",0,10," OPIS"),
-        ("Zastraszanie",0,3," OPIS");
+        ("Zastraszanie",0,3," OPIS"),
+
+
+        ("Badania Naukowe",1,8," OPIS"),
+
+        ("Broń Biała(Bijatyka)",1,1," OPIS"),
+        ("Broń Biała(Drzewcowa)",1,1," OPIS"),
+        ("Broń Biała(Dwuręczna)",1,1," OPIS"),
+        ("Broń Biała(Kawaleryjska)",1,1," OPIS"),
+        ("Broń Biała(Korbacze)",1,1," OPIS"),
+        ("Broń Biała(Parująca)",1,1," OPIS"),
+        ("Broń Biała(Szermiercza)",1,1," OPIS"),
+
+
+        ("Broń Zasięgowa(Broń Eksperymentalna)",1,2," OPIS"),
+        ("Broń Zasięgowa(Broń Miotana)",1,2," OPIS"),
+        ("Broń Zasięgowa(Broń Oplątująca)",1,2," OPIS"),
+        ("Broń Zasięgowa(Broń Prochowa)",1,2," OPIS"),
+        ("Broń Zasięgowa(Kusze)",1,2," OPIS"),
+        ("Broń Zasięgowa(Łuki)",1,2," OPIS"),
+        ("Broń Zasięgowa(Materiały Wybuchowe)",1,2," OPIS"),
+        ("Broń Zasięgowa(Proce)",1,2," OPIS"),
+
+
+
+        ("Jeździectwo(Gryfy)",1,6," OPIS"),
+        ("Jeździectwo(Pegazy)",1,6," OPIS"),
+        ("Jeździectwo(Półgryfy)",1,6," OPIS"),
+        ("Jeździectwo(Wielkie Wilki)",1,6," OPIS"),
+
+
+        ("Język(Bitewny)",1,8,"OPIS"),
+        ("Język(Bretoński)",1,8," OPIS"),
+        ("Język(Klasyczny)",1,8," OPIS"),
+        ("Język(Gildii)",1,8," OPIS"),
+        ("Język(Khazalid)",1,8," OPIS"),
+        ("Język(Magiczny)",1,8," OPIS"),
+        ("Język(Złodziei)",1,8," OPIS"),
+        ("Język(Tileański)",1,8," OPIS"),
+
+
+        ("Kuglarstwo(Akrobatyka)",1,6," OPIS"),
+        ("Kuglarstwo(Chodzenie po Linie)",1,6," OPIS"),
+        ("Kuglarstwo(Komedianctwo)",1,6," OPIS"),
+        ("Kuglarstwo(Mimika)",1,6," OPIS"),
+        ("Kuglarstwo(Połykanie Ognia)",1,6," OPIS"),
+        ("Kuglarstwo(Taniec)",1,6," OPIS"),
+        ("Kuglarstwo(Żonglowanie)",1,6," OPIS"),
+
+
+        ("Leczenie",1,8," OPIS"),
+
+
+        ("Modlitwa",1,10," OPIS"),
+
+
+        ("Muzyka(Dudy)",1,7," OPIS"),
+        ("Muzyka(Harfa)",1,7," OPIS"),
+        ("Muzyka(Lutnia)",1,7," OPIS"),
+        ("Muzyka(Obój)",1,7," OPIS"),
+        ("Muzyka(Skrzypce)",1,7," OPIS"),
+
+
+
+
+        ("Opieka nad Zwierzętami",1,9," OPIS"),
+
+
+        ("Otwieranie Zamków",1,7," OPIS"),
+
+
+
+        ("Pływanie",1,3," OPIS"),
+
+
+        ("Rzemiosło(Aptekarstwo)",1,7," OPIS"),
+        ("Rzemiosło(Balsamowanie)",1,7," OPIS"),
+        ("Rzemiosło(Garbarstwo)",1,7," OPIS"),
+        ("Rzemiosło(Gotowanie)",1,7," OPIS"),
+        ("Rzemiosło(Kaligrafia)",1,7," OPIS"),
+        ("Rzemiosło(Kowalstwo)",1,7," OPIS"),
+        ("Rzemiosło(Świecarstwo)",1,7," OPIS"),
+
+
+        ("Sekretne Znaki(Gildii)",1,8," OPIS"),
+        ("Sekretne Znaki(Kolegium Cienia)",1,8," OPIS"),
+        ("Sekretne Znaki(Łowców)",1,8," OPIS"),
+        ("Sekretne Znaki(Włóczęgów)",1,8," OPIS"),
+        ("Sekretne Znaki(Złodziei)",1,8," OPIS"),
+        ("Sekretne Znaki(Zwiadowców)",1,8," OPIS"),
+
+
+
+        ("Skradanie(Podziemia)",1,6," OPIS"),
+        ("Skradanie(Miasto)",1,6," OPIS"),
+        ("Skradanie(Wieś)",1,6," OPIS"),
+
+
+        ("Splatanie Magii(Aqshy)",1,9," OPIS"),
+        ("Splatanie Magii(Azyr)",1,9," OPIS"),
+        ("Splatanie Magii(Chamon)",1,9," OPIS"),
+        ("Splatanie Magii(Dhar)",1,9," OPIS"),
+        ("Splatanie Magii(Ghur)",1,9," OPIS"),
+        ("Splatanie Magii(Ghyran)",1,9," OPIS"),
+        ("Splatanie Magii(Hysh)",1,9," OPIS"),
+        ("Splatanie Magii(Shyish)",1,9," OPIS"),
+        ("Splatanie Magii(Ulgu)",1,9," OPIS"),
+
+
+        ("Sztuka(Grawerstwo)",1,7," OPIS"),
+        ("Sztuka(Kartografia)",1,7," OPIS"),
+        ("Sztuka(Malarstwo)",1,7," OPIS"),
+        ("Sztuka(Rzeźbiarstwo)",1,7," OPIS"),
+        ("Sztuka(Tatuowanie)",1,7," OPIS"),
+        ("Sztuka(Tkactwo)",1,7," OPIS"),
+        ("Sztuka(Układanie Mozaiki)",1,7," OPIS"),
+
+
+
+
+        ("Tresura(Gołębie)",1,8," OPIS"),
+        ("Tresura(Konie)",1,8," OPIS"),
+        ("Tresura(Pegazy)",1,8," OPIS"),
+        ("Tresura(Półgryfy)",1,8," OPIS"),
+        ("Tresura(Psy)",1,8," OPIS"),
+
+        ("Tropienie",1,5," OPIS"),
+
+
+        ("Wiedza(Chemia)",1,8," OPIS"),
+        ("Wiedza(Geologia)",1,8," OPIS"),
+        ("Wiedza(Heraldyka)",1,8," OPIS"),
+        ("Wiedza(Historia)",1,8," OPIS"),
+        ("Wiedza(Inżynieria)",1,8," OPIS"),
+        ("Wiedza(Medycyna)",1,8," OPIS"),
+        ("Wiedza(Magia)",1,8," OPIS"),
+        ("Wiedza(Metalurgia)",1,8," OPIS"),
+        ("Wiedza(Nauka)",1,8," OPIS"),
+        ("Wiedza(Prawo)",1,8," OPIS"),
+        ("Wiedza(Rośliny)",1,8," OPIS"),
+        ("Wiedza(Teologia)",1,8," OPIS"),
+
+
+        ("Wycena",1,8," OPIS"),
+
+        ("Występy(Aktorstwo)",1,10," OPIS"),
+        ("Występy(Gawędziarstwo)",1,10," OPIS"),
+        ("Występy(Komedianctwo)",1,10," OPIS"),
+        ("Występy(Śpiewanie)",1,10," OPIS"),
+
+        ("Zastawianie Pułapek",1,7," OPIS"),
+
+
+        ("Zwinne Palce",1,7," OPIS"),
+
+
+        ("Żeglarstwo(Barki)",1,6," OPIS"),
+        ("Żeglarstwo(Karawele)",1,6," OPIS"),
+        ("Żeglarstwo(Kogi)",1,6," OPIS"),
+        ("Żeglarstwo(Fregaty)",1,6," OPIS"),
+        ("Żeglarstwo(Wilcze Statki)",1,6," OPIS");
+
 
 --Dodanie statusu
 INSERT INTO "status"("nazwa")
@@ -967,327 +1130,327 @@ VALUES
     ("ZŁOTO 7"),
     ("BRĄZ 0");
 
-   INSERT INTO "poziom_profesji" ("nazwa", "profesja_id","status_id")
+   INSERT INTO "poziom" ("nazwa", "profesja_id","status_id","schemat_cech","schemat_umiejetnosci" )
    VALUES
-        ("Uczennica Aptekarki", 1,3),
-        ("Aptekarka", 1,6),
-        ("Farmaceutka", 1, 8),
-        ("Mistrzyni Aptekarstwa", 1, 1),
+        ("Uczennica Aptekarki", 1,3,"4,7,8","48,61,8,71,109,114,119"),
+        ("Aptekarka", 1,6,"4,7,8,10","48,61,8,71,109,114,119,3,49,13,14,20,117"),
+        ("Farmaceutka", 1, 8,"4,5,7,8,10","26,4,6,48,61,8,71,109,114,119,3,49,13,14,20,117"),
+        ("Mistrzyni Aptekarstwa", 1, 1,"4,5,7,8,9,10","7,25,26,4,6,48,61,8,71,109,114,119,3,49,13,14,20,117"),
 
-        ("Uczeń Czarodzieja", 2, 3),
-        ("Czarodziej", 2, 8),
-        ("Mistrz Magii", 2, 11),
-        ("Arcymag", 2, 12),
+        ("Uczeń Czarodzieja", 2, 3,"1,8,9","48,61,8,71,109,114,119"),
+        ("Czarodziej", 2, 8,"1,6,8,9","48,61,8,71,109,114,119"),
+        ("Mistrz Magii", 2, 11,"1,5,6,8,9","48,61,8,71,109,114,119"),
+        ("Arcymag", 2, 12,"1,5,6,8,9,10","48,61,8,71,109,114,119"),
 
-        ("Student Inżynierii", 3, 4),
-        ("Inżynier", 3, 7),
-        ("Renomowany Inżynier", 3, 9),
-        ("Mistrz Inżynierii", 3, 12),
+        ("Student Inżynierii", 3, 4,"2,7,8","48,61,8,71,109,114,119"),
+        ("Inżynier", 3, 7,"2,5,7,8","48,61,8,71,109,114,119"),
+        ("Renomowany Inżynier", 3, 9,"2,4,5,7,8","48,61,8,71,109,114,119"),
+        ("Mistrz Inżynierii", 3, 12,"2,4,5,7,8,9","48,61,8,71,109,114,119"),
 
-        ("Kleryk", 4, 2),
-        ("Kapłan", 4, 6),
-        ("Arcykapłan", 4, 11),
-        ("Lektor", 4, 12),
+        ("Kleryk", 4, 2,"4,6,9","48,61,8,71,109,114,119"),
+        ("Kapłan", 4, 6,"4,6,9,10","48,61,8,71,109,114,119"),
+        ("Arcykapłan", 4, 11,"4,6,8,9,10","48,61,8,71,109,114,119"),
+        ("Lektor", 4, 12,"4,5,6,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Studentka Medycyny", 5, 4),
-       ("Medyczka", 5, 8),
-       ("Doktor",5 , 10),
-       ("Nadworna Medyczka", 5, 11),
+       ("Studentka Medycyny", 5, 4,"7,8,9","48,61,8,71,109,114,119"),
+       ("Medyczka", 5, 8,"7,8,9,10","48,61,8,71,109,114,119"),
+       ("Doktor",5 , 10,"5,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Nadworna Medyczka", 5, 11,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Nowicjuszka", 6,1 ),
-       ("Mniszka", 6, 4),
-       ("Przeorysza", 6,7 ),
-       ("Matka Przełożona", 6, 10),
+       ("Nowicjuszka", 6,1 ,"7,8,10","48,61,8,71,109,114,119"),
+       ("Mniszka", 6, 4,"7,8,9,10","48,61,8,71,109,114,119"),
+       ("Przeorysza", 6,7 ,"5,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Matka Przełożona", 6, 10,"4,5,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Studentka Prawa", 7, 4),
-       ("Prawniczka", 7, 8),
-       ("Obrońca", 7, 11),
-       ("Sędzia", 7, 12),
+       ("Studentka Prawa", 7, 4,"5,7,8","48,61,8,71,109,114,119"),
+       ("Prawniczka", 7, 8,"5,7,8,10","48,61,8,71,109,114,119"),
+       ("Obrońca", 7, 11,"5,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Sędzia", 7, 12,"4,5,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Student", 8, 3),
-       ("Uczony", 8, 7),
-       ("Wykładowca", 8, 10),
-       ("Profesor", 8,11 ),
+       ("Student", 8, 3,"4,8,9","48,61,8,71,109,114,119"),
+       ("Uczony", 8, 7,"4,5,8,9","48,61,8,71,109,114,119"),
+       ("Wykładowca", 8, 10,"4,5,8,9,10","48,61,8,71,109,114,119"),
+       ("Profesor", 8,11 ,"4,5,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Pamflecista", 9,1 ),
-       ("Agitator", 9, 2),
-       ("Podżegacz", 9, 3),
-       ("Demagog", 9, 5),
+       ("Pamflecista", 9,1 ,"2,8,10","48,61,8,71,109,114,119"),
+       ("Agitator", 9, 2,"2,6,8,10","48,61,8,71,109,114,119"),
+       ("Podżegacz", 9, 3,"1,2,6,8,10","48,61,8,71,109,114,119"),
+       ("Demagog", 9, 5,"1,2,5,6,8,10","48,61,8,71,109,114,119"),
 
-       ("Handlarz", 10, 7),
-       ("Kupiec", 10, 10),
-       ("Mistrz Kupiectwa", 10, 11),
-       ("Patrycjusz", 10,13 ),
+       ("Handlarz", 10, 7,"6,9,10","48,61,8,71,109,114,119"),
+       ("Kupiec", 10, 10,"6,8,9,10","48,61,8,71,109,114,119"),
+       ("Mistrz Kupiectwa", 10, 11,"5,6,8,9,10","48,61,8,71,109,114,119"),
+       ("Patrycjusz", 10,13,"1,5,6,8,9,10" ,"48,61,8,71,109,114,119"),
 
-       ("Przekupka", 11,6 ),
-       ("Mieszczka", 11,7 ),
-       ("Rajczyni Miejska", 11,10 ),
-       ("Burmistrz", 11, 11),
+       ("Przekupka", 11,6 ,"6,8,10","48,61,8,71,109,114,119"),
+       ("Mieszczka", 11,7 ,"5,6,8,10","48,61,8,71,109,114,119"),
+       ("Rajczyni Miejska", 11,10 ,"5,6,7,8,10","48,61,8,71,109,114,119"),
+       ("Burmistrz", 11, 11,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Czeladniczka", 12, 2),
-       ("Rzemieślniczka", 12,6 ),
-       ("Mistrzyni Rzemiosła", 12,8 ),
-       ("Mistrzyni Cechu", 12,11 ),
+       ("Czeladniczka", 12, 2,"3,4,7","48,61,8,71,109,114,119"),
+       ("Rzemieślniczka", 12,6 ,"3,4,7,10","48,61,8,71,109,114,119"),
+       ("Mistrzyni Rzemiosła", 12,8 ,"3,4,7,9,10","48,61,8,71,109,114,119"),
+       ("Mistrzyni Cechu", 12,11 ,"3,4,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Rekrut Straży", 13, 3),
-       ("Strażnik", 13, 6),
-       ("Sierżant Straży", 13, 8),
-       ("Kapitan Straży", 13, 11),
+       ("Rekrut Straży", 13, 3 ,"1,3,10","48,61,8,71,109,114,119"),
+       ("Strażnik", 13, 6 ,"1,3,9,10","48,61,8,71,109,114,119"),
+       ("Sierżant Straży", 13, 8 ,"1,3,5,9,10","48,61,8,71,109,114,119"),
+       ("Kapitan Straży", 13, 11 ,"1,3,5,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Uczeń Szczurołapa", 14,3 ),
-       ("Szczurołap", 14, 6),
-       ("Strażnik Kanałów", 14,7 ),
-       ("Tępiciel", 14, 8),
+       ("Uczeń Szczurołapa", 14,3 ,"1,2,9","48,61,8,71,109,114,119"),
+       ("Szczurołap", 14, 6 ,"1,2,4,9","48,61,8,71,109,114,119"),
+       ("Strażnik Kanałów", 14,7 ,"1,2,4,5,9","48,61,8,71,109,114,119"),
+       ("Tępiciel", 14, 8, "1,2,3,4,5,9","48,61,8,71,109,114,119"),
 
-       ("Szpicel", 15, 6),
-       ("Śledczy", 15, 7),
-       ("Starszy Śledczy", 15, 8),
-       ("Detektyw", 15,10 ),
+       ("Szpicel", 15, 6 ,"5,6,8","48,61,8,71,109,114,119"),
+       ("Śledczy", 15, 7 ,"5,6,8,10","48,61,8,71,109,114,119"),
+       ("Starszy Śledczy", 15, 8 ,"5,6,7,8,10","48,61,8,71,109,114,119"),
+       ("Detektyw", 15,10 ,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Biedak", 16, 17),
-       ("Żebrak", 16, 2),
-       ("Mistrz Żebraków", 16,4 ),
-       ("Król Żebraków", 16, 7),
+       ("Biedak", 16, 17 ,"4,6,10","48,61,8,71,109,114,119"),
+       ("Żebrak", 16, 2 ,"4,6,9,10","48,61,8,71,109,114,119"),
+       ("Mistrz Żebraków", 16,4 ,"1,4,6,9,10","48,61,8,71,109,114,119"),
+       ("Król Żebraków", 16, 7,"1,4,5,6,9,10","48,61,8,71,109,114,119") ,
 
-       ("Uczennica Artysty", 17, 6),
-       ("Artystka", 17, 8),
-       ("Mistrzyni Sztuki", 17,10 ),
-       ("Maestro", 17,12 ),
+       ("Uczennica Artysty", 17, 6,"3,5,7","48,61,8,71,109,114,119"),
+       ("Artystka", 17, 8,"3,5,7,10","48,61,8,71,109,114,119"),
+       ("Mistrzyni Sztuki", 17,10,"3,5,7,9,10","48,61,8,71,109,114,119"),
+       ("Maestro", 17,12 ,"3,5,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Asystent", 18,7 ),
-       ("Doradca", 18,9 ),
-       ("Radca", 18,11 ),
-       ("Kanclerz", 18, 13),
+       ("Asystent", 18,7 ,"4,5,6","48,61,8,71,109,114,119"),
+       ("Doradca", 18,9 ,"4,5,6,10","48,61,8,71,109,114,119"),
+       ("Radca", 18,11 ,"4,5,6,8,10","48,61,8,71,109,114,119"),
+       ("Kanclerz", 18, 13 ,"4,5,6,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Nadzorca", 19, 6),
-       ("Namiestnik", 19, 8),
-       ("Seneszal", 19, 11),
-       ("Gubernator", 19, 13),
+       ("Nadzorca", 19, 6,"3,4,9","48,61,8,71,109,114,119"),
+       ("Namiestnik", 19, 8,"1,3,4,9","48,61,8,71,109,114,119"),
+       ("Seneszal", 19, 11 ,"1,3,4,9,10","48,61,8,71,109,114,119"),
+       ("Gubernator", 19, 13 ,"1,3,4,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Herold", 20, 7),
-       ("Poseł", 20,9 ),
-       ("Dyplomata", 20, 12),
-       ("Ambasador", 20, 15),
+       ("Herold", 20, 7 ,"4,6,10","48,61,8,71,109,114,119"),
+       ("Poseł", 20,9 ,"4,6,8,10","48,61,8,71,109,114,119"),
+       ("Dyplomata", 20, 12,"4,5,6,8,10","48,61,8,71,109,114,119"),
+       ("Ambasador", 20, 15,"4,5,6,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Posługaczka", 21,6 ),
-       ("Służąca", 21, 8),
-       ("Pokojowa", 21,10 ),
-       ("Ochmistrzyni", 21,11 ),
+       ("Posługaczka", 21,6 ,"3,4,6","48,61,8,71,109,114,119"),
+       ("Służąca", 21, 8 ,"3,4,5,6","48,61,8,71,109,114,119"),
+       ("Pokojowa", 21,10 ,"3,4,5,6,8","48,61,8,71,109,114,119"),
+       ("Ochmistrzyni", 21,11 ,"3,4,5,6,8,10","48,61,8,71,109,114,119"),
 
-       ("Dziedzic", 22, 11),
-       ("Szlachcic", 22, 13),
-       ("Magnat", 22, 15),
-       ("Lord", 22, 16),
+       ("Dziedzic", 22, 11 ,"1,5,7","48,61,8,71,109,114,119"),
+       ("Szlachcic", 22, 13 ,"1,5,7,10","48,61,8,71,109,114,119"),
+       ("Magnat", 22, 15 ,"1,5,7,8,10","48,61,8,71,109,114,119"),
+       ("Lord", 22, 16 ,"1,5,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Informator", 23, 3),
-       ("Szpieg", 23, 8),
-       ("Agent", 23, 11),
-       ("Mistrz Szpiegów", 23, 14),
+       ("Informator", 23, 3 ,"6,9,10","48,61,8,71,109,114,119"),
+       ("Szpieg", 23, 8 ,"1,6,9,10","48,61,8,71,109,114,119"),
+       ("Agent", 23, 11 ,"1,5,6,9,10","48,61,8,71,109,114,119"),
+       ("Mistrz Szpiegów", 23, 14,"1,5,6,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Szermierz", 24,8 ),
-       ("Zwadźca", 24,10 ),
-       ("Mistrz Pojedynków", 24,11 ),
-       ("Szampierz Sądowy", 24,13 ),
+       ("Szermierz", 24,8 ,"1,5,6","48,61,8,71,109,114,119"),
+       ("Zwadźca", 24,10 ,"1,2,5,6","48,61,8,71,109,114,119"),
+       ("Mistrz Pojedynków", 24,11,"1,2,3,5,6","48,61,8,71,109,114,119"),
+       ("Szampierz Sądowy", 24,13 ,"1,2,3,5,6,9","48,61,8,71,109,114,119"),
 
-       ("Wyrobnica", 25, 2),
-       ("Chłopka", 25, 3),
-       ("Gospodyni", 25, 4),
-       ("Starsza Wioski", 25, 7),
+       ("Wyrobnica", 25, 2,"3,4,6","48,61,8,71,109,114,119"),
+       ("Chłopka", 25, 3,"1,3,4,6","48,61,8,71,109,114,119"),
+       ("Gospodyni", 25, 4,"1,3,4,6,10","48,61,8,71,109,114,119"),
+       ("Starsza Wioski", 25, 7,"1,3,4,6,8,10","48,61,8,71,109,114,119"),
 
-       ("Poszukiwacz", 26, 2),
-       ("Górnik", 26, 4),
-       ("Sztygar", 26, 5),
-       ("Mistrz Górnictwa", 26, 9),
+       ("Poszukiwacz", 26, 2,"3,4,9","48,61,8,71,109,114,119"),
+       ("Górnik", 26, 4,"1,3,4,9","48,61,8,71,109,114,119"),
+       ("Sztygar", 26, 5,"1,3,4,5,9","48,61,8,71,109,114,119"),
+       ("Mistrz Górnictwa", 26, 9,"1,3,4,5,9,10","48,61,8,71,109,114,119"),
 
-       ("Uczeń Guślarza", 27, 1),
-       ("Guślarz", 27, 2),
-       ("Starszy Guślarzy", 27,3 ),
-       ("Wiedzący", 27, 5),
+       ("Uczeń Guślarza", 27, 1,"4,5,7","48,61,8,71,109,114,119"),
+       ("Guślarz", 27, 2,"4,5,7,8","48,61,8,71,109,114,119"),
+       ("Starszy Guślarzy", 27,3 ,"4,5,7,8,10","48,61,8,71,109,114,119"),
+       ("Wiedzący", 27, 5,"4,5,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Traperka", 28, 2),
-       ("Łowczyni", 28,4 ),
-       ("Tropicielka", 28, 6),
-       ("Nadworna Łowczyni", 28, 8),
+       ("Traperka", 28, 2,"3,4,7","48,61,8,71,109,114,119"),
+       ("Łowczyni", 28,4 ,"2,3,4,7","48,61,8,71,109,114,119"),
+       ("Tropicielka", 28, 6,"2,3,4,5,7","48,61,8,71,109,114,119"),
+       ("Nadworna Łowczyni", 28, 8,"2,3,4,5,7,8","48,61,8,71,109,114,119"),
 
-       ("Wróżbiarka", 29, 1),
-       ("Mistyczka", 29, 2),
-       ("Widząca", 29, 3),
-       ("Prorokini", 29, 4),
+       ("Wróżbiarka", 29, 1,"5,7,10","48,61,8,71,109,114,119"),
+       ("Mistyczka", 29, 2,"5,7,9,10","48,61,8,71,109,114,119"),
+       ("Widząca", 29, 3,"5,6,7,9,10","48,61,8,71,109,114,119"),
+       ("Prorokini", 29, 4,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Poborca Podatków", 30,6 ),
-       ("Zarządca", 30,10 ),
-       ("Włodarz", 30,11 ),
-       ("Komornik", 30, 13),
+       ("Poborca Podatków", 30,6 ,"1,5,9","48,61,8,71,109,114,119"),
+       ("Zarządca", 30,10 ,"1,5,9,10","48,61,8,71,109,114,119"),
+       ("Włodarz", 30,11,"1,5,6,9,10","48,61,8,71,109,114,119"),
+       ("Komornik", 30, 13,"1,5,6,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Zbieraczka Ziół", 31, 2),
-       ("Zielarka", 31, 4),
-       ("Mistrzyni Ziołolecznictwa", 31, 6),
-       ("Arcyzielarka", 31,8),
+       ("Zbieraczka Ziół", 31, 2,"4,5,6","48,61,8,71,109,114,119"),
+       ("Zielarka", 31, 4,"4,5,6,7","48,61,8,71,109,114,119"),
+       ("Mistrzyni Ziołolecznictwa", 31, 6,"4,5,6,7,10","48,61,8,71,109,114,119"),
+       ("Arcyzielarka", 31,8,"4,5,6,7,8,10","48,61,8,71,109,114,119"),
 
-       ("Przewodnik", 32, 3),
-       ("Zwiadowca", 32,5 ),
-       ("Przepatrywacz", 32, 6),
-       ("Odkrywca", 32,10 ),
+       ("Przewodnik", 32, 3,"4,5,6","48,61,8,71,109,114,119"),
+       ("Zwiadowca", 32,5 ,"2,4,5,6","48,61,8,71,109,114,119"),
+       ("Przepatrywacz", 32, 6,"2,4,5,6,8","48,61,8,71,109,114,119"),
+       ("Odkrywca", 32,10 ,"2,4,5,6,7,8","48,61,8,71,109,114,119"),
 
-       ("Gorliwiec", 33, 17),
-       ("Biczownik", 33, 17),
-       ("Pokutnik", 33,17 ),
-       ("Piewca Zagłady", 33,17 ),
+       ("Gorliwiec", 33, 17,"1,3,4","48,61,8,71,109,114,119"),
+       ("Biczownik", 33, 17,"1,3,4,9","48,61,8,71,109,114,119"),
+       ("Pokutnik", 33,17 ,"1,3,4,5,9","48,61,8,71,109,114,119"),
+       ("Piewca Zagłady", 33,17 ,"1,3,4,5,9,10","48,61,8,71,109,114,119"),
 
-       ("Powsinoga", 34, 1),
-       ("Domokrążca", 34, 4),
-       ("Doświadczony Domokrążca", 34,6 ),
-       ("Wędrowny Handlarz", 34, 8),
+       ("Powsinoga", 34, 1,"4,7,9","48,61,8,71,109,114,119"),
+       ("Domokrążca", 34, 4,"4,7,9,10","48,61,8,71,109,114,119"),
+       ("Doświadczony Domokrążca", 34,6 ,"4,5,7,9,10","48,61,8,71,109,114,119"),
+       ("Wędrowny Handlarz", 34, 8,"4,5,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Muzykantka", 35, 3),
-       ("Kuglarka", 35, 5),
-       ("Trubadurka", 35, 8),
-       ("Przywódczyni Trupy", 35, 11),
+       ("Muzykantka", 35, 3,"5,6,10","48,61,8,71,109,114,119"),
+       ("Kuglarka", 35, 5,"1,5,6,10","48,61,8,71,109,114,119"),
+       ("Trubadurka", 35, 8,"1,2,5,6,10","48,61,8,71,109,114,119"),
+       ("Przywódczyni Trupy", 35, 11,"1,2,4,5,6,10","48,61,8,71,109,114,119"),
 
-       ("Oprawca", 36,6 ),
-       ("Łowca Czarownic", 36,8 ),
-       ("Inkwizytor", 36, 10),
-       ("Generał Łowców Czarownic", 36,11 ),
+       ("Oprawca", 36,6,"1,4,9","48,61,8,71,109,114,119"),
+       ("Łowca Czarownic", 36,8 ,"1,2,4,9","48,61,8,71,109,114,119"),
+       ("Inkwizytor", 36, 10,"1,2,4,9,10","48,61,8,71,109,114,119"),
+       ("Generał Łowców Czarownic", 36,11 ,"1,2,4,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Pogromczyni Złodziei", 37, 6),
-       ("Łowczyni Nagród", 37,8 ),
-       ("Doświadczona Łowczyni Nagród", 37,10 ),
-       ("Legendarna Łowczyni Nagród", 37,11 ),
+       ("Pogromczyni Złodziei", 37, 6,"1,4,6","48,61,8,71,109,114,119"),
+       ("Łowczyni Nagród", 37,8 ,"1,2,4,6","48,61,8,71,109,114,119"),
+       ("Doświadczona Łowczyni Nagród", 37,10,"1,2,3,4,6","48,61,8,71,109,114,119"),
+       ("Legendarna Łowczyni Nagród", 37,11,"1,2,3,4,6,8","48,61,8,71,109,114,119"),
 
-       ("Goniec", 38, 3),
-       ("Posłaniec", 38, 6),
-       ("Kurier", 38, 8),
-       ("Kapitan Kurierów", 38,10 ),
+       ("Goniec", 38, 3,"4,5,6","48,61,8,71,109,114,119"),
+       ("Posłaniec", 38, 6,"1,4,5,6","48,61,8,71,109,114,119"),
+       ("Kurier", 38, 8,"1,4,5,6,9","48,61,8,71,109,114,119"),
+       ("Kapitan Kurierów", 38,10,"1,4,5,6,9,10","48,61,8,71,109,114,119"),
 
-       ("Mytniczka", 39,5 ),
-       ("Strażniczka Dróg", 39, 7),
-       ("Sierżant Strażników Dróg", 39, 9),
-       ("Kapitan Strażników Dróg", 39, 11),
+       ("Mytniczka", 39,5 ,"2,4,5","48,61,8,71,109,114,119"),
+       ("Strażniczka Dróg", 39, 7,"1,2,4,5","48,61,8,71,109,114,119"),
+       ("Sierżant Strażników Dróg", 39, 9,"1,2,4,5,10","48,61,8,71,109,114,119"),
+       ("Kapitan Strażników Dróg", 39, 11,"1,2,4,5,8,10","48,61,8,71,109,114,119"),
 
-       ("Foryś", 40, 6),
-       ("Woźnica", 40,7 ),
-       ("Mistrz Woźniców", 40,8 ),
-       ("Mistrz Szlaków", 40,10 ),
+       ("Foryś", 40, 6,"2,4,9","48,61,8,71,109,114,119"),
+       ("Woźnica", 40,7 ,"2,4,6,9","48,61,8,71,109,114,119"),
+       ("Mistrz Woźniców", 40,8,"1,2,4,6,9","48,61,8,71,109,114,119"),
+       ("Mistrz Szlaków", 40,10 ,"1,2,4,5,6,9","48,61,8,71,109,114,119"),
 
-       ("Pomocnik Dokera", 41,3 ),
-       ("Doker", 41, 6),
-       ("Brygadzista", 41, 8),
-       ("Mistrz Dokerów", 41,10 ),
+       ("Pomocnik Dokera", 41,3,"1,4,5","48,61,8,71,109,114,119"),
+       ("Doker", 41, 6,"1,3,4,5","48,61,8,71,109,114,119"),
+       ("Brygadzista", 41, 8,"1,3,4,5,9","48,61,8,71,109,114,119"),
+       ("Mistrz Dokerów", 41,10 ,"1,3,4,5,8,9","48,61,8,71,109,114,119"),
 
-       ("Rybak", 42, 2),
-       ("Flisak", 42, 3),
-       ("Znawca Rzeki", 42, 5),
-       ("Starszy Rzeczny", 42, 7),
+       ("Rybak", 42, 2,"4,6,7","48,61,8,71,109,114,119"),
+       ("Flisak", 42, 3,"1,4,6,7","48,61,8,71,109,114,119"),
+       ("Znawca Rzeki", 42, 5,"1,4,5,6,7","48,61,8,71,109,114,119"),
+       ("Starszy Rzeczny", 42, 7,"1,4,5,6,7,10","48,61,8,71,109,114,119"),
 
-       ("Przewodniczka Rzeczna", 43,4 ),
-       ("Pilotka Rzeczna", 43, 6),
-       ("Starsza Pilotka", 43,8 ),
-       ("Legendarna Pilotka", 43,10 ),
+       ("Przewodniczka Rzeczna", 43,4,"1,4,5","48,61,8,71,109,114,119"),
+       ("Pilotka Rzeczna", 43, 6,"1,4,5,9","48,61,8,71,109,114,119"),
+       ("Starsza Pilotka", 43,8 ,"1,4,5,8,9","48,61,8,71,109,114,119"),
+       ("Legendarna Pilotka", 43,10,"1,4,5,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Szabrownik", 44, 2),
-       ("Pirat Rzeczny", 44, 3),
-       ("Łupieżca", 44, 5),
-       ("Kapitan Łupieżców", 44, 7),
+       ("Szabrownik", 44, 2,"1,3,5","48,61,8,71,109,114,119"),
+       ("Pirat Rzeczny", 44, 3,"1,3,5,9","48,61,8,71,109,114,119"),
+       ("Łupieżca", 44, 5,"1,2,3,5,9","48,61,8,71,109,114,119"),
+       ("Kapitan Łupieżców", 44, 7,"1,2,3,5,9,10","48,61,8,71,109,114,119"),
 
-       ("Szmuglerka Rzeczna", 45, 2),
-       ("Przemytniczka", 45,3 ),
-       ("Doświadczona Przemytniczka", 45, 5),
-       ("Królowa Przemytników", 45,7 ),
+       ("Szmuglerka Rzeczna", 45, 2,"6,7,9","48,61,8,71,109,114,119"),
+       ("Przemytniczka", 45,3 ,"5,6,7,9","48,61,8,71,109,114,119"),
+       ("Doświadczona Przemytniczka", 45, 5,"5,6,7,8,9","48,61,8,71,109,114,119"),
+       ("Królowa Przemytników", 45,7,"5,6,7,8,9,10","48,61,8,71,109,114,119" ),
 
-       ("Chłopiec Pokładowy", 46, 6),
-       ("Przewoźnik", 46, 7),
-       ("Sternik", 46, 8),
-       ("Kapitan Barki", 46, 10),
+       ("Chłopiec Pokładowy", 46, 6,"3,4,6","48,61,8,71,109,114,119"),
+       ("Przewoźnik", 46, 7,"3,4,5,6","48,61,8,71,109,114,119"),
+       ("Sternik", 46, 8,"3,4,5,6,7","48,61,8,71,109,114,119"),
+       ("Kapitan Barki", 46, 10,"3,4,5,6,7,8","48,61,8,71,109,114,119"),
 
-       ("Rekrut Rzeczny", 47, 6),
-       ("Strażnik Rzeczny", 47, 7),
-       ("Żołnierz Okrętowy", 47,9 ),
-       ("Mistrz Żołnierzy Okrętowych", 47, 11),
+       ("Rekrut Rzeczny", 47, 6,"2,3,10","48,61,8,71,109,114,119"),
+       ("Strażnik Rzeczny", 47, 7,"1,2,3,10","48,61,8,71,109,114,119"),
+       ("Żołnierz Okrętowy", 47,9 ,"1,2,3,5,10","48,61,8,71,109,114,119"),
+       ("Mistrz Żołnierzy Okrętowych", 47, 11,"1,2,3,5,8,10","48,61,8,71,109,114,119"),
 
-       ("Szczur Lądowy", 48, 6),
-       ("Żeglarz", 48, 8),
-       ("Bosman", 48, 10),
-       ("Kapitan Statku", 48,12 ),
+       ("Szczur Lądowy", 48, 6,"6,7,10","48,61,8,71,109,114,119"),
+       ("Żeglarz", 48, 8,"1,6,7,10","48,61,8,71,109,114,119"),
+       ("Bosman", 48, 10,"1,5,6,7,10","48,61,8,71,109,114,119"),
+       ("Kapitan Statku", 48,12 ,"1,5,6,7,8,10","48,61,8,71,109,114,119"),
 
-       ("Zbój", 49, 1),
-       ("Banita", 49, 2),
-       ("Herszt Banitów", 49,4 ),
-       ("Król Banitów", 49,7 ),
+       ("Zbój", 49, 1,"1,3,4","48,61,8,71,109,114,119"),
+       ("Banita", 49, 2,"1,2,3,4","48,61,8,71,109,114,119"),
+       ("Herszt Banitów", 49,4,"1,2,3,4,5","48,61,8,71,109,114,119"),
+       ("Król Banitów", 49,7,"1,2,3,4,5,10","48,61,8,71,109,114,119"),
 
-       ("Szeptucha", 50,1 ),
-       ("Czarownica", 50, 2),
-       ("Wiedźma", 50, 3),
-       ("Arcyczarownica", 50, 5),
+       ("Szeptucha", 50,1 ,"1,4,9","48,61,8,71,109,114,119"),
+       ("Czarownica", 50, 2,"1,4,5,9","48,61,8,71,109,114,119"),
+       ("Wiedźma", 50, 3,"1,4,5,9,10","48,61,8,71,109,114,119"),
+       ("Arcyczarownica", 50, 5,"1,4,5,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Porywaczka Zwłok", 51,2 ),
-       ("Hiena Cmentarna", 51, 3),
-       ("Rabuś Grobowców", 51,6 ),
-       ("Łowczyni Skarbów", 51, 10),
+       ("Porywaczka Zwłok", 51,2,"3,5,9","48,61,8,71,109,114,119"),
+       ("Hiena Cmentarna", 51, 3,"1,3,5,9","48,61,8,71,109,114,119"),
+       ("Rabuś Grobowców", 51,6 ,"1,3,5,7,9","48,61,8,71,109,114,119"),
+       ("Łowczyni Skarbów", 51, 10,"1,3,5,7,8,9","48,61,8,71,109,114,119"),
 
-       ("Pośrednik", 52,6 ),
-       ("Paser", 52, 7),
-       ("Mistrz Paserów", 52, 8),
-       ("Broker Informacji", 52, 9),
+       ("Pośrednik", 52,6 ,"5,6,10","48,61,8,71,109,114,119"),
+       ("Paser", 52, 7,"5,6,7,10","48,61,8,71,109,114,119"),
+       ("Mistrz Paserów", 52, 8,"5,6,7,8,10","48,61,8,71,109,114,119"),
+       ("Broker Informacji", 52, 9,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Naganiacz", 53,1 ),
-       ("Rajfur", 53, 3),
-       ("Stręczyciel", 53,6 ),
-       ("Herszt Rajfurów", 53, 8),
+       ("Naganiacz", 53,1 ,"6,7,10","48,61,8,71,109,114,119"),
+       ("Rajfur", 53, 3,"5,6,7,10","48,61,8,71,109,114,119"),
+       ("Stręczyciel", 53,6 ,"5,6,7,9,10","48,61,8,71,109,114,119"),
+       ("Herszt Rajfurów", 53, 8,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Zakapiorka", 54,3 ),
-       ("Rekietierka", 54,5 ),
-       ("Głowa Gangu", 54,8 ),
-       ("Królowa Podziemia", 54,10 ),
+       ("Zakapiorka", 54,3,"1,3,4" ,"48,61,8,71,109,114,119"),
+       ("Rekietierka", 54,5,"1,3,4,10" ,"48,61,8,71,109,114,119"),
+       ("Głowa Gangu", 54,8 ,"1,3,4,9,10","48,61,8,71,109,114,119"),
+       ("Królowa Podziemia", 54,10,"1,3,4,8,9,10","48,61,8,71,109,114,119" ),
 
-       ("Kanciarz", 55,3 ),
-       ("Szarlatan", 55, 5),
-       ("Oszust", 55, 7),
-       ("Łajdak", 55, 9),
+       ("Kanciarz", 55,3 ,"5,7,10","48,61,8,71,109,114,119"),
+       ("Szarlatan", 55, 5,"5,7,9,10","48,61,8,71,109,114,119"),
+       ("Oszust", 55, 7,"5,6,7,9,10","48,61,8,71,109,114,119"),
+       ("Łajdak", 55, 9,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
 
-       ("Bandzior", 56, 1),
-       ("Złodziej", 56, 3),
-       ("Mistrz Złodziejski", 56,5),
-       ("Włamywacz", 56, 8),
+       ("Bandzior", 56, 1,"5,6,9","48,61,8,71,109,114,119"),
+       ("Złodziej", 56, 3,"5,6,7,9","48,61,8,71,109,114,119"),
+       ("Mistrz Złodziejski", 56,5,"3,5,6,7,9","48,61,8,71,109,114,119"),
+       ("Włamywacz", 56, 8,"3,5,6,7,9,10","48,61,8,71,109,114,119"),
 
-       ("Pięściarz", 57, 4),
-       ("Gladiator", 57,7 ),
-       ("Mistrz Areny", 57, 10),
-       ("Legenda Areny", 57,12 ),
+       ("Pięściarz", 57, 4,"1,3,4","48,61,8,71,109,114,119"),
+       ("Gladiator", 57,7,"1,3,4,5" ,"48,61,8,71,109,114,119"),
+       ("Mistrz Areny", 57, 10,"1,3,4,5,6","48,61,8,71,109,114,119"),
+       ("Legenda Areny", 57,12 ,"1,3,4,5,6,10","48,61,8,71,109,114,119"),
 
-       ("Nowicjusz Kapłanów Bitewnych", 58,2 ),
-       ("Kapłan Bitewny", 58, 7),
-       ("Kapłan-sierżant", 58, 8),
-       ("Kapłan-kapitan", 58, 9),
+       ("Nowicjusz Kapłanów Bitewnych", 58,2 ,"1,4,9","48,61,8,71,109,114,119"),
+       ("Kapłan Bitewny", 58, 7,"1,3,4,9","48,61,8,71,109,114,119"),
+       ("Kapłan-sierżant", 58, 8,"1,3,4,5,9","48,61,8,71,109,114,119"),
+       ("Kapłan-kapitan", 58, 9,"1,3,4,5,9,10","48,61,8,71,109,114,119"),
 
-       ("Jeździec", 59, 7),
-       ("Kawalerzysta", 59,9 ),
-       ("Sierżant Kawalerii", 59,11 ),
-       ("Oficer Kawalerii", 59, 12),
+       ("Jeździec", 59, 7,"1,3,6","48,61,8,71,109,114,119"),
+       ("Kawalerzysta", 59,9 ,"1,2,3,6","48,61,8,71,109,114,119"),
+       ("Sierżant Kawalerii", 59,11,"1,2,3,5,6" ,"48,61,8,71,109,114,119"),
+       ("Oficer Kawalerii", 59, 12,"1,2,3,5,6,10","48,61,8,71,109,114,119"),
 
-       ("Stróż", 60, 6),
-       ("Ochroniarz", 60,7 ),
-       ("Gwardzista", 60,8 ),
-       ("Oficer Gwardii", 60, 10),
+       ("Stróż", 60, 6,"1,4,6","48,61,8,71,109,114,119"),
+       ("Ochroniarz", 60,7 ,"1,4,5,6","48,61,8,71,109,114,119"),
+       ("Gwardzista", 60,8 ,"1,3,4,5,6","48,61,8,71,109,114,119"),
+       ("Oficer Gwardii", 60, 10,"1,3,4,5,6,8","48,61,8,71,109,114,119"),
 
-       ("Tani Drań", 61, 2),
-       ("Oprych", 61,6 ),
-       ("Płatny Morderca", 61,9 ),
-       ("Skrytobójca", 61,11 ),
+       ("Tani Drań", 61, 2,"1,4,6","48,61,8,71,109,114,119"),
+       ("Oprych", 61,6 ,"1,4,5,6","48,61,8,71,109,114,119"),
+       ("Płatny Morderca", 61,9,"1,2,4,5,6" ,"48,61,8,71,109,114,119"),
+       ("Skrytobójca", 61,11,"1,2,4,5,6,10" ,"48,61,8,71,109,114,119"),
 
-       ("Giermek", 62,8 ),
-       ("Rycerz", 62, 10),
-       ("Pierwszy Rycerz", 62,12 ),
-       ("Rycerz Wewnętrznego Kręgu", 62,14 ),
+       ("Giermek", 62,8,"3,5,6" ,"48,61,8,71,109,114,119"),
+       ("Rycerz", 62, 10,"1,3,5,6","48,61,8,71,109,114,119"),
+       ("Pierwszy Rycerz", 62,12 ,"1,3,5,6,9","48,61,8,71,109,114,119"),
+       ("Rycerz Wewnętrznego Kręgu", 62,14,"1,3,5,6,9,10" ,"48,61,8,71,109,114,119"),
 
-       ("Zabójca Trolli", 63,2 ),
-       ("Zabójca Olbrzymów", 63,2 ),
-       ("Zabójca Smoków", 63, 2),
-       ("Zabójca Demonów", 63, 2),
+       ("Zabójca Trolli", 63,2 ,"1,3,9","48,61,8,71,109,114,119"),
+       ("Zabójca Olbrzymów", 63,2 ,"1,3,4,9","48,61,8,71,109,114,119"),
+       ("Zabójca Smoków", 63, 2 ,"1,3,4,6,9","48,61,8,71,109,114,119"),
+       ("Zabójca Demonów", 63, 2 ,"1,3,4,5,6,9","48,61,8,71,109,114,119"),
 
-       ("Rekrut", 64,6 ),
-       ("Żołnierz", 64, 8),
-       ("Sierżant", 64,10 ),
-       ("Oficer", 64,11);
+       ("Rekrut", 64,6 ,"1,4,9","48,61,8,71,109,114,119"),
+       ("Żołnierz", 64, 8,"1,2,4,9","48,61,8,71,109,114,119"),
+       ("Sierżant", 64,10 ,"1,2,4,5,9","48,61,8,71,109,114,119"),
+       ("Oficer", 64,11 ,"1,2,4,5,9,10","48,61,8,71,109,114,119");
 
 
 

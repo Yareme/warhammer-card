@@ -29,6 +29,7 @@ import java.util.Objects;
 import pl.edu.us.warhammer_card.AppSQLiteHelper;
 import pl.edu.us.warhammer_card.R;
 import pl.edu.us.warhammer_card.databinding.FragmentKartaFrontBinding;
+import pl.edu.us.warhammer_card.table.Cechy;
 import pl.edu.us.warhammer_card.table.Karta;
 import pl.edu.us.warhammer_card.table.PoziomProfesja;
 import pl.edu.us.warhammer_card.table.Profesja;
@@ -269,6 +270,14 @@ public class KartaFrontFragment extends Fragment {
 
                 binding.status.setText( getStatus(db,karta.getPoziomProfesjiId()));
                 updateKarta(db,karta);
+
+                //TODO  Тоже самое для талантов и способностей
+                krtaChechaZera(db,karta.getId());
+
+                int[] schemat=getProfesjaSchemat( db, karta.getPoziomProfesjiId());
+
+                setLevlUpToCecha(db,karta,schemat);
+
             });
 
             // Wyświetlenie dialogu
@@ -293,6 +302,17 @@ public class KartaFrontFragment extends Fragment {
     }
 
 
+
+    void krtaChechaZera(SQLiteDatabase db, int kartaId){
+        ContentValues values = new ContentValues();
+        values.put("lvl_up", 0);
+
+
+        String selection = "karta_id = ?";
+        String[] selectionArgs={String.valueOf(kartaId)};
+
+        db.update("karta_cecha",values,selection,selectionArgs);
+    }
 
 
     String getSciezkaProfesji(SQLiteDatabase db,int profesjaId){
@@ -319,7 +339,7 @@ public class KartaFrontFragment extends Fragment {
         String[] colums={"*"};
         String[] selectionArgs={name};
 
-        Cursor cursor = db.query("poziom_profesji", colums, "nazwa = ?",selectionArgs, null, null, null);
+        Cursor cursor = db.query("poziom", colums, "nazwa = ?",selectionArgs, null, null, null);
         if (cursor.moveToFirst()) {
             id=cursor.getInt(cursor.getColumnIndexOrThrow("id"));
         }
@@ -334,10 +354,10 @@ public class KartaFrontFragment extends Fragment {
 
         String[] colums={"*"};
         String[] selectionArgs={String.valueOf(profesjaId)};
-        String query = "SELECT poziom_profesji.id,poziom_profesji.status_id, status.nazwa,status.id " +
-                "FROM poziom_profesji " +
-                "JOIN status ON poziom_profesji.status_id = status.id "  +
-                "WHERE poziom_profesji.id = ? ";
+        String query = "SELECT poziom.id,poziom.status_id, status.nazwa,status.id " +
+                "FROM poziom " +
+                "JOIN status ON poziom.status_id = status.id "  +
+                "WHERE poziom.id = ? ";
         Cursor cursor = db.rawQuery(query, selectionArgs);
 
 
@@ -444,7 +464,7 @@ public class KartaFrontFragment extends Fragment {
         values.put("oczy", karta.getOczy());
         values.put("rasa_id", karta.getRasaId());
         values.put("profesja_id", karta.getProfesjaId());
-        values.put("poziom_profesji_id", karta.getPoziomProfesjiId());
+        values.put("poziom_id", karta.getPoziomProfesjiId());
 
         Log.d("up" ,karta.getImie()+" "+karta.getWiek()+" "+karta.getWzrost()+" "+karta.getWlosy()+" "+karta.getOczy());
 
@@ -473,7 +493,7 @@ public class KartaFrontFragment extends Fragment {
             karta.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
             karta.setProfesjaId(cursor.getInt(cursor.getColumnIndexOrThrow("profesja_id")));
             karta.setRasaId(cursor.getInt(cursor.getColumnIndexOrThrow("rasa_id")));
-            karta.setPoziomProfesjiId(cursor.getInt(cursor.getColumnIndexOrThrow("poziom_profesji_id")));
+            karta.setPoziomProfesjiId(cursor.getInt(cursor.getColumnIndexOrThrow("poziom_id")));
             karta.setImie(cursor.getString(cursor.getColumnIndexOrThrow("imie")));
 
             karta.setWiek(cursor.getString(cursor.getColumnIndexOrThrow("wiek")));
@@ -572,7 +592,7 @@ public class KartaFrontFragment extends Fragment {
 
         String[] selectionArgs={String.valueOf(profesjaID)};
 
-        Cursor cursor = db.query("poziom_profesji", colums, "profesja_id = ?",selectionArgs, null, null, null);
+        Cursor cursor = db.query("poziom", colums, "profesja_id = ?",selectionArgs, null, null, null);
 
 
         List<PoziomProfesja> list = new ArrayList<>();
@@ -600,14 +620,90 @@ public class KartaFrontFragment extends Fragment {
         // String sortOrder = "nazwa ASC";
 
 
-        Cursor cursor = db.query("poziom_profesji", colums, "id = ?",selectionArgs, null, null, null);
+        Cursor cursor = db.query("poziom", colums, "id = ?",selectionArgs, null, null, null);
         if (cursor.moveToFirst()) {
             poziomProfesja.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
             poziomProfesja.setNazwa(cursor.getString(cursor.getColumnIndexOrThrow("nazwa")));
             poziomProfesja.setStatusId(cursor.getInt(cursor.getColumnIndexOrThrow("status_id")));
+            poziomProfesja.setSchemat_cech(cursor.getString(cursor.getColumnIndexOrThrow("schemat_cech")));
 
         }
         cursor.close();
         return  poziomProfesja;
+    }
+
+
+    void setLevlUpToCecha(SQLiteDatabase db, Karta karta,int[] schemat){
+        String[] colums={"*"};
+        String sortOrder = "cechy_id ASC";   /*ASC*/ /* DESC*/
+        String[] selectionArgs={String.valueOf(karta.getId())};
+        Cursor cursor = db.query("karta_cecha", colums, "karta_id = ?", selectionArgs, null, null,  sortOrder);
+
+        List<Cechy> list = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            Cechy cecha = new Cechy();
+
+            cecha.setId(cursor.getInt(cursor.getColumnIndexOrThrow("cechy_id")));
+            cecha.setWartPo(cursor.getInt(cursor.getColumnIndexOrThrow("wartość_pociątkowa")));
+            cecha.setRozw(cursor.getInt(cursor.getColumnIndexOrThrow("rozwój")));
+            cecha.setLvlUp(cursor.getInt(cursor.getColumnIndexOrThrow("lvl_up")));
+
+
+            String[] selectionArgs2={String.valueOf(cecha.getId())};
+            Cursor cursor2 = db.query("cechy", colums, "id = ?", selectionArgs2, null, null,  null);
+
+            if (cursor2.moveToFirst()){
+                cecha.setNazwaKrotka(cursor2.getString(cursor2.getColumnIndexOrThrow("nazwa_krótka")));
+
+            }
+
+            list.add(cecha);
+
+        }
+        cursor.close();
+
+
+
+        String selection = "cechy_id = ? AND karta_id = ?";
+
+
+
+        for (int i = 0; i < schemat.length; i++) {
+            ContentValues values = new ContentValues(); // Nowy obiekt ContentValues dla każdej iteracji
+            values.put("lvl_up", 1);
+           /* if (schemat[i] == list.get(i).getId()) {
+                values.put("lvl_up", 1);
+            } else {
+                values.put("lvl_up", 0);
+            }
+*/
+            String[] selectionArgs2 = {String.valueOf(schemat[i]), String.valueOf(karta.getId())};
+            db.update("karta_cecha", values, selection, selectionArgs2);
+        }
+
+
+
+    }
+
+    int[] getProfesjaSchemat(SQLiteDatabase db, int profesjaId){
+
+
+        PoziomProfesja poziomProfesjaprofesja = new PoziomProfesja();
+
+        String[] colums={"*"};
+        assert karta != null;
+        String[] selectionArgs={String.valueOf(profesjaId)};
+
+
+        Cursor cursor = db.query("poziom", colums, "id = ?",selectionArgs, null, null, null);
+        if (cursor.moveToFirst()) {
+            poziomProfesjaprofesja.setSchemat_cech(cursor.getString(cursor.getColumnIndexOrThrow("schemat_cech")));
+        }
+        cursor.close();
+
+
+        return poziomProfesjaprofesja.getSchematCechTabel();
+
     }
 }

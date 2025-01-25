@@ -8,6 +8,16 @@ public class Cechy {
     int wartPo;
     int rozw;
 
+    int lvlUp;
+
+    public int getLvlUp() {
+        return lvlUp;
+    }
+
+    public void setLvlUp(int lvlUp) {
+        this.lvlUp = lvlUp;
+    }
+
     String nazwaKrotka;
 
     public String getNazwaKrotka() {

@@ -49,7 +49,7 @@ public class KartaMainFragment extends Fragment {
 
         Log.d("Karta", String.valueOf("KartaID="+args.getInt("kartaId")));
 
-        binding.button1.setText("Id tej karty: "+ kartaId);
+       /* binding.button1.setText("Id tej karty: "+ kartaId);*/
         binding.button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,9 +101,10 @@ public class KartaMainFragment extends Fragment {
                 args.putInt("KartaId",kartaId);
                 NavHostFragment navHostFragment = (NavHostFragment) ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
                 NavController navController = navHostFragment.getNavController();
-                navController.navigate(R.id.action_fragment_karta_front_to_fragment_karta_umiejetnosci2,args);
+                navController.navigate(R.id.action_fragment_karta_main_to_fragment_karta_umiejetnosci2,args);
             }
         });
+
 
 
 
@@ -120,7 +121,6 @@ public class KartaMainFragment extends Fragment {
         String[] selectionArgs={String.valueOf(id)};
         // String sortOrder = "nazwa ASC";
         // String[] id ={"3"};
-
         Cursor cursor = db.query("karta", colums, "id = ?",selectionArgs, null, null, null);
 
         Log.d("KartaID", Integer.toString(id));
@@ -132,7 +132,7 @@ public class KartaMainFragment extends Fragment {
             karta.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
             karta.setProfesjaId(cursor.getInt(cursor.getColumnIndexOrThrow("profesja_id")));
             karta.setRasaId(cursor.getInt(cursor.getColumnIndexOrThrow("rasa_id")));
-            karta.setPoziomProfesjiId(cursor.getInt(cursor.getColumnIndexOrThrow("poziom_profesji_id")));
+            karta.setPoziomProfesjiId(cursor.getInt(cursor.getColumnIndexOrThrow("poziom_id")));
             karta.setImie(cursor.getString(cursor.getColumnIndexOrThrow("imie")));
 
             karta.setWiek(cursor.getString(cursor.getColumnIndexOrThrow("wiek")));

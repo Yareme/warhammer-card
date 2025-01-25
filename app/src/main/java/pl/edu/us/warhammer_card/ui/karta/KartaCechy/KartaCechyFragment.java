@@ -2,8 +2,10 @@ package pl.edu.us.warhammer_card.ui.karta.KartaCechy;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +33,8 @@ import pl.edu.us.warhammer_card.databinding.FragmentKartaCechyBinding;
 import pl.edu.us.warhammer_card.table.Cechy;
 import pl.edu.us.warhammer_card.table.Kampania;
 import pl.edu.us.warhammer_card.table.Karta;
+import pl.edu.us.warhammer_card.table.PoziomProfesja;
+import pl.edu.us.warhammer_card.table.Profesja;
 import pl.edu.us.warhammer_card.table.Umiejetnosci;
 
 public class KartaCechyFragment extends Fragment{
@@ -140,6 +145,19 @@ public class KartaCechyFragment extends Fragment{
 
                 };
 
+/*
+*/
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getLvlUp()==1){
+                        nazwaArrayBinding[i].setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                    }else {
+                        nazwaArrayBinding[i].setTextColor(getResources().getColor(android.R.color.holo_purple));
+
+                    }
+                }
+
+
+
 
                 String[] poczatekArray = {
                         binding.poczatek1.getText().toString(),
@@ -204,7 +222,7 @@ public class KartaCechyFragment extends Fragment{
             }
 
 
-        binding.button1.setOnClickListener(new View.OnClickListener() {
+   /*     binding.button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -215,8 +233,8 @@ public class KartaCechyFragment extends Fragment{
                 NavController navController = navHostFragment.getNavController();
 
                 navController.navigate(R.id.action_fragment_karta_cechy_to_fragment_karta_front,args);
-               /* String[] a ={"1"};
-                db.delete("karta",null,null);*/
+               *//* String[] a ={"1"};
+                db.delete("karta",null,null);*//*
             }
         });
 
@@ -259,7 +277,7 @@ public class KartaCechyFragment extends Fragment{
                 navController.navigate(R.id.action_fragment_karta_cechy_to_fragment_karta_umiejetnosci2,args);
             }
         });
-
+*/
 
 
         View root = binding.getRoot();
@@ -267,7 +285,13 @@ public class KartaCechyFragment extends Fragment{
     }
 
 
+    int getCechaFromKrta(SQLiteDatabase db){
+        String query = "SELECT COUNT(*) FROM karta_cecha";
 
+        SQLiteStatement statement = db.compileStatement(query);
+      return  (int)statement.simpleQueryForLong();
+
+    }
     List<Cechy> getCechy(SQLiteDatabase db, int id){
 
         String[] projection = { "nazwa" };
@@ -284,6 +308,7 @@ public class KartaCechyFragment extends Fragment{
             cecha.setId(cursor.getInt(cursor.getColumnIndexOrThrow("cechy_id")));
             cecha.setWartPo(cursor.getInt(cursor.getColumnIndexOrThrow("wartość_pociątkowa")));
             cecha.setRozw(cursor.getInt(cursor.getColumnIndexOrThrow("rozwój")));
+            cecha.setLvlUp(cursor.getInt(cursor.getColumnIndexOrThrow("lvl_up")));
 
 
             String[] selectionArgs2={String.valueOf(cecha.getId())};
@@ -312,6 +337,42 @@ public class KartaCechyFragment extends Fragment{
         String[] selectionArgs = {String.valueOf(idKarta), String.valueOf(cecha.getId())};
 
         db.update("karta_cecha",values,selection,selectionArgs);
+
+    }
+
+   int[] getProfesjaSchemat(SQLiteDatabase db, int id){
+
+
+
+        String[] colums1={"*"};
+        String[] selectionArgs1={String.valueOf(id)};
+
+        Cursor cursor1 = db.query("karta", colums1, "id = ?",selectionArgs1, null, null, null);
+
+        Karta karta = null;
+
+        if (cursor1.moveToFirst()) {
+            karta = new Karta();
+            karta.setProfesjaId(cursor1.getInt(cursor1.getColumnIndexOrThrow("poziom_id")));
+
+        }
+
+        cursor1.close();
+        PoziomProfesja poziomProfesjaprofesja = new PoziomProfesja();
+
+        String[] colums={"*"};
+        assert karta != null;
+        String[] selectionArgs={String.valueOf(karta.getProfesjaId())};
+
+
+        Cursor cursor = db.query("poziom", colums, "id = ?",selectionArgs, null, null, null);
+        if (cursor.moveToFirst()) {
+            poziomProfesjaprofesja.setSchemat_cech(cursor.getString(cursor.getColumnIndexOrThrow("schemat_cech")));
+        }
+        cursor.close();
+
+
+        return poziomProfesjaprofesja.getSchematCechTabel();
 
     }
 

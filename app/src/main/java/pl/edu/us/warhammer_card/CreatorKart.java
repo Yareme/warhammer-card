@@ -37,7 +37,7 @@ public class CreatorKart {
         values.put("rasa_id", rasaId);
         values.put("profesja_id", profesjaId);
 
-        values.put("poziom_profesji_id", 1 + 4 * ( profesjaId - 1 )  );
+        values.put("poziom_id", 1 + 4 * ( profesjaId - 1 )  );
 
         values.put("wiek", wiek);
         values.put("wzrost", wzrost);
@@ -53,8 +53,8 @@ public class CreatorKart {
 
             addChechaToCard(db,idKarta,rasaId);
 
-
-        for (int i =1; i<=26; i++){
+        //dodanie umiejętności
+        for (int i =1; i<=25; i++){
             values.put("karta_id",  idKarta);
             values.put("umiejętności_id", i);
             values.put("rozwój",0);
@@ -75,7 +75,7 @@ public class CreatorKart {
 
         values.put("rasa_id", (Integer) null);
         values.put("profesja_id", (Integer) null);
-        values.put("poziom_profesji_id", (Integer) null);
+        values.put("poziom_id", (Integer) null);
 
         int idKarta= (int) db.insert("karta", null, values);
         karta.setId(idKarta);
@@ -89,8 +89,8 @@ public class CreatorKart {
             db.insert("karta_cecha", null, values);
             values.clear();
         }
-
-        for (int i =1; i<=26; i++){
+        //dodanie umiejętności
+        for (int i =1; i<=25; i++){
             values.put("karta_id",  idKarta);
             values.put("umiejętności_id", i);
             values.put("rozwój",0);

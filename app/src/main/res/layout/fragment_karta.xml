@@ -8,6 +8,17 @@
     tools:context=".ui.home.KartaFragment"
     android:id="@+id/fragment_karta">
 
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/fragment_karta_img"
+        android:scaleType="centerCrop" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#33FFFFFF" />
+
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
@@ -29,7 +40,9 @@
         app:layout_constraintEnd_toStartOf="@id/button2"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteY="484dp"
-        tools:ignore="MissingConstraints"/>
+        tools:ignore="MissingConstraints"
+        android:background='#E66E778B'
+        />
 
     <Button
         android:id="@+id/button2"
@@ -41,7 +54,9 @@
         app:layout_constraintStart_toEndOf="@id/button"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteY="484dp"
-        tools:ignore="MissingConstraints"/>
+        tools:ignore="MissingConstraints"
+        android:background='#E66E778B'
+        />
 
 
 
