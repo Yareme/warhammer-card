@@ -182,7 +182,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void settupList(List<Kampania> data){
-        ArrayAdapter<Kampania> arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.test_list_item,
+        ArrayAdapter<Kampania> arrayAdapter = new ArrayAdapter(getContext(), R.layout.list_item,
                 android.R.id.text1, data);
 
         binding.list.setAdapter(arrayAdapter);

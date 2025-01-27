@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -103,9 +104,6 @@ public class KartaFrontFragment extends Fragment {
                 navController.navigate(R.id.action_fragment_karta_front_to_fragment_karta_umiejetnosci2,args);
             }
         });*/
-
-
-
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -290,18 +288,24 @@ public class KartaFrontFragment extends Fragment {
         binding.profesja.setText(getProfesja(db,karta.getProfesjaId()).getNazawa());
         binding.poziomProfesji.setText(getPoziomProfesja(db,karta.getPoziomProfesjiId()).getNazwa());
 
+        binding.rasa.setTextColor(Color.WHITE);
+        binding.profesja.setTextColor(Color.WHITE);
+        binding.poziomProfesji.setTextColor(Color.WHITE);
+
 
         binding.klasa.setText(getKlasaName(db, getProfesja(db,karta.getProfesjaId()).getKlasaId()));
         binding.status.setText(getStatus(db,karta.getPoziomProfesjiId()));
         binding.sciezkaProfesji.setText(getSciezkaProfesji(db,karta.getProfesjaId()));
+
+        binding.klasa.setTextColor(Color.WHITE);
+        binding.status.setTextColor(Color.WHITE);
+        binding.sciezkaProfesji.setTextColor(Color.WHITE);
 
 
 
         View root = binding.getRoot();
         return root;
     }
-
-
 
     void krtaChechaZera(SQLiteDatabase db, int kartaId){
         ContentValues values = new ContentValues();
@@ -631,7 +635,6 @@ public class KartaFrontFragment extends Fragment {
         cursor.close();
         return  poziomProfesja;
     }
-
 
     void setLevlUpToCecha(SQLiteDatabase db, Karta karta,int[] schemat){
         String[] colums={"*"};

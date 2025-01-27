@@ -3,6 +3,7 @@ package pl.edu.us.warhammer_card.ui.home;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -67,8 +69,6 @@ public class KartaFragment   extends Fragment {
             }
         });
 
-
-
         binding.button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,8 +87,6 @@ public class KartaFragment   extends Fragment {
             }
         });
 
-
-
         binding.list.setOnItemClickListener( new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -98,23 +96,15 @@ public class KartaFragment   extends Fragment {
                 NavHostFragment navHostFragment = (NavHostFragment) ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
                 NavController navController = navHostFragment.getNavController();
                 navController.navigate(R.id.action_fragment_Karta_to_fragment_karta_main,args);
-
-
             }
         });
-
 
         View root = binding.getRoot();
         return root;
 }
 
-
-
-
-
-
     private void settupList(List<Karta> data){
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.test_list_item,
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), R.layout.list_item,
                 android.R.id.text1,
                 data);
 

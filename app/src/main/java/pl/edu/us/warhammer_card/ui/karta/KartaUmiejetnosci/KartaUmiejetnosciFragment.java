@@ -3,6 +3,7 @@ package pl.edu.us.warhammer_card.ui.karta.KartaUmiejetnosci;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -13,11 +14,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
@@ -82,11 +85,13 @@ public class KartaUmiejetnosciFragment extends Fragment {
     }
 
     // Funkcja dodająca dynamiczny wiersz umiejętności do layoutu
+
     private void addDynamicRow(Umiejetnosci umiejetnosc, SQLiteDatabase db, int kartaId) {
         // Tworzenie nowego LinearLayout na wiersz
         LinearLayout row = new LinearLayout(getContext());
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setWeightSum(4);
+        row.setPadding(16, 8, 16, 8); // Padding dla lepszego wyglądu
         row.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
@@ -94,55 +99,80 @@ public class KartaUmiejetnosciFragment extends Fragment {
         TextView nazwaTextView = new TextView(getContext());
         nazwaTextView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
         nazwaTextView.setGravity(Gravity.CENTER);
+        nazwaTextView.setTextSize(16); // Większy rozmiar czcionki
+        nazwaTextView.setTextColor(Color.WHITE);
         nazwaTextView.setText(umiejetnosc.getNazwa() + " (" + umiejetnosc.getCecha_nazwa() + ")");
         row.addView(nazwaTextView);
 
-        // Cecha (EditText - nieedytowalny)
-        EditText cechaEditText = new EditText(getContext());
-        cechaEditText.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-        cechaEditText.setGravity(Gravity.CENTER);
-        cechaEditText.setText(String.valueOf(umiejetnosc.getWortascCecha()));
-        cechaEditText.setEnabled(false); // Pole nieedytowalne
-        row.addView(cechaEditText);
+        // Cecha (TextView - nieedytowalny)
+        TextView cechaTextView = new TextView(getContext());
+        cechaTextView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+        cechaTextView.setGravity(Gravity.CENTER);
+        cechaTextView.setTextSize(16); // Większy rozmiar czcionki
+        cechaTextView.setTextColor(Color.WHITE);
+        cechaTextView.setText(String.valueOf(umiejetnosc.getWortascCecha()));
+        row.addView(cechaTextView);
 
-        // Rozwój (EditText - edytowalny)
-        EditText rozwojEditText = new EditText(getContext());
-        rozwojEditText.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-        rozwojEditText.setGravity(Gravity.CENTER);
-        rozwojEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        rozwojEditText.setText(String.valueOf(umiejetnosc.getRozwoj()));
-        row.addView(rozwojEditText);
+        // Layout dla przycisków i wartości Rozwój
+        LinearLayout rozwójLayout = new LinearLayout(getContext());
+        rozwójLayout.setOrientation(LinearLayout.HORIZONTAL);
+        rozwójLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
-        // Suma (EditText - nieedytowalny)
-        EditText sumaEditText = new EditText(getContext());
-        sumaEditText.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-        sumaEditText.setGravity(Gravity.CENTER);
-        sumaEditText.setText(String.valueOf(umiejetnosc.getWortascCecha() + umiejetnosc.getRozwoj()));
-        sumaEditText.setEnabled(false); // Pole nieedytowalne
-        row.addView(sumaEditText);
+        // Przycisk "-"
+        Button minusButton = new Button(getContext());
+        minusButton.setText("-");
+        minusButton.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+        minusButton.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.holo_red_light)); // Przyjazny kolor
+        minusButton.setTextSize(18); // Większy tekst
+        minusButton.setPadding(16, 8, 16, 8); // Padding dla łatwiejszego naciskania
+        rozwójLayout.addView(minusButton);
 
-        // Dodanie TextWatcher do śledzenia zmian w polu rozwój
-        rozwojEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        // Wartość Rozwój (TextView)
+        TextView rozwojTextView = new TextView(getContext());
+        rozwojTextView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+        rozwojTextView.setGravity(Gravity.CENTER);
+        rozwojTextView.setTextSize(16); // Większy rozmiar czcionki
+        rozwojTextView.setTextColor(Color.WHITE);
+        rozwojTextView.setText(String.valueOf(umiejetnosc.getRozwoj()));
+        rozwójLayout.addView(rozwojTextView);
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        // Przycisk "+"
+        Button plusButton = new Button(getContext());
+        plusButton.setText("+");
+        plusButton.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+        plusButton.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.holo_green_light)); // Przyjazny kolor
+        plusButton.setTextSize(18); // Większy tekst
+        plusButton.setPadding(16, 8, 16, 8); // Padding dla łatwiejszego naciskania
+        rozwójLayout.addView(plusButton);
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                try {
-                    int rozwojValue = Integer.parseInt(editable.toString());
-                    umiejetnosc.setRozwoj(rozwojValue);
-                    updateUmiejetnosci(db, umiejetnosc, kartaId);
-                    sumaEditText.setText(String.valueOf(umiejetnosc.getWortascCecha() + rozwojValue));
-                } catch (NumberFormatException e) {
-                    // Jeśli nieprawidłowy input, ustaw rozwój na 0
-                    umiejetnosc.setRozwoj(0);
-                    updateUmiejetnosci(db, umiejetnosc, kartaId);
-                    sumaEditText.setText(String.valueOf(umiejetnosc.getWortascCecha()));
-                }
+        row.addView(rozwójLayout);
+
+        // Suma (TextView - nieedytowalny)
+        TextView sumaTextView = new TextView(getContext());
+        sumaTextView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+        sumaTextView.setGravity(Gravity.CENTER);
+        sumaTextView.setTextSize(16); // Większy rozmiar czcionki
+        sumaTextView.setTextColor(Color.WHITE);
+        sumaTextView.setText(String.valueOf(umiejetnosc.getWortascCecha() + umiejetnosc.getRozwoj()));
+        row.addView(sumaTextView);
+
+        // Obsługa przycisków
+        minusButton.setOnClickListener(v -> {
+            int currentValue = umiejetnosc.getRozwoj();
+            if (currentValue > 0) {
+                umiejetnosc.setRozwoj(currentValue - 1);
+                updateUmiejetnosci(db, umiejetnosc, kartaId);
+                rozwojTextView.setText(String.valueOf(umiejetnosc.getRozwoj()));
+                sumaTextView.setText(String.valueOf(umiejetnosc.getWortascCecha() + umiejetnosc.getRozwoj()));
             }
+        });
+
+        plusButton.setOnClickListener(v -> {
+            int currentValue = umiejetnosc.getRozwoj();
+            umiejetnosc.setRozwoj(currentValue + 1);
+            updateUmiejetnosci(db, umiejetnosc, kartaId);
+            rozwojTextView.setText(String.valueOf(umiejetnosc.getRozwoj()));
+            sumaTextView.setText(String.valueOf(umiejetnosc.getWortascCecha() + umiejetnosc.getRozwoj()));
         });
 
         // Dodanie wiersza do dynamicznego layoutu
@@ -180,7 +210,6 @@ public class KartaUmiejetnosciFragment extends Fragment {
         return list;
     }
 
-
     void updateUmiejetnosci(SQLiteDatabase db, Umiejetnosci umiejetnosci, int idKarta){
         ContentValues values = new ContentValues();
         values.put("rozwój",  umiejetnosci.getRozwoj());
@@ -190,8 +219,6 @@ public class KartaUmiejetnosciFragment extends Fragment {
 
         int ii= db.update("karta_umiętność",values,selection,selectionArgs);
         Log.d("cechy",String.valueOf(ii));
-
-
     }
 
     List<Cechy> getCechy(SQLiteDatabase db, int id){
@@ -230,4 +257,3 @@ public class KartaUmiejetnosciFragment extends Fragment {
         return list;
     }
 }
-
