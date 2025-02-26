@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.karta.KartaAmbicjeIDruzyna.KartaAmbicjeIDruzynaFragment"
+    >
+
+
+    <LinearLayout
+        android:id="@+id/ambicje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ambicje"
+            android:textSize="27sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <ImageView
+            android:id="@+id/help_ambicje"
+            android:layout_width="@dimen/help_img"
+            android:layout_height="@dimen/help_img"
+            android:contentDescription="Pomoc"
+            android:padding="4dp"
+            android:src="@android:drawable/ic_menu_help" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/ambicja_krotkoterminowa_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ambicja_kr_tkoterminowa"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/ambicje"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/ambicja_krotkoterminowa_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="1"
+        android:maxLines="5"
+        android:inputType="textMultiLine"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:scrollHorizontally="false"
+        android:overScrollMode="ifContentScrolls"
+        android:breakStrategy="simple"
+        app:layout_constraintTop_toBottomOf="@id/ambicja_krotkoterminowa_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Ambicja krotkoterminowa zarobic troche kasy"
+         />
+
+    <TextView
+        android:id="@+id/ambicja_dlugoterminowa_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ambicja długoterminowa"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/ambicja_krotkoterminowa_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/ambicja_dlugoterminowa_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="1"
+        android:maxLines="5"
+        android:inputType="textMultiLine"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:scrollHorizontally="false"
+        android:overScrollMode="ifContentScrolls"
+        android:breakStrategy="simple"
+        app:layout_constraintTop_toBottomOf="@id/ambicja_dlugoterminowa_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Ambicja dlugoterminowa zostac kierownikiem wlasnego warsztatu"
+        />
+
+    <LinearLayout
+        android:id="@+id/druzuna"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ambicja_dlugoterminowa_edit">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Drużyna"
+            android:textSize="27sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <ImageView
+            android:id="@+id/help_druzyna"
+            android:layout_width="@dimen/help_img"
+            android:layout_height="@dimen/help_img"
+            android:contentDescription="Pomoc"
+            android:padding="4dp"
+            android:src="@android:drawable/ic_menu_help" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/nazwa_druzyny_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nazwa Drużyny"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/druzuna"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/nazwa_druzyny_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/nazwa_druzyny_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Poszukiwaci przygód"
+        />
+
+    <TextView
+        android:id="@+id/ambicja_dryzunowa_krutka_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ambicja drużynowa krótkoterminowa"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/nazwa_druzyny_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/ambicja_dryzunowa_krutka_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="1"
+        android:maxLines="5"
+        android:inputType="textMultiLine"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:scrollHorizontally="false"
+        android:overScrollMode="ifContentScrolls"
+        android:breakStrategy="simple"
+        app:layout_constraintTop_toBottomOf="@id/ambicja_dryzunowa_krutka_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Ambicja drużyny na krotki termin aaaaaaaaaaasssssssssssssss"
+        />
+
+    <TextView
+        android:id="@+id/ambicja_dryzunowa_dlugo_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ambicja drużynowa krótkoterminowa"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/ambicja_dryzunowa_krutka_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/ambicja_dryzunowa_dlugo_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="1"
+        android:maxLines="5"
+        android:inputType="textMultiLine"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:scrollHorizontally="false"
+        android:overScrollMode="ifContentScrolls"
+        android:breakStrategy="simple"
+        app:layout_constraintTop_toBottomOf="@id/ambicja_dryzunowa_dlugo_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Ambicja drużyny na długi termin aaaaaaaaaaasssssssssssssss"
+        />
+
+    <TextView
+        android:id="@+id/czlonkowie_druzyny_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Członkowie drużyny"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/ambicja_dryzunowa_dlugo_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/czlonkowie_druzyny_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="1"
+        android:maxLines="5"
+        android:inputType="textMultiLine"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:scrollHorizontally="false"
+        android:overScrollMode="ifContentScrolls"
+        android:breakStrategy="simple"
+        app:layout_constraintTop_toBottomOf="@id/czlonkowie_druzyny_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="August Stax, Dungun Elsems ,Krafft Everiks, Aleriben"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

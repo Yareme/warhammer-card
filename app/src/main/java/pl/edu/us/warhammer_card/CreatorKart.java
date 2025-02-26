@@ -44,9 +44,6 @@ public class CreatorKart {
         values.put("oczy", oczy);
         values.put("wlosy", wlosy);
 
-
-
-
         int idKarta= (int) db.insert("karta", null, values);
             values.clear();
             karta.setId(idKarta);
@@ -310,7 +307,6 @@ public class CreatorKart {
         return wzrost;
     }
 
-
     String getRandomOczy(SQLiteDatabase db,int idRasa){
         String oczy = null;
         String[] columns = {"imię"};
@@ -364,8 +360,4 @@ public class CreatorKart {
 
         return wlosy;
     }
-
 }
-
-
-

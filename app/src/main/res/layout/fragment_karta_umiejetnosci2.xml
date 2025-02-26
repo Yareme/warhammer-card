@@ -1,32 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.karta.KartaFront.KartaFrontFragment"
-    android:id="@+id/scrollView"
-    android:background="@drawable/fragment_um_zw"
-    >
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".ui.karta.KartaUmiejetnosci.KartaUmiejetnosciFragment2"
-    android:id="@+id/fragment_karta_umiejetnosci2">
+    android:id="@+id/main_layout"
+    android:background="@drawable/fragment_um_zw">
 
-    <!-- Główna lista dynamicznych umiejętności -->
-    <LinearLayout
-        android:id="@+id/dynamicUmiejetnosciLayout"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fragment_karta_umiejetnosci2">
+
+            <!-- Lista dynamicznych umiejętności -->
+            <LinearLayout
+                android:id="@+id/dynamicUmiejetnosciLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-    </LinearLayout>
-
-
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>

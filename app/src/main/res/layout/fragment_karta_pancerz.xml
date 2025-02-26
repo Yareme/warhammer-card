@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".ui.karta2.pancerz.PancerzFragment"
+    android:id="@+id/fragment_karta_pancerz">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/pancerz_item" />
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:menu_labels_position="left"
+        app:menu_openDirection="up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/wlasny_pancerz_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Wlasna Karta"
+            app:fab_size="mini"
+            app:fab_colorNormal="@color/teal_700"
+            app:fab_colorPressed="@color/teal_200"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/podstawowy_pancerz_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Losuj"
+            app:fab_size="mini"
+            app:fab_colorNormal="@color/teal_700"
+            app:fab_colorPressed="@color/teal_200"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/ic_person"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

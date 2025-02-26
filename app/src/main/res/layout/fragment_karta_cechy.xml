@@ -8,12 +8,13 @@
     android:id="@+id/fragment_karta_cechy"
     >
 
+<!--
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:stretchColumns="*">
 
-        <!-- Nagłówek kolumn -->
+        &lt;!&ndash; Nagłówek kolumn &ndash;&gt;
 
         <TableRow>
 
@@ -43,9 +44,9 @@
 
         </TableRow>
 
-        <!-- Wiersze danych -->
+        &lt;!&ndash; Wiersze danych &ndash;&gt;
 
-        <!-- Wiersz 1 -->
+        &lt;!&ndash; Wiersz 1 &ndash;&gt;
         <TableRow>
 
             <TextView
@@ -85,9 +86,9 @@
 
         </TableRow>
 
-        <!-- Dodaj kolejne wiersze podobnie -->
+        &lt;!&ndash; Dodaj kolejne wiersze podobnie &ndash;&gt;
 
-        <!-- Wiersz 2 -->
+        &lt;!&ndash; Wiersz 2 &ndash;&gt;
         <TableRow>
 
             <TextView
@@ -126,7 +127,7 @@
 
         </TableRow>
 
-        <!-- Wiersz 3 -->
+        &lt;!&ndash; Wiersz 3 &ndash;&gt;
         <TableRow>
 
             <TextView
@@ -167,7 +168,7 @@
         </TableRow>
 
 
-        <!-- Wiersz 4 -->
+        &lt;!&ndash; Wiersz 4 &ndash;&gt;
         <TableRow>
 
             <TextView
@@ -207,7 +208,7 @@
 
         </TableRow>
 
-        <!-- Wiersz 5 -->
+        &lt;!&ndash; Wiersz 5 &ndash;&gt;
         <TableRow>
 
             <TextView
@@ -249,7 +250,7 @@
 
 
 
-        <!-- Wiersz 6 -->
+        &lt;!&ndash; Wiersz 6 &ndash;&gt;
         <TableRow>
 
             <TextView
@@ -290,7 +291,7 @@
         </TableRow>
 
 
-        <!-- Wiersz 7 -->
+        &lt;!&ndash; Wiersz 7 &ndash;&gt;
         <TableRow>
 
             <TextView
@@ -330,7 +331,7 @@
 
         </TableRow>
 
-        <!-- Wiersz 8 -->
+        &lt;!&ndash; Wiersz 8 &ndash;&gt;
         <TableRow>
 
             <TextView
@@ -370,7 +371,7 @@
 
         </TableRow>
 
-        <!-- Wiersz 9 -->
+        &lt;!&ndash; Wiersz 9 &ndash;&gt;
         <TableRow>
 
             <TextView
@@ -411,7 +412,7 @@
         </TableRow>
 
 
-        <!-- Wiersz 10 -->
+        &lt;!&ndash; Wiersz 10 &ndash;&gt;
         <TableRow>
 
             <TextView
@@ -454,77 +455,28 @@
 
 
     </TableLayout>
+-->
 
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="412dp"
+        android:layout_height="734dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/fragment_cecha_img"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-1dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#33FFFFFF" />
 
-
-<!--
     <LinearLayout
-        android:id="@+id/bottom_navigation"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/dynamicCechyLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@android:color/darker_gray"
-        android:orientation="horizontal"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="685dp">
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:text="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.4"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="484dp" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:text="2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.4"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="485dp" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="70dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_height="wrap_content"
-            android:text="3"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="485dp" />
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:text="4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="485dp" />
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="70dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.4"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_height="wrap_content"
-            android:text="5"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="485dp" />
-
+        android:orientation="vertical"
+        android:padding="16dp">
     </LinearLayout>
--->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

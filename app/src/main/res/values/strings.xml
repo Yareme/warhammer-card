@@ -10,7 +10,7 @@
     <string name="karta">Karta</string>
     <string name="umiejetnosci">Umiejętności</string>
     <string name="umiejetnosci2">Umiejętności Zaawansowane</string>
-    <string name="menu_home">Home</string>
+    <string name="menu_home">Witaj świat Fantasy</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_test">Test</string>
@@ -48,4 +48,19 @@
     <string name="_6">6</string>
     <string name="_8">8</string>
     <string name="_7">7</string>
+    <string name="doswiadczenie">Doświadczenie</string>
+    <string name="bohater">Bohater</string>
+    <string name="przeznaczenie">Przeznaczenie</string>
+    <string name="szybko">Szybkość</string>
+    <string name="motywacja">Motywacja</string>
+    <string name="aktualny">Aktualny</string>
+    <string name="kr_tka_motywacja_postaci">Krótka motywacja postaci</string>
+    <string name="pomoc">Pomoc</string>
+    <string name="bieg">Bieg</string>
+    <string name="ch_d">Chód</string>
+    <string name="szcz_cia">Szczęścia</string>
+    <string name="dodatkowe">Dodatkowe</string>
+    <string name="determinacja">Determinacja</string>
+    <string name="wydany">Wydany</string>
+    <string name="ambicja_kr_tkoterminowa">Ambicja krótkoterminowa</string>
 </resources>

@@ -65,45 +65,7 @@ public class KartaFrontFragment extends Fragment {
 
         karta=getKarta(db,kartaId);
 
-      /*  binding.button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-
-                Bundle args = new Bundle();
-                args.putInt("KartaId", karta.getId());
-                NavHostFragment navHostFragment = (NavHostFragment) ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(R.id.action_fragment_karta_front_to_fragment_karta_cechy,args);
-
-            }
-        });
-
-        binding.button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                Bundle args = new Bundle();
-                args.putInt("KartaId", karta.getId());
-                NavHostFragment navHostFragment = (NavHostFragment) ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(R.id.action_fragment_karta_front_to_fragment_karta_umiejetnosci,args);
-
-            }
-        });
-
-        binding.button4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Bundle args = new Bundle();
-                args.putInt("KartaId", karta.getId());
-                NavHostFragment navHostFragment = (NavHostFragment) ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(R.id.action_fragment_karta_front_to_fragment_karta_umiejetnosci2,args);
-            }
-        });*/
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -658,7 +620,6 @@ public class KartaFrontFragment extends Fragment {
 
             if (cursor2.moveToFirst()){
                 cecha.setNazwaKrotka(cursor2.getString(cursor2.getColumnIndexOrThrow("nazwa_krótka")));
-
             }
 
             list.add(cecha);
@@ -666,11 +627,7 @@ public class KartaFrontFragment extends Fragment {
         }
         cursor.close();
 
-
-
         String selection = "cechy_id = ? AND karta_id = ?";
-
-
 
         for (int i = 0; i < schemat.length; i++) {
             ContentValues values = new ContentValues(); // Nowy obiekt ContentValues dla każdej iteracji
@@ -684,8 +641,6 @@ public class KartaFrontFragment extends Fragment {
             String[] selectionArgs2 = {String.valueOf(schemat[i]), String.valueOf(karta.getId())};
             db.update("karta_cecha", values, selection, selectionArgs2);
         }
-
-
 
     }
 

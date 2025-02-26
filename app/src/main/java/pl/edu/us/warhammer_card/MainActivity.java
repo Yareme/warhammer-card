@@ -52,12 +52,13 @@ public class MainActivity extends AppCompatActivity {
 
         //Элементы меню
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav_test,R.id.fragment_karta)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_test, R.id.fragment_karta)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        setTitle("Witaj Świat Fantsy ");
 
 
        /* AppSQLiteHelper appSQLiteHelper = new AppSQLiteHelper(this);

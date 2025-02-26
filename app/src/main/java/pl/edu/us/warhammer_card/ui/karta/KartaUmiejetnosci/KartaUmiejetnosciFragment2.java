@@ -1,5 +1,6 @@
 package pl.edu.us.warhammer_card.ui.karta.KartaUmiejetnosci;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -34,6 +35,7 @@ import pl.edu.us.warhammer_card.R;
 import pl.edu.us.warhammer_card.databinding.FragmentKartaUmiejetnosci2Binding;
 import pl.edu.us.warhammer_card.databinding.FragmentKartaUmiejetnosciBinding;
 import pl.edu.us.warhammer_card.table.Cechy;
+import pl.edu.us.warhammer_card.table.Profesja;
 import pl.edu.us.warhammer_card.table.Umiejetnosci;
 
 public class KartaUmiejetnosciFragment2 extends Fragment {
@@ -56,6 +58,8 @@ public class KartaUmiejetnosciFragment2 extends Fragment {
         assert args != null;
         int kartaId = args.getInt("KartaId");
 
+
+
         // Pobieranie cech i umiejętności z bazy danych
         List<Cechy> listCecha = getCechy(db, kartaId);
         List<Umiejetnosci> listUmiejetnosci = getUmiejetnosci(db, kartaId);
@@ -73,14 +77,91 @@ public class KartaUmiejetnosciFragment2 extends Fragment {
 
         // Generowanie wszystkich dynamicznych wierszy dla umiejętności
         for (Umiejetnosci umiejetnosc : listUmiejetnosci) {
-            addDynamicRow(umiejetnosc, db, kartaId);
+            addDynamicRow( db, umiejetnosc, kartaId);
         }
+
+       binding.fab.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+            builder.setTitle("Dodaj Umiejęntność");
+           List<Umiejetnosci> listUmiejetnosciFromDialog = getUmiejetnosciFromDialog(db);
+            String[] listaElementow = new String[listUmiejetnosciFromDialog.size()];
+            int i =0;
+            for (Umiejetnosci umiejetnosc: listUmiejetnosciFromDialog) {
+                listaElementow[i]=umiejetnosc.getNazwa();
+                i++;
+            }
+            // Ustawienie listy elementów w dialogu
+            builder.setItems(listaElementow, (dialog, which) -> {
+                String wybranyElement = listaElementow[which];
+                int idUmiejetnosci = getUmiejetnosciIdByName(db, wybranyElement);
+
+                addUmiejetnosciToKart(db, idUmiejetnosci, kartaId);
+
+                addDynamicRow( db, getUmiejetnosc(db,kartaId,idUmiejetnosci), kartaId);
+
+            });
+            // Wyświetlenie dialogu
+            builder.show();
+
+        });
+
 
         return binding.getRoot();
     }
 
+    int getUmiejetnosciIdByName(SQLiteDatabase db, String nazwa){
+            int id = 0;
+        String[] selectionArgs={String.valueOf(nazwa)};
+        String query = "SELECT  id, nazwa " +
+                "FROM umiejętności " +
+                "WHERE nazwa = ? ";
+
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+        if (cursor.moveToFirst()) {
+            id=cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+        }
+        cursor.close();
+        return id;
+    }
+
+    List<Umiejetnosci> getUmiejetnosciFromDialog(SQLiteDatabase db){
+
+        String query = "SELECT  id, nazwa, czy_zaawansowana " +
+                "FROM umiejętności " +
+                "WHERE umiejętności.czy_zaawansowana = 1 ";
+        Cursor cursor = db.rawQuery(query, null);
+
+        List<Umiejetnosci> list = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            Umiejetnosci umiejetnosci = new Umiejetnosci();
+
+            umiejetnosci.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
+            umiejetnosci.setNazwa(cursor.getString(cursor.getColumnIndexOrThrow("nazwa")));
+
+            list.add(umiejetnosci);
+
+            Log.d("UM",String.valueOf(umiejetnosci.getRozwoj()+" "+umiejetnosci.getNazwa()+" "+umiejetnosci.getCecha_nazwa()));
+
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    private void addUmiejetnosciToKart(SQLiteDatabase db, int idUmiejetnosci, int kartaId){
+        ContentValues values = new ContentValues();
+
+        values.put("karta_id", kartaId);
+        values.put("umiejętności_id", idUmiejetnosci);
+        values.put("rozwój",0);
+        db.insert("karta_umiętność",null, values);
+
+    }
+
     // Funkcja dodająca dynamiczny wiersz umiejętności do layoutu
-    private void addDynamicRow(Umiejetnosci umiejetnosc, SQLiteDatabase db, int kartaId) {
+    private void addDynamicRow(SQLiteDatabase db, Umiejetnosci umiejetnosc,  int kartaId) {
         // Tworzenie nowego LinearLayout na wiersz
         LinearLayout row = new LinearLayout(getContext());
         row.setOrientation(LinearLayout.HORIZONTAL);
@@ -181,7 +262,7 @@ public class KartaUmiejetnosciFragment2 extends Fragment {
                 "FROM karta_umiętność " +
                 "JOIN umiejętności ON karta_umiętność.umiejętności_id = umiejętności.id " +
                 "JOIN cechy ON umiejętności.cechy_id = cechy.id " +
-                "WHERE karta_umiętność.karta_id = ?";
+                "WHERE karta_umiętność.karta_id = ? AND umiejętności.czy_zaawansowana = 1 ";
         Cursor cursor = db.rawQuery(query, selectionArgs);
 
         List<Umiejetnosci> list = new ArrayList<>();
@@ -203,7 +284,6 @@ public class KartaUmiejetnosciFragment2 extends Fragment {
 
         return list;
     }
-
 
     void updateUmiejetnosci(SQLiteDatabase db, Umiejetnosci umiejetnosci, int idKarta){
         ContentValues values = new ContentValues();
@@ -252,5 +332,30 @@ public class KartaUmiejetnosciFragment2 extends Fragment {
         cursor.close();
 
         return list;
+    }
+
+    Umiejetnosci getUmiejetnosc(SQLiteDatabase db, int idKarta, int idUm){
+
+        String[] selectionArgs = {String.valueOf(idKarta),String.valueOf(idUm)};
+
+        String query = "SELECT karta_umiętność.rozwój, umiejętności.nazwa, cechy.nazwa_krótka, umiejętności.id " +
+                "FROM karta_umiętność " +
+                "JOIN umiejętności ON karta_umiętność.umiejętności_id = umiejętności.id " +
+                "JOIN cechy ON umiejętności.cechy_id = cechy.id " +
+                "WHERE karta_umiętność.karta_id = ? AND  karta_umiętność.umiejętności_id = ?";
+
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+        Umiejetnosci umiejetnosc =null;
+
+        if (cursor != null && cursor.moveToFirst()) {
+            umiejetnosc = new Umiejetnosci();
+            umiejetnosc.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
+            umiejetnosc.setRozwoj(cursor.getInt(cursor.getColumnIndexOrThrow("rozwój")));
+            umiejetnosc.setNazwa(cursor.getString(cursor.getColumnIndexOrThrow("nazwa")));
+            umiejetnosc.setCecha_nazwa(cursor.getString(cursor.getColumnIndexOrThrow("nazwa_krótka")));
+        }
+        cursor.close();
+
+        return umiejetnosc;
     }
 }

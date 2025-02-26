@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/fragment_karta_main_2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.karta.KartaMainFragment2"
+    android:theme="@style/Theme.MyApp"
+    android:background="@drawable/fragment_um_zw"
+    >
+
+    <Button
+        android:id="@+id/pancerz"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintHeight_percent="0.1"
+        android:text="pancerz"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/wyposazenie"
+
+        app:layout_constraintVertical_bias="0.0"
+
+        style="@style/CustomButtonStyle"
+        />
+    <Button
+        android:id="@+id/wyposazenie"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintHeight_percent="0.1"
+        android:text="wyposażenie"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintBottom_toTopOf="@id/zamoznosc_i_zywotnosc"
+
+        app:layout_constraintTop_toBottomOf="@id/pancerz"
+
+        app:layout_constraintVertical_bias="0.0"
+
+        style="@style/CustomButtonStyle"
+        />
+
+    <Button
+        android:id="@+id/zamoznosc_i_zywotnosc"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintHeight_percent="0.1"
+        android:text="ZAMOŻNOŚĆ I ŻYWOTNOŚĆ"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintBottom_toTopOf="@id/psychologia_zepsucie_i_mutacje"
+        app:layout_constraintTop_toBottomOf="@id/wyposazenie"
+
+        app:layout_constraintVertical_bias="0.0"
+
+        style="@style/CustomButtonStyle"
+        />
+
+    <Button
+        android:id="@+id/psychologia_zepsucie_i_mutacje"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintHeight_percent="0.1"
+        android:text="PSYCHOLOGIA ZEPSUCIE I MUTACJE"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintBottom_toTopOf="@id/bron"
+        app:layout_constraintTop_toBottomOf="@id/zamoznosc_i_zywotnosc"
+
+        app:layout_constraintVertical_bias="0.0"
+
+        style="@style/CustomButtonStyle"
+        />
+
+
+    <Button
+        android:id="@+id/bron"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintHeight_percent="0.1"
+        android:text="BROŃ"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintBottom_toTopOf="@id/czary_i_modlitwy"
+        app:layout_constraintTop_toBottomOf="@id/psychologia_zepsucie_i_mutacje"
+
+        app:layout_constraintVertical_bias="0.0"
+
+        style="@style/CustomButtonStyle"
+        />
+
+    <Button
+        android:id="@+id/czary_i_modlitwy"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintHeight_percent="0.1"
+        android:text="CZARY I MODLITWY"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bron"
+
+        app:layout_constraintVertical_bias="0.0"
+
+        style="@style/CustomButtonStyle"
+        />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

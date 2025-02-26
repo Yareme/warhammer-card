@@ -11,22 +11,54 @@ CREATE TABLE "typ_pancerza" (
     "nazwa"           TEXT NOT NULL
 );
 
+CREATE TABLE "lokalizacja_pancerza" (
+    "id"                           INTEGER PRIMARY KEY,
+    "nazwa"                        TEXT NOT NULL
+);
+
 CREATE TABLE "pancerz" (
-    "id"                           INTEGER NOT NULL,
+    "id"                           INTEGER PRIMARY KEY,
     "nazwa"                        TEXT NOT NULL,
     "cena"                         TEXT NOT NULL,
-    "opciążenie"                   INTEGER NOT NULL,
-    "dostęp"                       TEXT NOT NULL,
-    "kara"                         TEXT NOT NULL,
-    "lokacja"                      TEXT,
-    "punkty_pancerza"              INTEGER NOT NULL,
-    "zalety"                       TEXT NOT NULL,
-    "wady"                         TEXT NOT NULL,
 
+
+    "kara"                         TEXT,
+    "lokalizacja_pancerza"         TEXT,
+
+    "punkty_pancerza"              INTEGER NOT NULL,
+
+    "zalety"                       TEXT,
+    "wady"                         TEXT,
+
+    "dostępność_id"                   INTEGER NOT NULL,
     "typ_pancerza_id"              INTEGER NOT NULL,
 
-    FOREIGN KEY ("typ_pancerza_id") REFERENCES "typ_pancerza"("id") ON UPDATE CASCADE ON DELETE CASCADE
+     "opciążenie"                   INTEGER,
 
+
+    FOREIGN KEY ("dostępność_id") REFERENCES "dostępność_id"("id") ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY ("typ_pancerza_id") REFERENCES "typ_pancerza"("id") ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+
+CREATE TABLE "dostępność" (
+    "id"                           INTEGER PRIMARY KEY,
+    "nazwa"                        TEXT NOT NULL,
+    "wioska"                         TEXT,
+    "miasteczko"                         TEXT,
+    "miasto"                         TEXT
+);
+
+CREATE TABLE "zalety_pancerz" (
+    "id"                           INTEGER PRIMARY KEY,
+    "nazwa"                        TEXT NOT NULL,
+    "opis"                         TEXT NOT NULL
+);
+
+CREATE TABLE "wady_pancerz" (
+    "id"                           INTEGER PRIMARY KEY,
+    "nazwa"                        TEXT NOT NULL,
+    "opis"                         TEXT NOT NULL
 );
 
 CREATE TABLE "status" (
@@ -71,7 +103,6 @@ CREATE TABLE "profesja" (
     FOREIGN KEY ("klasa_id") REFERENCES "klasa"("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-
 CREATE TABLE "poziom" (
     "id"                   INTEGER PRIMARY KEY,
     "nazwa"                TEXT ,
@@ -102,22 +133,24 @@ CREATE TABLE "broń" (
     "czy_dwuręczna"          INTEGER NOT NULL,
     "cena"                   TEXT NOT NULL,
     "obciążenie"             INTEGER NOT NULL,
-    "dostęp"                 TEXT NOT NULL,
+
     "zasięg"                 TEXT NOT NULL,
     "obrażenia"              TEXT NOT NULL,
     "zalety"                 TEXT NOT NULL,
     "wady"                   TEXT NOT NULL,
     "kategoria"              TEXT NOT NULL,
-    "cechy"                  TEXT,
+    "cechy_broni"                  TEXT,
+
     "czy_własna"             INTEGER NOT NULL,
 
     "typ_broni_id"           INTEGER NOT NULL,
+    "dostępność_id"                   INTEGER NOT NULL,
+
     FOREIGN KEY ("typ_broni_id") REFERENCES "typ_broni"("id") ON UPDATE CASCADE ON DELETE CASCADE
+     FOREIGN KEY ("dostępność_id") REFERENCES "dostępność_id"("id") ON UPDATE CASCADE ON DELETE CASCADE
+
 
 );
-
-
-
 
 CREATE TABLE "rasa_profesja" (
     "id"                   INTEGER PRIMARY KEY,
@@ -181,10 +214,12 @@ CREATE TABLE "karta" (
     "ambicja_drużynowa_długoterm"        TEXT,
     "członkowie_drużyny"                 TEXT,
 
+    "motywacja"                          TEXT,
+
     "kampania_id"                        INTEGER,
     "rasa_id"                            INTEGER,
     "profesja_id"                        INTEGER,
-    "poziom_id"                 INTEGER,
+    "poziom_id"                          INTEGER,
 
     FOREIGN KEY ("kampania_id") REFERENCES "kampania"("id") ON UPDATE CASCADE ON DELETE CASCADE,
 
@@ -197,18 +232,16 @@ CREATE TABLE "karta" (
 
 );
 
-
-   CREATE TABLE "talent" (
-    "id"                 INTEGER NOT NULL,
+CREATE TABLE "talent" (
+    "id"                 INTEGER PRIMARY KEY,
     "nazwa"              TEXT NOT NULL,
+    "maksimum"           TEXT NOT NULL,
+
+    "testy"              TEXT,
     "opis"               TEXT NOT NULL,
-    "maksymalny_poziom"  INTEGER,
-    "maksymalna_wartość" INTEGER,
-    "czy_ma_maksimum"    INTEGER NOT NULL,
 
-    "cechy_id"           INTEGER NOT NULL,
+    "cechy_id"           INTEGER
 
-    FOREIGN KEY ("cechy_id") REFERENCES "cechy"("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE "umiejętności" (
@@ -236,7 +269,6 @@ CREATE TABLE "karta_cecha" (
 
 );
 
-
 CREATE TABLE "karta_broń"(
 "karta_id"      INTEGER NOT NULL,
 "broń_id"       INTEGER NOT NULL,
@@ -248,12 +280,10 @@ CREATE TABLE "karta_pancerz" (
 
     "karta_id"           INTEGER NOT NULL,
     "pancerz_id"         INTEGER NOT NULL,
+    "czy_zalożony"       INTEGER,
 
     FOREIGN KEY ("karta_id") REFERENCES "karta"("id")  ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY ("pancerz_id") REFERENCES "pancerz"("id")  ON UPDATE CASCADE ON DELETE CASCADE
-
-
-
 );
 
 CREATE TABLE "karta_talent" (
@@ -288,8 +318,6 @@ CREATE TABLE "karta_wypasarzenie" (
 
 );
 
-
-
 CREATE TABLE "tradycja" (
     "id"          INTEGER NOT NULL,
     "nazwa"       TEXT NOT NULL,
@@ -311,7 +339,6 @@ CREATE TABLE "zaklęcia" (
 
 );
 
-
 CREATE TABLE "kolor_oczu"(
 
     "id" INTEGER PRIMARY KEY,
@@ -327,7 +354,6 @@ CREATE TABLE "kolor_wlosy"(
     "rasa_id" INTEGER
 
 );
-
 
 -- Dodanie ras
 INSERT INTO "Rasa" ("name", "wartość_min", "wartość_max")
@@ -1451,6 +1477,63 @@ VALUES
        ("Żołnierz", 64, 8,"1,2,4,9","48,61,8,71,109,114,119"),
        ("Sierżant", 64,10 ,"1,2,4,5,9","48,61,8,71,109,114,119"),
        ("Oficer", 64,11 ,"1,2,4,5,9,10","48,61,8,71,109,114,119");
+
+
+  INSERT INTO "dostępność"("nazwa","wioska","miasteczko","miasto")
+    VALUES
+        ('Powszechna',"W sprzedaży!","W sprzedaży!","W sprzedaży!"),
+        ('Ograniczona',"30%","60%","90%"),
+        ('Rzadka',"15%","30%","45%"),
+        ('Egzotyczna',"Nie ma","Nie ma","Nie ma");
+
+
+    INSERT INTO "zalety_pancerz"("nazwa","opis")
+       VALUES
+        ('Giętki',"Giętki pancerz możesz nosić pod warstwą innego pancerza (niepo- siadającego tej Zalety). W takim przypadku uzyskujesz korzyści obu pancerzy"),
+        ('Nieprzebijalny',"Taki pancerz jest wyjątkowo odporny, co sprawia, że większość ata- ków nie jest w stanie go przebić. Wszystkie Rany Krytyczne wynikłe na skutek nieparzystego wyniku rzutu na trafienie (na przykład 11 lub 33) są ignorowane.");
+
+
+    INSERT INTO "wady_pancerz"("nazwa","opis")
+        VALUES
+         ('Częściowy',"Pancerz nie okrywa całego Miejsca Trafienia. Przeciwnik, który uzy- ska parzysty wynik rzutu na trafienie albo wyrzuci Trafienie Krytycz- ne, ignoruje PP Częściowego pancerza."),
+         ('Wrażliwe punkty',"Pancerz ma niewielkie miejsca, w które może wślizgnąć się ostrze, jeśli przeciwnik ma wystarczające umiejętności lub dość szczęścia. Jeśli wróg posługuje się bronią Nadziewającą i uzyska Trafienie Kry- tyczne, wszystkie PP tego pancerza są ignorowane.");
+
+
+  INSERT INTO "typ_pancerza"("nazwa")
+    VALUES
+        ('MIĘKKA SKÓRA'),
+        ('SKÓRA HARTOWANA'),
+        ('KOLCZUGI'),
+        ('PŁYTOWE'),
+        ('INNE');
+
+  INSERT INTO "lokalizacja_pancerza"("nazwa")
+    VALUES
+        ('ramiona'),
+        ('korpus'),
+        ('nogi'),
+        ('głowa'),
+        ('wszystko');
+
+  INSERT INTO "pancerz"("nazwa","cena","kara","lokalizacja_pancerza","punkty_pancerza","zalety","wady","dostępność_id","typ_pancerza_id")
+    VALUES
+        ('Skórzana kurta','12s',NULL,'1,2',1,'','',1,1),
+        ('Czepiec kolczy','1 ZK','-10 do Percepcji','1',2,'1','1',2,1),
+        ('Nagolenniki płytowe','10 ZK','-10 do Skradania','3', 2,'1,2','1,2',3,4);
+
+
+
+   INSERT INTO "talent" ("nazwa", "maksimum","testy","opis","cechy_id" )
+       VALUES
+       ('Aptekarz','Bonus z Inteligencj','Rzemiosło (Aptekarstwo)','Jesteś świetnym aptekarzem i lepiej od innych wyrabiasz pigułki, maści, smarowidła, olejki, kremy i im podobne. Możesz odwrócić ko- lejność kości nieudanego Testu Rzemiosła (Aptekarstwa), jeśli nowy wynik pozwoli ci odnieść sukces.',8),
+       ('Arcydzieło','brak','','Jesteś niekwestionowanym mistrzem w swojej dziedzinie, two- rzącym dzieła tak złożone, że inni mogą je tylko podziwiać, zachwycając się twoim geniuszem. Za każdym razem, gdy wy- kupujesz ten Talent, tworzysz niezwykłe dzieło, wykorzystując Umiejętność Sztuka lub Rzemiosło. Nie ma ono sobie równych, będzie po wieki inspirowało, zadziwiało i budziło zachwyt swoją wyjątkowością. MG określa premie, które ci przysługują z tej ra- cji. Zwykle wpływają one na Testy Ogłady w kontaktach z tymi, którzy podziwiają twoją sztukę. Sprzedaż dzieła powinna dać ci przynajmniej dziesięciokrotną wartość zwykłej ceny, a czasami nawet więcej.',0),
+
+       ('Artylerzysta','Bonus ze Zręcznośc','','Z łatwością przeładowujesz broń prochową. Dodaj PS równe liczbie wykupień tego Talentu do każdego Wydłużonego Testu związanego z przeładowaniem broni prochowej.',0),
+
+       ('Nazwa','maksimum','testy(kiedy dziala)','OPIS ',0),
+
+
+       ('Artylerzysta','Bonus ze Zręcznośc','','OPIS  ',0);
 
 
 

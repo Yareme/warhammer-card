@@ -4,7 +4,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,6 +30,8 @@ import pl.edu.us.warhammer_card.table.Karta;
 public class KartaMainFragment extends Fragment {
 
     FragmentKartaMainBinding binding;
+    private GestureDetector gestureDetector;
+
     Karta karta = new Karta();
     int kartaId;
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -105,14 +109,86 @@ public class KartaMainFragment extends Fragment {
             }
         });
 
+        binding.button7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle args = new Bundle();
+                args.putInt("KartaId",kartaId);
+                NavHostFragment navHostFragment = (NavHostFragment) ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(R.id.action_fragment_karta_main_to_kartaPunktyFragment,args);
+            }
+        });
+
+        binding.button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle args = new Bundle();
+                args.putInt("KartaId",kartaId);
+                NavHostFragment navHostFragment = (NavHostFragment) ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(R.id.action_fragment_karta_main_to_kartaTalentFragment,args);
+            }
+        });
+
+        binding.button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle args = new Bundle();
+                args.putInt("KartaId",kartaId);
+                NavHostFragment navHostFragment = (NavHostFragment) ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(R.id.action_fragment_karta_main_to_kartaAmbicjeIDruzynaFragment,args);
+
+            }
+        });
+
+        gestureDetector = new GestureDetector(getContext(), new SwipeGestureListener(args));
+
+        View root = binding.getRoot();  // Pobieramy główny widok fragmentu
+
+        // Ustawiamy OnTouchListener na główny widok
+        root.setOnTouchListener((v, event) -> {
+            gestureDetector.onTouchEvent(event);
+            v.performClick(); // Dodajemy dla poprawności Accessibility API
+            return true;
+        });
 
 
-
-
-        View root = binding.getRoot();
         return root;
     }
 
+    private class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
+        private static final int SWIPE_THRESHOLD = 100;
+        private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+        private final Bundle args;
+
+        SwipeGestureListener(Bundle args) {
+            this.args = args;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if (e1 == null || e2 == null) return false; // Zapobiega NullPointerException
+
+            float diffX = e2.getX() - e1.getX();
+            if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                if (diffX < 0) { // Swipe w lewo
+
+                    NavHostFragment navHostFragment = (NavHostFragment) ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
+                    NavController navController = navHostFragment.getNavController();
+                    navController.navigate(R.id.action_fragment_karta_main_to_kartaMainFragment2,args);
+                    /*NavHostFragment.findNavController(KartaMainFragment.this)
+                            .navigate(R.id.action_fragment_karta_main_to_kartaMainFragment2, args);*/
+                }
+                return true;
+            }
+            return false;
+        }
+    }
 
     Karta getKarta(SQLiteDatabase db,int id){
 
@@ -147,6 +223,4 @@ public class KartaMainFragment extends Fragment {
 
         return karta;
     }
-
-
 }

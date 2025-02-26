@@ -3,8 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".ui.home.KartaFragment"
     android:id="@+id/fragment_karta">
 
@@ -19,45 +21,47 @@
         android:layout_height="match_parent"
         android:background="#33FFFFFF" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:cacheColorHint="@color/black"
-        tools:layout_editor_absoluteX="20dp"
-        tools:layout_editor_absoluteY="-49dp" />
-
-
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/wlasna_karta"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/button2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteY="484dp"
-        tools:ignore="MissingConstraints"
-        android:background='#E66E778B'
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/karta_item" />
 
-    <Button
-        android:id="@+id/button2"
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/losuj"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toEndOf="@id/button"
+        app:menu_labels_position="left"
+        app:menu_openDirection="up"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteY="484dp"
-        tools:ignore="MissingConstraints"
-        android:background='#E66E778B'
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        >
 
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/wlasna_karta_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Wlasna Karta"
+            app:fab_size="mini"
+            app:fab_colorNormal="@color/teal_700"
+            app:fab_colorPressed="@color/teal_200"/>
 
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/losowa_karta_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Losuj"
+            app:fab_size="mini"
+            app:fab_colorNormal="@color/teal_700"
+            app:fab_colorPressed="@color/teal_200"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

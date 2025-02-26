@@ -4,6 +4,7 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
         maven { url 'https://jitpack.io' }
+        maven { url 'https://repo.itextpdf.com/maven2/' }
 
     }
 }

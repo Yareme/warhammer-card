@@ -25,7 +25,7 @@ public class Kampania {
 
                 '}';
     }
-    private int date;
+    private long date;
 
 
 
@@ -51,11 +51,11 @@ public class Kampania {
         this.nazwa = nazwa;
     }
 
-    public int getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
