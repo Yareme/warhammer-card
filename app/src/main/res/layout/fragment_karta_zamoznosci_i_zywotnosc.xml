@@ -1,8 +1,347 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.karta2.zamoznoscizywotnosc.ZamoznoscIZywotnoscFragment">
 
+
+    <TextView
+        android:id="@+id/zamoznosc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="ZAMOŻNOŚĆ"
+        android:textSize="@dimen/punkty_titel"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/kurs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1 ZK = 20s = 240p"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/zamoznosc" />
+
+    <TextView
+        android:id="@+id/kurs2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1 srebrny szyling (1 s) = 12 brązowych pensów (12p)"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/kurs" />
+
+    <LinearLayout
+        android:id="@+id/blok_zomoznosc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="1dp"
+        app:layout_constraintTop_toBottomOf="@id/kurs2"
+        >
+        <LinearLayout
+            android:id="@+id/text_exp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:padding="5dp"
+            >
+
+            <TextView
+                android:id="@+id/zloto_korona_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/punkty_subtitle"
+                android:textStyle="bold"
+                android:labelFor="@id/aktualne"
+                android:text="Złota Korona"
+                />
+
+            <TextView
+                android:id="@+id/srebro_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/punkty_subtitle"
+                android:textStyle="bold"
+                android:text="Srebny Szyling"
+                />
+            <TextView
+                android:id="@+id/pensy_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/punkty_subtitle"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="Brązowe Szulingi"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/blok_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:padding="5dp"
+            app:layout_constraintTop_toBottomOf="@id/text_exp"
+            >
+
+            <EditText
+                android:id="@+id/edit_korona"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textSize="@dimen/punkty_value"
+                android:textStyle="bold"
+                tools:text="15"
+
+                />
+
+            <EditText
+                android:id="@+id/edit_srebro"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textSize="@dimen/punkty_value"
+                android:textStyle="bold"
+                tools:text="45" />
+
+            <EditText
+                android:id="@+id/edit_pensy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/punkty_value"
+                android:textStyle="bold"
+                android:gravity="center"
+                tools:text="326"
+                android:inputType="number"
+                android:importantForAutofill="no"
+                android:maxWidth="488dp"
+
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/zywotnosc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="ŻYWOTNOŚĆ"
+        android:textSize="@dimen/punkty_titel"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/blok_zomoznosc" />
+
+    <LinearLayout
+        android:id="@+id/blok_zywotnosci"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="1dp"
+        app:layout_constraintTop_toBottomOf="@id/zywotnosc"
+        >
+        <LinearLayout
+            android:id="@+id/z"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="6"
+            android:padding="5dp"
+            >
+
+            <TextView
+                android:id="@+id/bs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/punkty_subtitle"
+                android:textStyle="bold"
+                android:labelFor="@id/aktualne"
+                android:text="BS:"
+                />
+
+            <TextView
+                android:id="@+id/bsWart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/punkty_value"
+                android:textStyle="bold"
+                android:gravity="center"
+                tools:text="4"
+                android:maxWidth="488dp"
+                />
+            <TextView
+                android:id="@+id/bw"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/punkty_subtitle"
+                android:textStyle="bold"
+                android:text="BWt: x2"
+                />
+            <TextView
+                android:id="@+id/bwtWart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/punkty_value"
+                android:textStyle="bold"
+                android:gravity="center"
+                tools:text="5"
+                android:maxWidth="488dp"
+                />
+            <TextView
+                android:id="@+id/bsw"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/punkty_subtitle"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="BSW:"
+                />
+            <TextView
+                android:id="@+id/bswWart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/punkty_value"
+                android:textStyle="bold"
+                android:gravity="center"
+                tools:text="3"
+                android:maxWidth="488dp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tw"
+        android:padding="1dp"
+        app:layout_constraintTop_toBottomOf="@id/blok_zywotnosci"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+    <TextView
+        android:id="@+id/twardziel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        android:text="Twardziel:"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/twWartosc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:importantForAutofill="no"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        tools:text="1" />
+
+
+        <TextView
+            android:id="@+id/sumatext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="27sp"
+            android:textStyle="bold"
+            android:text="Suma:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/sumaWar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:importantForAutofill="no"
+            android:textSize="27sp"
+            android:textStyle="bold"
+            tools:text="12" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/aktualna"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        android:text="Aktualna Żywotność"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tw"
+        />
+
+    <EditText
+        android:id="@+id/zywotnosc_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:textSize="@dimen/punkty_value"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/aktualna"
+        tools:text="15" />
 </androidx.constraintlayout.widget.ConstraintLayout>

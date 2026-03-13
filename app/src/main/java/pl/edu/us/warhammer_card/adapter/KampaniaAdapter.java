@@ -18,12 +18,9 @@ import pl.edu.us.warhammer_card.R;
 import pl.edu.us.warhammer_card.table.Kampania;
 
 public class KampaniaAdapter extends RecyclerView.Adapter<KampaniaAdapter.ViewHolder> {
-
     private List<Kampania> kampaniaList = new ArrayList<>();
-
     public <E> KampaniaAdapter(ArrayList<E> es) {
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView nazwaKampanii;
         TextView dataKampanii;

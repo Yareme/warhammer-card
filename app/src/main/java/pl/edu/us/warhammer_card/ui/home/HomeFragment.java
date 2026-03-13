@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment {
         try {
             db.execSQL("PRAGMA journal_mode = WAL;");
         } catch (SQLiteException e) {
-            // Obsłuż wyjątek, jeśli wystąpił błąd przy wykonaniu zapytania
             e.printStackTrace();
         }
 
@@ -82,21 +81,17 @@ public class HomeFragment extends Fragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             builder.setTitle("Dodaj nową kampanię");
 
-            // Tworzenie pola do wpisania nazwy kampanii
             final EditText input = new EditText(requireContext());
             input.setHint("Nazwa kampanii");
 
-            // Ustawienie marginesów dla lepszego wyglądu
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(50, 20, 50, 20);
             input.setLayoutParams(layoutParams);
 
-            // Dodanie pola do dialogu
             builder.setView(input);
 
-            // Przyciski
             builder.setPositiveButton("Dodaj", (dialog, which) -> {
                 String nameKampania = input.getText().toString().trim();
                 if (nameKampania.isEmpty()) {
@@ -127,7 +122,6 @@ public class HomeFragment extends Fragment {
             List<String> options = new ArrayList<>();
             Map<String, Runnable> actions = new HashMap<>();
 
-            // Dodawanie opcji i ich akcji
             options.add("Edytuj");
             actions.put("Edytuj", () -> showEditDialog(kampania));
 
@@ -136,7 +130,6 @@ public class HomeFragment extends Fragment {
 
             String[] optionsArray = options.toArray(new String[0]);
 
-            // Tworzenie dialogu
             new AlertDialog.Builder(requireContext())
                     .setTitle("Wybierz akcję")
                     .setItems(optionsArray, (dialog, which) -> {
@@ -167,7 +160,6 @@ public class HomeFragment extends Fragment {
         List<Kampania> currentList = new ArrayList<>(adapter.getKampaniaList());
         currentList.remove(kampania);
 
-        // Aktualizacja adaptera
         adapter.updateList(currentList);
     }
 
@@ -175,7 +167,7 @@ public class HomeFragment extends Fragment {
         new AlertDialog.Builder(requireContext())
                 .setTitle("Potwierdzenie")
                 .setMessage("Czy na pewno chcesz usunąć tę kampanię?")
-                .setPositiveButton("Tak", (dialog, which) -> deleteKampania(db, kampania)) // Teraz pobiera nową listę
+                .setPositiveButton("Tak", (dialog, which) -> deleteKampania(db, kampania))
                 .setNegativeButton("Anuluj", null)
                 .show();
     }

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp"
+    android:background="?attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@color/karta_item_backgroundd">
+
+        <!-- Nazwa talentu -->
+        <TextView
+            android:id="@+id/nazwa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/titel_list_item"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Całun niewidzialności" />
+
+        <!-- Maksimum + ikona pomocy -->
+        <LinearLayout
+            android:id="@+id/maksimum_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/nazwa"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/pz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/elemet_item_list"
+                tools:text="PZ: 0" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/zasieg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/elemet_item_list"
+            tools:text="Zasięg: Liczba metrów równa Bonusowi z Siły Woli"
+            app:layout_constraintTop_toBottomOf="@id/maksimum_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/cel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/elemet_item_list"
+            tools:text="Cel: 1"
+            app:layout_constraintTop_toBottomOf="@id/zasieg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/czas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/elemet_item_list"
+            tools:text="Czas: Liczba Rund równa Bonusowi z Siły Woli "
+            app:layout_constraintTop_toBottomOf="@id/cel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Opis + przycisk Pokaż więcej -->
+        <LinearLayout
+            android:id="@+id/opis_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/czas"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/opis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/elemet_item_list"
+                android:ellipsize="end"
+                tools:text="Otulasz cel całunem Ulgu. Staje się on niewidzialny i nie może zostać dostrzeżony przez zwykłych śmiertelników. Automatycznie zmylisz każ- dego, kto nie posiada Talentu Percepcja Magiczna. Ci, którzy posiadają ten Talent, muszą zdać Wymagający (+0) Test Percepcji, by zauważyć, że ktoś jest w pobliżu, ale nie będą w stanie podać jego dokładnego poło- żenia. Aby to zrobić, muszą rozproszyć zaklęcie. Oczywiście można wy- czuć cel innymi zmysłami, a zaklęcie zostanie przerwane, jeśli cel będzie wydawał głośne dźwięki lub kogoś zaatakuje." />
+
+            <!--    <Button
+                    android:id="@+id/pokaz_wiecej"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pokaż więcej"
+                    android:textSize="14sp"
+                    android:layout_gravity="end"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="4dp"/>-->
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

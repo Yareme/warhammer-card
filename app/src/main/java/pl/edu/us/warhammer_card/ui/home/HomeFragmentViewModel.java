@@ -41,7 +41,4 @@ public class HomeFragmentViewModel extends ViewModel {
         cursor.close();
         kampaniaLiveData.postValue(list);
     }
-
-
-
 }

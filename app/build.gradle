@@ -23,16 +23,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
+
+    android {
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
+        }
+
+    }
+
+ /*   compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
+    }*/
+
+
     buildFeatures {
         viewBinding true
     }
-
-
 }
+
 
 
 
@@ -55,6 +65,8 @@ dependencies {
 */
     implementation 'com.itextpdf:itextpdf:5.5.13.2'
 
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
@@ -64,5 +76,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+  //implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
+
+
+   /* D:\Android\jbr*/
+    //D:\AndroidSDK
 }
 

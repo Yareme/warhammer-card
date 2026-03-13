@@ -1,5 +1,6 @@
 package pl.edu.us.warhammer_card.ui.karta.KartaTalenty;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -28,7 +29,7 @@ public class KartaTalentViewModel extends ViewModel {
 
         String[] selectionArgs = {String.valueOf(kartaId)};
 
-        String query = "SELECT karta_talent.karta_id,talent.id, talent.nazwa, talent.maksimum, talent.testy, talent.opis, talent.cechy_id " +
+        String query = "SELECT karta_talent.karta_id,talent.id, talent.nazwa, talent.maksimum, talent.testy, talent.opis, karta_talent.poziom, talent.cechy_id " +
                 "FROM karta_talent " +
                 "JOIN talent ON karta_talent.talent_id = talent.id " +
                 "WHERE karta_talent.karta_id = ? ";
@@ -45,6 +46,8 @@ public class KartaTalentViewModel extends ViewModel {
             talent.setTesty(cursor.getString(cursor.getColumnIndexOrThrow("testy")));
             talent.setOpis(cursor.getString(cursor.getColumnIndexOrThrow("opis")));
 
+            talent.setPoziom(cursor.getInt(cursor.getColumnIndexOrThrow("poziom")));
+
             talent.setIdCecha(cursor.getInt(cursor.getColumnIndexOrThrow("cechy_id")));
 
             list.add(talent);
@@ -54,6 +57,18 @@ public class KartaTalentViewModel extends ViewModel {
         talentMutableLiveData.postValue(list);
 
         return list;
+    }
+
+    public void updateTalent(SQLiteDatabase db, Talent talent, int kartaId){
+
+        ContentValues values = new ContentValues();
+        values.put("poziom", talent.getPoziom());
+
+        String selection = "karta_id = ? AND talent_id = ?" ;
+        String[] selectionArgs = {String.valueOf(kartaId), String.valueOf(talent.getId())};
+        db.update("karta_talent",values,selection,selectionArgs);
+
+        talentMutableLiveData.postValue(getTalentFromKarta(db, kartaId));
     }
 
 }

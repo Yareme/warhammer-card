@@ -38,7 +38,7 @@
             android:id="@+id/wlasny_pancerz_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_label="Wlasna Karta"
+            app:fab_label="Własny Pancerz"
             app:fab_size="mini"
             app:fab_colorNormal="@color/teal_700"
             app:fab_colorPressed="@color/teal_200"/>
@@ -47,7 +47,7 @@
             android:id="@+id/podstawowy_pancerz_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_label="Losuj"
+            app:fab_label="Wybierz z Listy"
             app:fab_size="mini"
             app:fab_colorNormal="@color/teal_700"
             app:fab_colorPressed="@color/teal_200"/>

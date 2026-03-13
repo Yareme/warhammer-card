@@ -2,14 +2,74 @@ package pl.edu.us.warhammer_card.table;
 
 public class PoziomProfesja {
 
-
     int id;
     String nazwa;
     int profesjaId;
     int statusId;
-    String schemat_cech;
+    String schematCech;
+
+    String schematUmiejetnosci;
+    String schematTalentow;
 
     int[] schematCechTabel;
+    int[] schematUmiejetnosciTabel;
+    int[] schematTalentowTabel;
+
+
+    Profesja profesja;
+    Status status;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Profesja getProfesja() {
+        return profesja;
+    }
+
+    public void setProfesja(Profesja profesja) {
+        this.profesja = profesja;
+    }
+
+    public String getSchematUmiejetnosci() {
+        return schematUmiejetnosci;
+    }
+
+    public void setSchematUmiejetnosci(String schematUmiejetnosci) {
+        this.schematTalentowTabel=convertStringToArray(schematUmiejetnosci);
+
+        this.schematUmiejetnosci = schematUmiejetnosci;
+    }
+
+    public String getSchematTalentow() {
+        return schematTalentow;
+    }
+
+    public void setSchematTalentow(String schematTalentow) {
+        this.schematTalentowTabel=convertStringToArray(schematTalentow);
+
+        this.schematTalentow = schematTalentow;
+    }
+
+    public int[] getSchematUmiejetnosciTabel() {
+        return schematUmiejetnosciTabel;
+    }
+
+    public void setSchematUmiejetnosciTabel(int[] schematUmiejetnosciTabel) {
+        this.schematUmiejetnosciTabel = schematUmiejetnosciTabel;
+    }
+
+    public int[] getSchematTalentowTabel() {
+        return schematTalentowTabel;
+    }
+
+    public void setSchematTalentowTabel(int[] schematTalentowTabel) {
+        this.schematTalentowTabel = schematTalentowTabel;
+    }
 
     public int[] getSchematCechTabel() {
         return schematCechTabel;
@@ -20,14 +80,14 @@ public class PoziomProfesja {
     }
 
 
-    public String getSchemat_cech() {
-        return schemat_cech;
+    public String getSchematCech() {
+        return schematCech;
     }
 
-    public void setSchemat_cech(String schemat_cech) {
+    public void setSchematCech(String schematCech) {
 
-        this.schematCechTabel=convertStringToArray(schemat_cech);
-        this.schemat_cech = schemat_cech;
+        this.schematCechTabel=convertStringToArray(schematCech);
+        this.schematCech = schematCech;
     }
     public int getId() {
         return id;
@@ -60,8 +120,6 @@ public class PoziomProfesja {
     public void setStatusId(int statusId) {
         this.statusId = statusId;
     }
-
-
 
     public static int[] convertStringToArray(String str) {
         String[] strArray = str.split(",");

@@ -7,6 +7,8 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.edu.us.warhammer_card.R;
-import pl.edu.us.warhammer_card.table.Kampania;
-import pl.edu.us.warhammer_card.table.Karta;
 import pl.edu.us.warhammer_card.table.Talent;
 
 public class TalentAdapter extends RecyclerView.Adapter<TalentAdapter.ViewHolder> {
@@ -26,10 +26,11 @@ public class TalentAdapter extends RecyclerView.Adapter<TalentAdapter.ViewHolder
     private List<Talent> talentList = new ArrayList<>();
 
     private OnHelpClickListener onHelpClickListener;
+    private OnMinusClickListener onMinusClickListener;
+    private OnPlusClickListener onPlusClickListener;
 
     public <E> TalentAdapter(ArrayList<E> es) {
     }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView taletLabel;
@@ -38,6 +39,11 @@ public class TalentAdapter extends RecyclerView.Adapter<TalentAdapter.ViewHolder
         ImageView helpIcon;
         TextView testy;
         TextView opis;
+        ImageButton buttonMinus;
+        EditText lvl;
+        ImageButton buttonPlus;
+
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -47,6 +53,12 @@ public class TalentAdapter extends RecyclerView.Adapter<TalentAdapter.ViewHolder
             helpIcon = itemView.findViewById(R.id.help_icon);
             testy = itemView.findViewById(R.id.testy);
             opis = itemView.findViewById(R.id.opis);
+
+            buttonMinus = itemView.findViewById(R.id.buttonMinus);
+
+            lvl = itemView.findViewById(R.id.lvl);
+
+            buttonPlus = itemView.findViewById(R.id.buttonPlus);
 
             itemView.setOnLongClickListener(v -> {
                 if (longClickListener != null) {
@@ -63,12 +75,31 @@ public class TalentAdapter extends RecyclerView.Adapter<TalentAdapter.ViewHolder
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     Talent talent = talentList.get(position);
-                    // Wywołanie metody w listenerze
                     if (onHelpClickListener != null) {
                         onHelpClickListener.onHelpClickListener(talent);
                     }
                 }
 
+            });
+
+            buttonMinus.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Talent talent = talentList.get(position);
+                    if (onMinusClickListener != null) {
+                        onMinusClickListener.onMinusClick(talent);
+                    }
+                }
+            });
+
+            buttonPlus.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Talent talent = talentList.get(position);
+                    if (onPlusClickListener != null) {
+                        onPlusClickListener.onPlusClick(talent);
+                    }
+                }
             });
         }
     }
@@ -102,11 +133,9 @@ public class TalentAdapter extends RecyclerView.Adapter<TalentAdapter.ViewHolder
             holder.testy.setText(testyText);
         }
 
-
-        // holder.maksimum.setText(talentList.get(position).getMaksimum());
-
-
             holder.opis.setText(talentList.get(position).getOpis());
+
+        holder.lvl.setText(String.valueOf(talentList.get(position).getPoziom()));
 
     }
 
@@ -139,5 +168,19 @@ public class TalentAdapter extends RecyclerView.Adapter<TalentAdapter.ViewHolder
 
     public List<Talent> getTalentList(){
         return talentList;
+    }
+
+    public interface OnMinusClickListener{
+        void onMinusClick(Talent talent);
+    }
+    public interface OnPlusClickListener{
+        void onPlusClick(Talent talent);
+    }
+    public void setOnMinusClickListener(OnMinusClickListener listener){
+        this.onMinusClickListener = listener;
+    }
+
+    public void setOnPlusClickListener(OnPlusClickListener listener){
+        this.onPlusClickListener = listener;
     }
 }

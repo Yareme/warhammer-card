@@ -19,7 +19,6 @@ import java.util.List;
 import pl.edu.us.warhammer_card.AppSQLiteHelper;
 import pl.edu.us.warhammer_card.databinding.FragmentSlideshowBinding;
 import pl.edu.us.warhammer_card.databinding.FragmentTestBinding;
-import pl.edu.us.warhammer_card.ui.slideshow.SlideshowViewModel;
 
 public class TestFragment extends Fragment {
 
@@ -32,13 +31,11 @@ public class TestFragment extends Fragment {
 
 
 
-    /*    SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);*/
+
 
         binding = FragmentTestBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-/*    final TextView textView = binding.textTest;*/
-/*      slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);*/
+
         AppSQLiteHelper dbHelper = new AppSQLiteHelper(getContext());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 

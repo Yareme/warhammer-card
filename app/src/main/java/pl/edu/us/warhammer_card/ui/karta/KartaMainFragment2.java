@@ -44,16 +44,8 @@ public class KartaMainFragment2 extends Fragment {
         karta = dbHelper.getKartaById(db, kartaId);
 
 
-
-
-
-
-
-
-
         {
-            gestureDetector = new GestureDetector(getContext(), new KartaMainFragment2.SwipeGestureListener(args));
-            View root = binding.getRoot();  // Pobieramy główny widok fragmentu
+            View root = binding.getRoot();
 
             binding.pancerz.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -121,17 +113,6 @@ public class KartaMainFragment2 extends Fragment {
                 }
             });
 
-            root.setOnTouchListener((v, event) -> {
-                gestureDetector.onTouchEvent(event);
-                boolean isSwipe = gestureDetector.onTouchEvent(event);
-                if (!isSwipe) {
-                    // Sprawdzamy, czy to rzeczywiście kliknięcie
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        v.performClick(); // Wywołujemy performClick, jeśli to kliknięcie
-                    }
-                }
-                return true;
-            });
 
         }
 
@@ -139,31 +120,5 @@ public class KartaMainFragment2 extends Fragment {
     }
 
 
-    private class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
-        private static final int SWIPE_THRESHOLD = 100;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 100;
-        private final Bundle args;
 
-        SwipeGestureListener(Bundle args) {
-            this.args = args;
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (e1 == null || e2 == null) return false; // Zapobiega NullPointerException
-
-            float diffX = e2.getX() - e1.getX();
-            if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                if (diffX > 0) { // Swipe w prawo
-                    NavHostFragment navHostFragment = (NavHostFragment) ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
-                    NavController navController = navHostFragment.getNavController();
-                    navController.navigate(R.id.action_kartaMainFragment2_to_fragment_karta_main, args);
-         /*           NavHostFragment.findNavController(KartaMainFragment2.this)
-                            .navigate(R.id.action_kartaMainFragment2_to_fragment_karta_main, args);*/
-                }
-                return true;
-            }
-            return false;
-        }
-    }
 }

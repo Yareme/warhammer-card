@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="10dp">
+    android:layout_margin="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/karta_item_backgroundd">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/karta_item_backgroundd"
-        >
+        android:padding="12dp">
 
-        <TextView
+
+    <TextView
             android:id="@+id/nazwa_kampanii"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <!-- Typ Pancerza -->
+    <EditText
+        android:id="@+id/typ_pancerza"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:hint="@string/typ_pancerza"
+
+        android:textColorHint="#666"
+
+        android:focusable="false"
+        android:focusableInTouchMode="true"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="none"
+
+
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Nazwa -->
+    <EditText
+        android:id="@+id/nazwa"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nazwa"
+        android:textColorHint="#666"
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/typ_pancerza"
+        android:layout_marginTop="8dp" />
+
+    <!-- Kara -->
+    <EditText
+        android:id="@+id/kara"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Kara np.: -10 do skradania"
+        android:textColorHint="#666"
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nazwa"
+        android:layout_marginTop="8dp" />
+
+    <!-- Cena -->
+    <EditText
+        android:id="@+id/cena"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Cena"
+        android:textColorHint="#666"
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/kara"
+        android:layout_marginTop="8dp" />
+
+    <!-- Dostępność -->
+    <EditText
+        android:id="@+id/dostepnosc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Dostępność"
+        android:textColorHint="#666"
+
+
+        android:focusable="false"
+        android:focusableInTouchMode="true"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="none"
+
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cena"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/pp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Punkty Pancerza"
+         android:inputType="number"
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dostepnosc"
+        android:layout_marginTop="8dp" />
+
+    <!-- Lokalizacja (CheckBoxy) -->
+    <TextView
+        android:id="@+id/lokalizacja"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lokalizacja:"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pp"
+        android:layout_marginTop="16dp" />
+
+    <GridLayout
+        android:id="@+id/lokalizacja_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:columnCount="2"
+        android:rowCount="3"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/lokalizacja">
+
+        <CheckBox
+            android:id="@+id/glowa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Głowa" />
+
+        <CheckBox
+            android:id="@+id/korpus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Korpus" />
+
+        <CheckBox
+            android:id="@+id/prawa_reka"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prawa Ręka" />
+
+        <CheckBox
+            android:id="@+id/lewa_reka"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lewa Ręka" />
+
+        <CheckBox
+            android:id="@+id/prawa_noga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prawa Noga" />
+
+        <CheckBox
+            android:id="@+id/lewa_noga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lewa Noga" />
+
+    </GridLayout>
+
+
+    <TextView
+        android:id="@+id/cechy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lokalizacja:"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/lokalizacja_grid"
+        />
+    <GridLayout
+        android:id="@+id/cechy_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:columnCount="2"
+        android:rowCount="3"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/cechy">
+
+    </GridLayout>
+
+
+
+    <!-- Przycisk Akcji -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/cechy_grid"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/buttonAnuluj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anuluj"
+            android:backgroundTint="@android:color/darker_gray"
+            android:textColor="@android:color/white"
+            android:padding="8dp"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/buttonOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dodaj"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

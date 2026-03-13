@@ -1,218 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.karta.KartaFront.KartaFrontFragment"
-    android:id="@+id/scrollView"
-    android:background="@drawable/fragment_karta_front_img"
-    >
 
-<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".ui.karta.KartaFront.KartaFrontFragment"
     android:id="@+id/fragment_karta_front"
-    >
+    android:background="@drawable/fragment_karta_front_img">
 
-   <!-- <ImageView
-        android:id="@+id/backgroundImage"
-        android:layout_width="412dp"
-        android:layout_height="734dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/fragment_karta_front_img"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-1dp" />-->
-    <View
+
+<!-- <ScrollView
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:id="@+id/scrollView"
+     android:fillViewport="true"
+     >-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraitScroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#33FFFFFF" />
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <EditText
+            android:id="@+id/imie"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/name"
+            android:hint="@string/imie"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textColorHint='#FFFFFF'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/imie"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:drawableStart="@drawable/name"
-        android:hint="@string/imie"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:textColorHint='#FFFFFF'
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        <EditText
+            android:id="@+id/rasa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
+            android:hint="@string/rasa"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="none"
+            android:textColorHint='#FFFFFF'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imie" />
 
-    <EditText
-        android:id="@+id/rasa"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="@string/rasa"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:inputType="none"
-        android:focusable="false"
-        android:textColorHint='#FFFFFF'
-        android:focusableInTouchMode="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imie"  />
-    <EditText
-        android:id="@+id/klasa"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="@string/klasa"
-        android:inputType="none"
-        android:focusable="false"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:textColorHint='#FFFFFF'
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rasa"  />
-    <EditText
-        android:id="@+id/profesja"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:drawableStart="@drawable/icons_profesja"
-        android:hint="@string/profesja"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:inputType="none"
-        android:focusable="false"
-        android:textColorHint='#FFFFFF'
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/klasa"  />
-    <EditText
-        android:id="@+id/poziom_profesji"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="@string/poziom_profesji"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:inputType="none"
-        android:focusable="false"
-        android:textColorHint='#FFFFFF'
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profesja"  />
-    <EditText
-        android:id="@+id/sciezka_profesji"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="@string/cie_ka_profesji"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:inputType="none"
-        android:focusable="false"
-        android:textColorHint='#FFFFFF'
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/poziom_profesji"  />
-    <EditText
-        android:id="@+id/status"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:drawableStart="@drawable/icons_status"
-        android:hint="@string/status"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:inputType="none"
-        android:focusable="false"
-        android:textColorHint='#FFFFFF'
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sciezka_profesji"  />
-    <EditText
-        android:id="@+id/wiek"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:drawableStart="@drawable/icons_viek"
-        android:hint="@string/wiek"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:inputType="number"
-        android:textColorHint='#FFFFFF'
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status"  />
-    <EditText
-        android:id="@+id/wzrost"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:drawableStart="@drawable/icons_rost"
-        android:hint="@string/wzrost"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:inputType="number"
-        android:textColorHint='#FFFFFF'
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/wiek"  />
-    <EditText
-        android:id="@+id/wlosy"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:drawableStart="@drawable/icon_volosy"
-        android:hint="@string/wlosy"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:textColorHint='#FFFFFF'
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/wzrost"  />
+        <EditText
+            android:id="@+id/klasa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:focusable="false"
+            android:hint="@string/klasa"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="none"
+            android:textColorHint='#FFFFFF'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rasa" />
 
-    <EditText
-        android:id="@+id/oczy"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:drawableStart="@drawable/icons_oczy"
-        android:hint="@string/oczy"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:textColorHint='#FFFFFF'
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/wlosy"  />
+        <EditText
+            android:id="@+id/profesja"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:drawableStart="@drawable/icons_profesja"
+            android:focusable="false"
+            android:hint="@string/profesja"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="none"
+            android:textColor="@color/white"
+            android:textColorHint='#FFFFFF'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/klasa" />
 
+        <EditText
+            android:id="@+id/poziom_profesji"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:focusable="false"
+            android:hint="@string/poziom_profesji"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="none"
+            android:textColor="@color/white"
+            android:textColorHint='#FFFFFF'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profesja" />
 
+        <EditText
+            android:id="@+id/sciezka_profesji"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:focusable="false"
+            android:hint="@string/cie_ka_profesji"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="none"
+            android:textColor="@color/white"
+            android:textColorHint='#FFFFFF'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/poziom_profesji" />
+
+        <EditText
+            android:id="@+id/status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:drawableStart="@drawable/icons_status"
+            android:focusable="false"
+            android:hint="@string/status"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="none"
+            android:textColor="@color/white"
+            android:textColorHint='#FFFFFF'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sciezka_profesji" />
+
+        <EditText
+            android:id="@+id/wiek"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:drawableStart="@drawable/icons_viek"
+            android:hint="@string/wiek"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:textColor="@color/white"
+            android:textColorHint='#FFFFFF'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/status" />
+
+        <EditText
+            android:id="@+id/wzrost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:drawableStart="@drawable/icons_rost"
+            android:hint="@string/wzrost"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:textColor="@color/white"
+            android:textColorHint='#FFFFFF'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/wiek" />
+
+        <EditText
+            android:id="@+id/wlosy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:drawableStart="@drawable/icon_volosy"
+            android:hint="@string/wlosy"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textColorHint='#FFFFFF'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/wzrost" />
+
+        <EditText
+            android:id="@+id/oczy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:drawableStart="@drawable/icons_oczy"
+            android:hint="@string/oczy"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textColorHint='#FFFFFF'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/wlosy" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--
+ </ScrollView>
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>

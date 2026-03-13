@@ -142,8 +142,10 @@
         android:textStyle="bold"
         android:gravity="center"
         tools:text="1956"
+
         android:focusable="false"
         android:clickable="false"
+
         android:inputType="number"
         android:importantForAutofill="no"
         android:maxWidth="488dp"

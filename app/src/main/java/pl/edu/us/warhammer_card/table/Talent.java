@@ -8,6 +8,16 @@ public class Talent {
     private String testy;
     private String opis;
 
+    int poziom;
+
+    public int getPoziom() {
+        return poziom;
+    }
+
+    public void setPoziom(int poziom) {
+        this.poziom = poziom;
+    }
+
     int idCecha;
 
     public int getId() {

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/karta_item_backgroundd">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_marginBottom="8dp">
+
+            <!-- Kolumna z informacjami o pancerzu -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Nazwa pancerza -->
+                    <TextView
+                        android:id="@+id/nazwa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        tools:text="Lewak" />
+
+                    <!-- Dostępność -->
+                    <TextView
+                        android:id="@+id/dostepnosc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:paddingStart="8dp"
+                        android:textColor="#FFFFFF"
+                        tools:text="Rzadki" />
+                </LinearLayout>
+
+                <!-- Lokalizacja -->
+                <TextView
+                    android:id="@+id/kategoria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    tools:text="Kategoria broni" />
+
+                <!-- Punkty pancerza -->
+                <TextView
+                    android:id="@+id/zasieg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    tools:text="Zasięg: Długa" />
+
+                <TextView
+                    android:id="@+id/obrazenia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    tools:text="Obrażenia: +BS = 4" />
+
+                <!-- Cechy -->
+                <TextView
+                    android:id="@+id/cechy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    tools:text="Giętki, Słaby Punkt" />
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/info"
+                android:layout_width="@dimen/help_img"
+                android:layout_height="@dimen/help_img"
+                android:src="@android:drawable/ic_menu_help"
+                android:contentDescription="Info"
+                android:layout_gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

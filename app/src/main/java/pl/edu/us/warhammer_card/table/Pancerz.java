@@ -1,5 +1,7 @@
 package pl.edu.us.warhammer_card.table;
 
+import java.util.List;
+
 public class Pancerz {
 
     private int id;
@@ -7,7 +9,6 @@ public class Pancerz {
     private String cena;
     private String kara;
 
-    private String lokalizacja_pancerza;
     private int punktyPancerza;
     private String zalety;
     private String wady;
@@ -19,8 +20,27 @@ public class Pancerz {
     private String dastepnosc;
     private String typPancerza;
 
-
     private int czyZalozone;
+
+
+    private List<CechaPancerza> cechaPancerzaList;
+    private List<LokalizacjaPancerza> lokalizacjaPancerzaList;
+
+    public List<CechaPancerza> getCechaPancerzaList() {
+        return cechaPancerzaList;
+    }
+
+    public void setCechaPancerzaList(List<CechaPancerza> cechaPancerzaList) {
+        this.cechaPancerzaList = cechaPancerzaList;
+    }
+
+    public List<LokalizacjaPancerza> getLokalizacjaPancerzaList() {
+        return lokalizacjaPancerzaList;
+    }
+
+    public void setLokalizacjaPancerzaList(List<LokalizacjaPancerza> lokalizacjaPancerzaList) {
+        this.lokalizacjaPancerzaList = lokalizacjaPancerzaList;
+    }
 
     public int getCzyZalozone() {
         return czyZalozone;
@@ -60,14 +80,6 @@ public class Pancerz {
 
     public void setKara(String kara) {
         this.kara = kara;
-    }
-
-    public String getLokalizacja_pancerza() {
-        return lokalizacja_pancerza;
-    }
-
-    public void setLokalizacja_pancerza(String lokalizacja_pancerza) {
-        this.lokalizacja_pancerza = lokalizacja_pancerza;
     }
 
     public int getPunktyPancerza() {

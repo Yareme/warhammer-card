@@ -1,41 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="16dp"
+    android:layout_margin="12dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="6dp"
-    android:background="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/white">
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/karta_item_backgroundd">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="@color/karta_item_backgroundd">
+        android:padding="12dp">
+
 
         <!-- Nazwa talentu -->
-        <TextView
-            android:id="@+id/talent_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Berserkerska Szarża" />
+
 
         <!-- Maksimum + ikona pomocy -->
+        <LinearLayout
+            android:id="@+id/talent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/talent_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                tools:text="Berserkerska Szarża" />
+
+            <ImageButton
+                android:id="@+id/buttonMinus"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="Zmniejsz ilość"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_minus_one" />
+
+            <!-- Pole z liczbą -->
+            <EditText
+                android:id="@+id/lvl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:focusable="false"
+                android:clickable="false"
+
+                android:textSize="25sp"
+                android:textStyle="bold"
+                tools:text="1" />
+
+            <!-- Przycisk "+" -->
+            <ImageButton
+                android:id="@+id/buttonPlus"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="Zwiększ ilość"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_plus_one" />
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/maksimum_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/talent_label"
+            app:layout_constraintTop_toBottomOf="@id/talent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:gravity="center_vertical">

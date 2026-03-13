@@ -47,7 +47,6 @@ public class KartaAmbicjeIDruzynaFragment extends Fragment {
         kartaAmbicjeIDruzynaViewModel.getKarta(kartaId).observe(getViewLifecycleOwner(), new Observer<Karta>() {
             @Override
             public void onChanged(Karta karta) {
-                // Jeśli dane są dostępne, zaktualizuj UI
                 if (karta != null) {
 
                     binding.ambicjaKrotkoterminowaEdit.setText(karta.getAmbicjaKrotkoterminowa());
@@ -181,7 +180,7 @@ public class KartaAmbicjeIDruzynaFragment extends Fragment {
 
             new AlertDialog.Builder(getContext())
                     .setTitle("Pomoc")
-                    .setMessage("Ambicje postaci ....")
+                    .setMessage("Ambicje Bohatera i druży- ny, które stawiają im cele w życiu. Krótkoter- minowe Ambicje mogą być spełnione w ciągu dni lub tygodni, podczas gdy osiągnięcie długoterminowych Ambicji może zająć lata – o ile w ogóle to się uda.")
                     .setPositiveButton("OK", null)
                     .show();
         });
@@ -190,7 +189,8 @@ public class KartaAmbicjeIDruzynaFragment extends Fragment {
 
             new AlertDialog.Builder(getContext())
                     .setTitle("Pomoc")
-                    .setMessage("Drużuna i jej ambicje.")
+                    .setMessage("Szczegóły dotyczące drużyny: pod jaką nazwą jest znana, jakie są jej krótko- i długoterminowe Ambicje. Ponadto \n" +
+                            "na Karcie Postaci jest również miejsce na zanotowanie imion towarzyszy, by ułatwić grę i odgrywanie postaci.")
                     .setPositiveButton("OK", null)
                     .show();
         });

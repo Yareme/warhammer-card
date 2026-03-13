@@ -6,62 +6,80 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import pl.edu.us.warhammer_card.table.Karta;
-import pl.edu.us.warhammer_card.table.Rasa;
+import pl.edu.us.warhammer_card.table.PoziomProfesja;
 
 public class CreatorKart {
 
 
 
    public Karta createRandomKarta(SQLiteDatabase db,int idKampania){
-        Karta karta =new Karta();
+       Karta karta = new Karta();
 
-        ContentValues values = new ContentValues();
-        values.put("kampania_id", idKampania);
-        int rasaId = getRandomRasaId(db);
+       ContentValues values = new ContentValues();
+       values.put("kampania_id", idKampania);
+       int rasaId = getRandomRasaId(db);
 
-        int profesjaId = getRandomProfesjaId(db,rasaId);
-        int wiek = getRandomWiek(rasaId);
-        int wzrost =getRandomWzrost(rasaId);
-        String name = getRandomName(db,rasaId);
-        String oczy = getRandomOczy(db,rasaId);
-        String wlosy = getRandomWlosy(db,rasaId);
+       int profesjaId = getRandomProfesjaId(db, rasaId);
+       int wiek = getRandomWiek(rasaId);
+       int wzrost = getRandomWzrost(rasaId);
+       String name = getRandomName(db, rasaId);
+       String oczy = getRandomOczy(db, rasaId);
+       String wlosy = getRandomWlosy(db, rasaId);
 
-        values.put("imie",name);
-        values.put("rasa_id", rasaId);
-        values.put("profesja_id", profesjaId);
+       int punktyPrzeznaczenia = getPunktyPrzeznaczenia(rasaId);
+       int punktyBohatera = getPunktyBohatera(rasaId);
+       int punktyDodatkowe = getPunktyDodatkowe(rasaId);
+       int szybkosc = getSzybkosc(rasaId);
 
-        values.put("poziom_id", 1 + 4 * ( profesjaId - 1 )  );
+       values.put("imie", name);
+       values.put("rasa_id", rasaId);
+       values.put("profesja_id", profesjaId);
 
-        values.put("wiek", wiek);
-        values.put("wzrost", wzrost);
-        values.put("oczy", oczy);
-        values.put("wlosy", wlosy);
+       values.put("poziom_id", 1 + 4 * (profesjaId - 1));
 
-        int idKarta= (int) db.insert("karta", null, values);
-            values.clear();
-            karta.setId(idKarta);
+       values.put("wiek", wiek);
+       values.put("wzrost", wzrost);
+       values.put("oczy", oczy);
+       values.put("wlosy", wlosy);
 
-            addChechaToCard(db,idKarta,rasaId);
+       values.put("punkty_przeznaczenia", punktyPrzeznaczenia);
+       values.put("punkty_bohatera", punktyBohatera);
+       values.put("punkty_dodatkowe", punktyDodatkowe);
+       values.put("szybkosc", szybkosc);
 
-        //dodanie umiejętności
-        for (int i =1; i<=25; i++){
-            values.put("karta_id",  idKarta);
-            values.put("umiejętności_id", i);
-            values.put("rozwój",0);
-            int k=(int) db.insert("karta_umiętność", null, values);
-            values.clear();
-        }
+       int idKarta = (int) db.insert("karta", null, values);
+       values.clear();
+       karta.setId(idKarta);
 
-        return karta;
+       addChechaToCard(db, idKarta, rasaId);
 
-    }
+       //dodanie umiejętności
+       for (int i = 1; i <= 25; i++) {
+           values.put("karta_id", idKarta);
+           values.put("umiejętności_id", i);
+           values.put("rozwój", 0);
+           int k = (int) db.insert("karta_umiętność", null, values);
+           values.clear();
+       }
+
+       int[] schematUmiejetnosci = getProfesjaSchemat(db,idKarta);
+
+       for (int j : schematUmiejetnosci) {
+           values.put("karta_id", idKarta);
+           values.put("umiejętności_id", j);
+           values.put("rozwój", 0);
+           db.insert("karta_umiętność", null, values);
+       }
+
+
+       return karta;
+
+   }
 
     public Karta createEmtyKarta(SQLiteDatabase db, int idKampania){
 
@@ -142,14 +160,11 @@ public class CreatorKart {
         String selection = "rasa_id = ?";
         String[] selectionArgs = {String.valueOf(idRasa)};
 
-        // Zliczanie liczby rekordów spełniających warunek
         int count = (int) DatabaseUtils.queryNumEntries(db, "Imiona", selection, selectionArgs);
 
         if (count > 0) {
-            // Wylosowanie losowego indeksu
             int randomIndex = new Random().nextInt(count);
 
-            // Utworzenie nowego zapytania z ograniczeniem na wylosowany indeks
             String query = "SELECT imię FROM Imiona WHERE rasa_id = ? LIMIT 1 OFFSET ?";
             String[] queryArgs = {String.valueOf(idRasa), String.valueOf(randomIndex)};
 
@@ -313,14 +328,11 @@ public class CreatorKart {
         String selection = "rasa_id = ?";
         String[] selectionArgs = {String.valueOf(idRasa)};
 
-        // Zliczanie liczby rekordów spełniających warunek
         int count = (int) DatabaseUtils.queryNumEntries(db, "kolor_oczu", selection, selectionArgs);
 
         if (count > 0) {
-            // Wylosowanie losowego indeksu
             int randomIndex = new Random().nextInt(count);
 
-            // Utworzenie nowego zapytania z ograniczeniem na wylosowany indeks
             String query = "SELECT kolor FROM kolor_oczu WHERE rasa_id = ? LIMIT 1 OFFSET ?";
             String[] queryArgs = {String.valueOf(idRasa), String.valueOf(randomIndex)};
 
@@ -340,14 +352,11 @@ public class CreatorKart {
         String selection = "rasa_id = ?";
         String[] selectionArgs = {String.valueOf(idRasa)};
 
-        // Zliczanie liczby rekordów spełniających warunek
         int count = (int) DatabaseUtils.queryNumEntries(db, "kolor_wlosy", selection, selectionArgs);
 
         if (count > 0) {
-            // Wylosowanie losowego indeksu
             int randomIndex = new Random().nextInt(count);
 
-            // Utworzenie nowego zapytania z ograniczeniem na wylosowany indeks
             String query = "SELECT kolor FROM kolor_wlosy WHERE rasa_id = ? LIMIT 1 OFFSET ?";
             String[] queryArgs = {String.valueOf(idRasa), String.valueOf(randomIndex)};
 
@@ -359,5 +368,124 @@ public class CreatorKart {
         }
 
         return wlosy;
+    }
+
+    int getPunktyPrzeznaczenia(int rasaId) {
+        int punkty = 0;
+
+        switch (rasaId) {
+            case 1:
+                punkty = 2;
+                break;
+            case 2:
+                punkty = 0;
+                break;
+            case 3:
+                punkty = 0;
+                break;
+            case 4:
+            case 5:
+                punkty = 0;
+                break;
+        }
+
+        return punkty;
+    }
+
+    int getPunktyBohatera(int rasaId) {
+        int punkty = 0;
+
+        switch (rasaId) {
+            case 1:
+                punkty = 1;
+                break;
+            case 2:
+                punkty = 2;
+                break;
+            case 3:
+                punkty = 2;
+                break;
+            case 4:
+            case 5:
+
+                break;
+        }
+
+        return punkty;
+    }
+
+    int getPunktyDodatkowe(int rasaId) {
+        int punkty = 0;
+
+        switch (rasaId) {
+            case 1:
+                punkty = 3;
+                break;
+            case 2:
+                punkty = 3;
+
+                break;
+            case 3:
+                punkty = 2;
+                break;
+            case 4:
+            case 5:
+                punkty = 2;
+                break;
+        }
+
+        return punkty;
+    }
+
+    int getSzybkosc(int rasaId) {
+        int punkty = 0;
+
+        switch (rasaId) {
+            case 1:
+                punkty = 4;
+                break;
+            case 2:
+                punkty = 3;
+                break;
+            case 3:
+                punkty = 3;
+                break;
+            case 4:
+            case 5:
+                punkty = 5;
+                break;
+        }
+
+        return punkty;
+    }
+    private int[] getProfesjaSchemat(SQLiteDatabase db, int kartaId) {
+        String[] colums1 = {"*"};
+        String[] selectionArgs1 = {String.valueOf(kartaId)};
+
+        Cursor cursor1 = db.query("karta", colums1, "id = ?", selectionArgs1, null, null, null);
+
+        Karta karta = null;
+
+        if (cursor1.moveToFirst()) {
+            karta = new Karta();
+            karta.setProfesjaId(cursor1.getInt(cursor1.getColumnIndexOrThrow("poziom_id")));
+        }
+
+        cursor1.close();
+        PoziomProfesja poziomProfesjaprofesja = new PoziomProfesja();
+
+        String[] colums = {"*"};
+        assert karta != null;
+        String[] selectionArgs = {String.valueOf(karta.getProfesjaId())};
+
+
+        Cursor cursor = db.query("poziom", colums, "id = ?", selectionArgs, null, null, null);
+        if (cursor.moveToFirst()) {
+            poziomProfesjaprofesja.setSchematCech(cursor.getString(cursor.getColumnIndexOrThrow("schemat_umiejetnosci")));
+        }
+        cursor.close();
+
+        return poziomProfesjaprofesja.getSchematCechTabel();
+
     }
 }

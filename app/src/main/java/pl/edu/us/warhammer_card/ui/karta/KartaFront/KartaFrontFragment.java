@@ -11,24 +11,16 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import pl.edu.us.warhammer_card.AppSQLiteHelper;
-import pl.edu.us.warhammer_card.R;
 import pl.edu.us.warhammer_card.databinding.FragmentKartaFrontBinding;
 import pl.edu.us.warhammer_card.table.Cechy;
 import pl.edu.us.warhammer_card.table.Karta;
@@ -49,11 +41,6 @@ public class KartaFrontFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-
-       // setHasOptionsMenu(true);
-        //  View view = inflater.inflate(R.layout.fragment_karta_front, container, false);
-
-
         binding = FragmentKartaFrontBinding.inflate(inflater, container, false);
 
         AppSQLiteHelper dbHelper = new AppSQLiteHelper(getContext());
@@ -65,17 +52,13 @@ public class KartaFrontFragment extends Fragment {
 
         karta=getKarta(db,kartaId);
 
-
-
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // Metoda wywoływana przed zmianą tekstu
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // Metoda wywoływana w trakcie zmiany tekstu
             }
 
             @Override
@@ -87,9 +70,6 @@ public class KartaFrontFragment extends Fragment {
                 String wzrost = binding.wzrost.getText().toString();
                 String wlosy = binding.wlosy.getText().toString();
                 String oczy = binding.oczy.getText().toString();
-
-              //  karta.setImie(name);
-//                karta.setWiek(wiek);
 
                 if (binding.imie.getText() == editable) {
 
@@ -150,9 +130,6 @@ public class KartaFrontFragment extends Fragment {
                 listaElementow[i]=rasa.getName();
                 i++;
             }
-            // Przygotowanie danych dla dialogu wyboru
-
-            // Ustawienie listy elementów w dialogu
             builder.setItems(listaElementow, (dialog, which) -> {
                 String wybranyElement = listaElementow[which];
                 binding.rasa.setText(wybranyElement);
@@ -183,9 +160,7 @@ public class KartaFrontFragment extends Fragment {
                 listaElementow[i]=profesja.getNazawa();
                 i++;
             }
-            // Przygotowanie danych dla dialogu wyboru
 
-            // Ustawienie listy elementów w dialogu
             builder.setItems(listaElementow, (dialog, which) -> {
                 String wybranyElement = listaElementow[which];
                 binding.profesja.setText(wybranyElement);
@@ -199,7 +174,6 @@ public class KartaFrontFragment extends Fragment {
                 updateKarta(db,karta);
             });
 
-            // Wyświetlenie dialogu
             builder.show();
 
         });
@@ -218,9 +192,7 @@ public class KartaFrontFragment extends Fragment {
                 listaElementow[i]=poziom.getNazwa();
                 i++;
             }
-            // Przygotowanie danych dla dialogu wyboru
 
-            // Ustawienie listy elementów w dialogu
             builder.setItems(listaElementow, (dialog, which) -> {
                 String wybranyElement = listaElementow[which];
 
@@ -231,7 +203,6 @@ public class KartaFrontFragment extends Fragment {
                 binding.status.setText( getStatus(db,karta.getPoziomProfesjiId()));
                 updateKarta(db,karta);
 
-                //TODO  Тоже самое для талантов и способностей
                 krtaChechaZera(db,karta.getId());
 
                 int[] schemat=getProfesjaSchemat( db, karta.getPoziomProfesjiId());
@@ -240,7 +211,6 @@ public class KartaFrontFragment extends Fragment {
 
             });
 
-            // Wyświetlenie dialogu
             builder.show();
 
         });
@@ -263,8 +233,6 @@ public class KartaFrontFragment extends Fragment {
         binding.status.setTextColor(Color.WHITE);
         binding.sciezkaProfesji.setTextColor(Color.WHITE);
 
-
-
         View root = binding.getRoot();
         return root;
     }
@@ -272,7 +240,6 @@ public class KartaFrontFragment extends Fragment {
     void krtaChechaZera(SQLiteDatabase db, int kartaId){
         ContentValues values = new ContentValues();
         values.put("lvl_up", 0);
-
 
         String selection = "karta_id = ?";
         String[] selectionArgs={String.valueOf(kartaId)};
@@ -327,7 +294,6 @@ public class KartaFrontFragment extends Fragment {
         Cursor cursor = db.rawQuery(query, selectionArgs);
 
 
-      //  Cursor cursor = db.query("status", colums, "id = ?",selectionArgs, null, null, null);
         if (cursor.moveToFirst()) {
            status=cursor.getString(cursor.getColumnIndexOrThrow("nazwa"));
         }
@@ -356,8 +322,6 @@ public class KartaFrontFragment extends Fragment {
 
         String[] colums={"*"};
         String[] selectionArgs={name};
-        // String sortOrder = "nazwa ASC";
-        // String[] id ={"3"};
 
         Cursor cursor = db.query("rasa", colums, "name = ?",selectionArgs, null, null, null);
         if (cursor.moveToFirst()) {
@@ -379,8 +343,6 @@ public class KartaFrontFragment extends Fragment {
                 "WHERE rasa_profesja.rasa_id = ?";
 
         Cursor cursor = db.rawQuery(query, selectionArgs);
-
-       // Cursor cursor = db.query("rasa", colums, null,null, null, null, null);
 
         List<Profesja> list = new ArrayList<>();
 
@@ -445,8 +407,6 @@ public class KartaFrontFragment extends Fragment {
         String[] projection = { "kampania_id" };
         String[] colums={"*"};
         String[] selectionArgs={String.valueOf(id)};
-        // String sortOrder = "nazwa ASC";
-        // String[] id ={"3"};
 
         Cursor cursor = db.query("karta", colums, "id = ?",selectionArgs, null, null, null);
 
@@ -479,8 +439,6 @@ public class KartaFrontFragment extends Fragment {
 
         String[] colums={"*"};
         String[] selectionArgs={String.valueOf(id)};
-        // String sortOrder = "nazwa ASC";
-        // String[] id ={"3"};
 
         Cursor cursor = db.query("rasa", colums, "id = ?",selectionArgs, null, null, null);
         if (cursor.moveToFirst()) {
@@ -496,34 +454,18 @@ public class KartaFrontFragment extends Fragment {
 
     Profesja getProfesja(SQLiteDatabase db, int id){
 
-     /*   String[] columns = {"id"};
-        Cursor cursor = db.query("profesja", columns, null, null, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id2 = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                // Wykonaj odpowiednie działania na identyfikatorze
-                // np. wyświetl go w logach lub zapisz do listy
-                Log.d("Identifiers", "Profesja ID: " + id2);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();*/
         Profesja profesja = new Profesja();
 
         String[] colums={"*"};
         String[] selectionArgs={String.valueOf(id)};
-        // String sortOrder = "nazwa ASC";
-
 
         Cursor cursor = db.query("profesja", colums, "id = ?",selectionArgs, null, null, null);
         if (cursor.moveToFirst()) {
             profesja.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
             profesja.setNazawa(cursor.getString(cursor.getColumnIndexOrThrow("nazwa")));
+            profesja.setSciezkaProfesji(cursor.getString(cursor.getColumnIndexOrThrow("ścieżka_profesji")));
             profesja.setKlasaId(cursor.getInt(cursor.getColumnIndexOrThrow("klasa_id")));
-
         }
-
         if (profesja.getNazawa()==null){
             profesja.setNazawa("");
         }
@@ -537,8 +479,6 @@ public class KartaFrontFragment extends Fragment {
 
         String[] colums={"*"};
         String[] selectionArgs={String.valueOf(id)};
-        // String sortOrder = "nazwa ASC";
-        // String[] id ={"3"};
 
         Cursor cursor = db.query("klasa", colums, "id = ?",selectionArgs, null, null, null);
         if (cursor.moveToFirst()) {
@@ -583,15 +523,13 @@ public class KartaFrontFragment extends Fragment {
 
         String[] colums={"*"};
         String[] selectionArgs={String.valueOf(poziomProfesjaId)};
-        // String sortOrder = "nazwa ASC";
-
 
         Cursor cursor = db.query("poziom", colums, "id = ?",selectionArgs, null, null, null);
         if (cursor.moveToFirst()) {
             poziomProfesja.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
             poziomProfesja.setNazwa(cursor.getString(cursor.getColumnIndexOrThrow("nazwa")));
             poziomProfesja.setStatusId(cursor.getInt(cursor.getColumnIndexOrThrow("status_id")));
-            poziomProfesja.setSchemat_cech(cursor.getString(cursor.getColumnIndexOrThrow("schemat_cech")));
+            poziomProfesja.setSchematCech(cursor.getString(cursor.getColumnIndexOrThrow("schemat_cech")));
 
         }
         cursor.close();
@@ -600,7 +538,7 @@ public class KartaFrontFragment extends Fragment {
 
     void setLevlUpToCecha(SQLiteDatabase db, Karta karta,int[] schemat){
         String[] colums={"*"};
-        String sortOrder = "cechy_id ASC";   /*ASC*/ /* DESC*/
+        String sortOrder = "cechy_id ASC";
         String[] selectionArgs={String.valueOf(karta.getId())};
         Cursor cursor = db.query("karta_cecha", colums, "karta_id = ?", selectionArgs, null, null,  sortOrder);
 
@@ -630,14 +568,9 @@ public class KartaFrontFragment extends Fragment {
         String selection = "cechy_id = ? AND karta_id = ?";
 
         for (int i = 0; i < schemat.length; i++) {
-            ContentValues values = new ContentValues(); // Nowy obiekt ContentValues dla każdej iteracji
+            ContentValues values = new ContentValues();
             values.put("lvl_up", 1);
-           /* if (schemat[i] == list.get(i).getId()) {
-                values.put("lvl_up", 1);
-            } else {
-                values.put("lvl_up", 0);
-            }
-*/
+
             String[] selectionArgs2 = {String.valueOf(schemat[i]), String.valueOf(karta.getId())};
             db.update("karta_cecha", values, selection, selectionArgs2);
         }
@@ -646,20 +579,17 @@ public class KartaFrontFragment extends Fragment {
 
     int[] getProfesjaSchemat(SQLiteDatabase db, int profesjaId){
 
-
         PoziomProfesja poziomProfesjaprofesja = new PoziomProfesja();
 
         String[] colums={"*"};
         assert karta != null;
         String[] selectionArgs={String.valueOf(profesjaId)};
 
-
         Cursor cursor = db.query("poziom", colums, "id = ?",selectionArgs, null, null, null);
         if (cursor.moveToFirst()) {
-            poziomProfesjaprofesja.setSchemat_cech(cursor.getString(cursor.getColumnIndexOrThrow("schemat_cech")));
+            poziomProfesjaprofesja.setSchematCech(cursor.getString(cursor.getColumnIndexOrThrow("schemat_cech")));
         }
         cursor.close();
-
 
         return poziomProfesjaprofesja.getSchematCechTabel();
 

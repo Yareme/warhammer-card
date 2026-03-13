@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:orientation="vertical"
+  >
+
+    <TextView
+        android:id="@+id/glowaTekst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Głowa:"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/korpusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Korpus:"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/prawaRenkaText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prawa Ręka:"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/lewaRekaText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lewa Ręka:"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/prawaNogaText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prawa Noga:"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/lewaNogaText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lewa Noga:"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:paddingTop="10dp">
+
+        <Button
+            android:id="@+id/buttonOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:layout_marginStart="10dp"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -54,7 +54,6 @@ public class KartaPunktyFragment extends Fragment {
 
                     binding.aktualne.setText(String.valueOf(karta.getXpAktualny()));
 
-                    /*TODO Dodać w nawjasach faktyczne wydany ex zależny od rozwinienć*/
                     binding.wydane.setText(String.valueOf(karta.getXpWydany()));
 
                     int sum;
@@ -312,7 +311,6 @@ public class KartaPunktyFragment extends Fragment {
                         e.printStackTrace();
                     }
                 }
-
                 karta.setSzybkosc(wartosc);
                 kartaPunktyViewModel.updateKarta(karta);
                 binding.chodEdit.setText(String.valueOf(wartosc * 2));
@@ -342,7 +340,7 @@ public class KartaPunktyFragment extends Fragment {
 
             new AlertDialog.Builder(getContext())
                     .setTitle("Pomoc")
-                    .setMessage("Doświadczenie to suma zdobytych punktów przez gracza.")
+                    .setMessage("Podczas gry w Warhammera MG nagradza graczy Punktami Doświadczenia. W tym miejscu należy zapisywać aktualne (niewydane) PD, wydane PD oraz ich sumę.")
                     .setPositiveButton("OK", null)
                     .show();
         });
@@ -351,7 +349,7 @@ public class KartaPunktyFragment extends Fragment {
 
             new AlertDialog.Builder(getContext())
                     .setTitle("Pomoc")
-                    .setMessage("Punkty Bohatera to ....")
+                    .setMessage("Punkty Bohatera i Determinacji pokazują, jak bardzo postać jest uparta i zdolna przetrwać przeciwności losu.")
                     .setPositiveButton("OK", null)
                     .show();
         });
@@ -360,7 +358,7 @@ public class KartaPunktyFragment extends Fragment {
 
             new AlertDialog.Builder(getContext())
                     .setTitle("Pomoc")
-                    .setMessage("Punkty Przeznaczenia to ....")
+                    .setMessage("Punkty Przeznaczenia i Szczęścia odzwierciedlają, jak bardzo fortuna sprzyja postaci.")
                     .setPositiveButton("OK", null)
                     .show();
         });
@@ -369,7 +367,7 @@ public class KartaPunktyFragment extends Fragment {
 
             new AlertDialog.Builder(getContext())
                     .setTitle("Pomoc")
-                    .setMessage("Szybkość to ....")
+                    .setMessage("Szybkość wskazuje, jak szybko może się poruszać dana postać.")
                     .setPositiveButton("OK", null)
                     .show();
         });
@@ -378,7 +376,7 @@ public class KartaPunktyFragment extends Fragment {
 
             new AlertDialog.Builder(getContext())
                     .setTitle("Pomoc")
-                    .setMessage("Motywacja postaci to ....")
+                    .setMessage("Motywacje postaci, które wyjaśniają, czym w życiu kieruje się Bohater.")
                     .setPositiveButton("OK", null)
                     .show();
         });

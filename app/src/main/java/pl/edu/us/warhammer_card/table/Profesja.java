@@ -3,9 +3,10 @@ package pl.edu.us.warhammer_card.table;
 public class Profesja {
     int id;
     String nazawa;
+    String sciezkaProfesji;
     int klasaId;
 
-
+    Klasa klasa;
 
     public int getId() {
         return id;
@@ -31,6 +32,19 @@ public class Profesja {
         this.klasaId = klasaId;
     }
 
+    public String getSciezkaProfesji() {
+        return sciezkaProfesji;
+    }
 
+    public void setSciezkaProfesji(String sciezkaProfesji) {
+        this.sciezkaProfesji = sciezkaProfesji;
+    }
 
+    public Klasa getKlasa() {
+        return klasa;
+    }
+
+    public void setKlasa(Klasa klasa) {
+        this.klasa = klasa;
+    }
 }

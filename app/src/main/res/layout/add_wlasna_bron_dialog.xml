@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <!-- Pola tekstowe -->
+    <EditText
+        android:id="@+id/typ_broni"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Typ Broni"
+        android:textColorHint="#666"
+        android:focusable="false"
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/nazwa"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nazwa"
+        android:textColorHint="#666"
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/typ_broni"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/obrazenia"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Obrażenia"
+        android:textColorHint="#666"
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nazwa"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/cena"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Cena"
+        android:textColorHint="#666"
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/obrazenia"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/dostepnosc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Dostępność"
+        android:textColorHint="#666"
+        android:focusable="false"
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cena"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/zasieg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Zasięg"
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dostepnosc"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/cechy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cechy Broni:"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/zasieg"
+        android:layout_marginTop="16dp" />
+
+    <!-- ScrollView dla CheckBoxów -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toBottomOf="@id/cechy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <GridLayout
+            android:id="@+id/lokalizacja_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:padding="8dp"/>
+    </ScrollView>
+
+    <!-- Przycisk Akcji, pozostaje na dole -->
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/buttonAnuluj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anuluj"
+            android:backgroundTint="@android:color/darker_gray"
+            android:textColor="@android:color/white"
+            android:padding="8dp"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/buttonOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dodaj"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

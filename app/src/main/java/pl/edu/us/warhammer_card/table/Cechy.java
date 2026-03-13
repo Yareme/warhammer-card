@@ -2,13 +2,13 @@ package pl.edu.us.warhammer_card.table;
 
 public class Cechy {
 
-
-
     int id;
     int wartPo;
     int rozw;
-
     int lvlUp;
+    String nazwaKrotka;
+
+
 
     public int getLvlUp() {
         return lvlUp;
@@ -18,7 +18,6 @@ public class Cechy {
         this.lvlUp = lvlUp;
     }
 
-    String nazwaKrotka;
 
     public String getNazwaKrotka() {
         return nazwaKrotka;

@@ -3,6 +3,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.karta2.psychologia.PsychologiaFragment">
+
+    <TextView
+        android:id="@+id/zepsycie_i_mutacje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="ZEPSUCIE I MUTACJE"
+        android:textSize="@dimen/punkty_titel"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/zepsycie_i_mutacje_edit"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:textStyle="bold"
+
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/zepsycie_i_mutacje"
+        tools:text="Ogan, Choroba psychiczna, Różny kolor oczu"
+        android:hint="mutacje..."
+        />
+
+    <TextView
+        android:id="@+id/psychologia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="PSYCHOLOGIA"
+        android:textSize="@dimen/punkty_titel"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/zepsycie_i_mutacje_edit" />
+
+    <EditText
+        android:id="@+id/psychologia_edit"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:minWidth="50dp"
+
+        android:background="@android:color/transparent"
+        android:ellipsize="end"
+
+        android:textSize="@dimen/punkty_subtitle"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:importantForAutofill="no"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/psychologia"
+
+        tools:text="Nienawiści do Elfów, wedsadasdasfdadfga"
+        android:hint="psychologia..."
+
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

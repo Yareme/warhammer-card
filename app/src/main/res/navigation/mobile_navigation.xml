@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/fragment_Karta"
         android:name="pl.edu.us.warhammer_card.ui.home.KartaFragment"
-        android:label="@string/karta"
+        android:label="Twoi Karty"
         tools:layout="@layout/fragment_karta" >
         <action
             android:id="@+id/action_fragment_Karta_to_fragment_karta_main"
@@ -46,7 +46,7 @@
     <fragment
         android:id="@+id/fragment_karta_front"
         android:name="pl.edu.us.warhammer_card.ui.karta.KartaFront.KartaFrontFragment"
-        android:label="@string/karta"
+        android:label="Informacja o postaci"
         tools:layout="@layout/fragment_karta_front" >
 
     </fragment>
@@ -54,7 +54,7 @@
     <fragment
         android:id="@+id/fragment_karta_cechy"
         android:name="pl.edu.us.warhammer_card.ui.karta.KartaCechy.KartaCechyFragment"
-        android:label="@string/cecha"
+        android:label="Cechy"
         tools:layout="@layout/fragment_karta_cechy" >
     </fragment>
 
@@ -78,7 +78,7 @@
     <fragment
         android:id="@+id/fragment_karta_main"
         android:name="pl.edu.us.warhammer_card.ui.karta.KartaMainFragment"
-        android:label="KartaMain"
+        android:label="Pierwsza Strona"
         tools:layout="@layout/fragment_karta_main" >
 
         <action
@@ -136,7 +136,7 @@
     <fragment
         android:id="@+id/kartaMainFragment2"
         android:name="pl.edu.us.warhammer_card.ui.karta.KartaMainFragment2"
-        android:label="fragment_karta_main_2"
+        android:label="Druga Strona"
         tools:layout="@layout/fragment_karta_main_2" >
         <action
             android:id="@+id/action_kartaMainFragment2_to_pancerzFragment"
@@ -170,33 +170,58 @@
     <fragment
         android:id="@+id/zamoznoscIZywotnoscFragment"
         android:name="pl.edu.us.warhammer_card.ui.karta2.zamoznoscizywotnosc.ZamoznoscIZywotnoscFragment"
-        android:label="fragment_karta_zamoznosci_i_zywotnosc"
+        android:label="Zamożność i żywotność"
         tools:layout="@layout/fragment_karta_zamoznosci_i_zywotnosc" />
     <fragment
         android:id="@+id/bronFragment"
         android:name="pl.edu.us.warhammer_card.ui.karta2.bron.BronFragment"
-        android:label="fragment_karta_bron"
+        android:label="Broń"
         tools:layout="@layout/fragment_karta_bron" />
     <fragment
         android:id="@+id/czaryIModlitwyFragment"
         android:name="pl.edu.us.warhammer_card.ui.karta2.czaryimodlitwy.CzaryIModlitwyFragment"
-        android:label="fragment_karta_czary_i_modlitwy"
+        android:label="Czary i Modlitwy"
         tools:layout="@layout/fragment_karta_czary_i_modlitwy" />
     <fragment
         android:id="@+id/pancerzFragment"
         android:name="pl.edu.us.warhammer_card.ui.karta2.pancerz.PancerzFragment"
-        android:label="fragment_karta_pancerz"
+        android:label="Pancerz"
         tools:layout="@layout/fragment_karta_pancerz" />
     <fragment
         android:id="@+id/psychologiaFragment"
         android:name="pl.edu.us.warhammer_card.ui.karta2.psychologia.PsychologiaFragment"
-        android:label="fragment_karta_psychologia_zepsucie_i_mutacje"
+        android:label="Psychologia i Mutacje"
         tools:layout="@layout/fragment_karta_psychologia_zepsucie_i_mutacje" />
     <fragment
         android:id="@+id/wyposazeniaFragment"
         android:name="pl.edu.us.warhammer_card.ui.karta2.wyposazenie.WyposazeniaFragment"
-        android:label="fragment_karta_wyposazenie"
+        android:label="Wyposażenie"
         tools:layout="@layout/fragment_karta_wyposazenie" />
+
+
+    <fragment
+        android:id="@+id/nav_mistrz_gry"
+        android:name="pl.edu.us.warhammer_card.ui.mistrzgry.rozdzialy.RozdzialFragment"
+        android:label="Rozdziały"
+        tools:layout="@layout/fragment_rozdzial" >
+        <action
+            android:id="@+id/action_rozdzialFragment_to_podRozdzialFragment"
+            app:destination="@id/podRozdzialFragment" />
+    >
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/podRozdzialFragment"
+        android:name="pl.edu.us.warhammer_card.ui.mistrzgry.rozdzialy.PodRozdzialFragment"
+        android:label="PodRozdzialFragment" >
+        <action
+            android:id="@+id/action_podRozdzialFragment_to_nav_mistrz_gry"
+            app:destination="@id/nav_mistrz_gry" />
+        <argument
+            android:name="chapter_index"
+            app:argType="integer" />
+    </fragment>
 
 
 </navigation>

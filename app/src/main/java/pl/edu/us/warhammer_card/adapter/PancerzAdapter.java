@@ -1,6 +1,8 @@
 package pl.edu.us.warhammer_card.adapter;
 
 import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -13,23 +15,32 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import pl.edu.us.warhammer_card.R;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import pl.edu.us.warhammer_card.table.Bron;
+import pl.edu.us.warhammer_card.table.CechaPancerza;
+import pl.edu.us.warhammer_card.table.LokalizacjaPancerza;
 import pl.edu.us.warhammer_card.table.Pancerz;
+import pl.edu.us.warhammer_card.table.Talent;
 
 public class PancerzAdapter extends RecyclerView.Adapter<PancerzAdapter.ViewHolder> {
 
     private List<Pancerz> pancerzList = new ArrayList<>();
 
     private OnInfoClickListener onInfoClickListener;
-
+    private OnItemLongClickListener longClickListener;
+    private OnClickListener onClickListener;
+    private OnHelpClickListener onHelpClickListener;
 
     public <E> PancerzAdapter(ArrayList<E> es) {
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView nazwa;
         TextView dostepnosc;
         TextView lokalizacja;
@@ -63,12 +74,25 @@ public class PancerzAdapter extends RecyclerView.Adapter<PancerzAdapter.ViewHold
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     Pancerz pancerz = pancerzList.get(position);
-                    // Wywołanie metody w listenerze
-                    if (onInfoClickListener != null) {
-                        onInfoClickListener.onInfoClickListener(pancerz);
+                    if (onHelpClickListener != null) {
+                        onHelpClickListener.onHelpClickListener(pancerz);
                     }
                 }
 
+            });
+
+            czyZalozony.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (onCheckBoxClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                            Pancerz pancerz = pancerzList.get(position);
+                            pancerz.setCzyZalozone(isChecked ? 1 : 0);
+                            onCheckBoxClickListener.onCheckBoxClick(pancerz, isChecked);
+                            updateList(pancerzList);
+                        }, 500);
+                    }
+                }
             });
         }
     }
@@ -83,21 +107,39 @@ public class PancerzAdapter extends RecyclerView.Adapter<PancerzAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.nazwa.setText(pancerzList.get(position).getNazwa());
-        holder.nazwa.setText(pancerzList.get(position).getNazwa());
 
+        Pancerz pancerz = pancerzList.get(position);
+        holder.nazwa.setText(pancerzList.get(position).getNazwa());
         holder.dostepnosc.setText(pancerzList.get(position).getDastepnosc());
 
-        holder.lokalizacja.setText("Dorobić lokalizacje");
 
-        holder.pp.setText(String.valueOf(pancerzList.get(position).getPunktyPancerza()));
+        String listaLokalizacja = pancerzList.get(position).getLokalizacjaPancerzaList().stream()
+                .map(LokalizacjaPancerza::getNazwa)
+                .collect(Collectors.joining(", "));
 
-        holder.cechy.setText("Dorobić cechy");
+        SpannableString lokalizacjaText = new SpannableString("Lokalizacja: " + listaLokalizacja);
+        lokalizacjaText.setSpan(new StyleSpan(Typeface.BOLD), 0, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.lokalizacja.setText(lokalizacjaText);
 
-        boolean chek = true;
-        if (pancerzList.get(position).getCzyZalozone() == 0)
-            chek = false;
-        holder.czyZalozony.setChecked(chek);
+        SpannableString ppText = new SpannableString("PP: " + pancerzList.get(position).getPunktyPancerza());
+        ppText.setSpan(new StyleSpan(Typeface.BOLD), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.pp.setText(ppText);
+
+
+        String listaNazwCech = pancerzList.get(position).getCechaPancerzaList().stream()
+                .map(CechaPancerza::getNazwa)
+                .collect(Collectors.joining(", "));
+
+        SpannableString cechyText = new SpannableString("Cechy: " + listaNazwCech);
+        cechyText.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        holder.cechy.setText(cechyText);
+
+        boolean isCheck = (pancerz.getCzyZalozone() == 1);
+
+        holder.czyZalozony.setChecked(isCheck);
+
+
     }
 
     @Override
@@ -110,21 +152,49 @@ public class PancerzAdapter extends RecyclerView.Adapter<PancerzAdapter.ViewHold
         notifyDataSetChanged();
     }
 
-    public interface OnInfoClickListener{
+    public interface OnInfoClickListener {
         void onInfoClickListener(Pancerz pancerz);
     }
-    public void OnInfoClickListener(OnInfoClickListener listener){
+
+    public void OnInfoClickListener(OnInfoClickListener listener) {
         this.onInfoClickListener = listener;
     }
+
+    public interface OnClickListener {
+        void onItemClick(Pancerz pancerz);
+    }
+
+    public void setOnClickListener(OnClickListener listener) {
+        this.onClickListener = listener;
+    }
+
 
     public interface OnItemLongClickListener {
         void onItemLongClick(Pancerz pancerz);
     }
-    private OnItemLongClickListener longClickListener;
 
     public void setOnItemLongClickListener(OnItemLongClickListener longClickListener) {
         this.longClickListener = longClickListener;
     }
 
-    public List<Pancerz> getPancerzList(){return pancerzList;}
+    public interface OnCheckBoxClickListener {
+        void onCheckBoxClick(Pancerz pancerz, boolean isChecked);
+    }
+
+    private OnCheckBoxClickListener onCheckBoxClickListener;
+
+    public void setOnCheckBoxClickListener(OnCheckBoxClickListener listener) {
+        this.onCheckBoxClickListener = listener;
+    }
+
+    public interface OnHelpClickListener{
+        void onHelpClickListener(Pancerz pancerz);
+    }
+    public void setOnHelpClickListener(OnHelpClickListener listener){
+        this.onHelpClickListener = listener;
+    }
+
+    public List<Pancerz> getPancerzList() {
+        return pancerzList;
+    }
 }

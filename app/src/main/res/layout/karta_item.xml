@@ -1,75 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="10dp"
-    >
+    android:layout_margin="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/karta_item_backgroundd">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/karta_item_backgroundd"
-        >
+        android:padding="12dp">
 
+        <!-- Imię -->
         <TextView
             android:id="@+id/imie"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginTop="16dp"
-            android:lines="1"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/pdf"
+            android:ellipsize="end"
+            android:maxLines="2"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/pdf"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Olgerd fon Everec" />
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constrainedWidth="true"
+            tools:text="Olgerd von Everec " />
 
+        <!-- Rasa -->
         <TextView
             android:id="@+id/rasa"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:lines="1"
+            android:layout_marginTop="4dp"
             android:textColor="@color/black"
             android:textSize="20sp"
+            android:textStyle="bold"
+
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/pdf"
-            app:layout_constraintStart_toEndOf="@id/imie"
+            app:layout_constraintTop_toBottomOf="@id/imie"
+            app:layout_constrainedWidth="true"
             tools:text="Człowiek" />
 
+        <!-- Profesja -->
         <TextView
             android:id="@+id/profesja"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:ellipsize="end"
+            android:maxLines="2"
+            app:layout_constraintTop_toBottomOf="@id/rasa"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imie"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constrainedWidth="true"
             tools:text="Łowca czarownic" />
 
+        <!-- Przycisk PDF -->
         <Button
             android:id="@+id/pdf"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@null"
             android:drawableStart="@drawable/ic_pdf"
+            android:drawablePadding="6dp"
+            android:text=""
+            android:padding="8dp"
             android:minWidth="0dp"
             android:minHeight="0dp"
-            android:padding="9dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="Generowanie PDF-a"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription= "Generowania PDFa"
-        />
-
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.cardview.widget.CardView>

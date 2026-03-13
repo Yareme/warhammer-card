@@ -14,4 +14,11 @@
 
 
     <dimen name="help_img">40dp</dimen>
+
+
+    <dimen name="titel_list_item">18sp</dimen>
+    <dimen name="titel_ex_list_item">16sp</dimen>
+
+    <dimen name="elemet_item_list">14sp</dimen>
+
 </resources>

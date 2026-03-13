@@ -1,6 +1,6 @@
 package pl.edu.us.warhammer_card.adapter;
 
-import android.content.Context;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,16 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
-import pl.edu.us.warhammer_card.AppSQLiteHelper;
+import java.util.ArrayList;
+
+import java.util.List;
+
+
 import pl.edu.us.warhammer_card.DbHelper;
 import pl.edu.us.warhammer_card.R;
-import pl.edu.us.warhammer_card.table.Kampania;
 import pl.edu.us.warhammer_card.table.Karta;
 
 public class KartaAdapter extends RecyclerView.Adapter<KartaAdapter.ViewHolder> {
@@ -69,8 +67,7 @@ public class KartaAdapter extends RecyclerView.Adapter<KartaAdapter.ViewHolder> 
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     Karta karta = kartaList.get(position);
-                    // Wywołanie metody w listenerze
-                    if (onPdfClickListener != null) {
+                     if (onPdfClickListener != null) {
                         onPdfClickListener.onPdfClick(karta);
                     }
                 }

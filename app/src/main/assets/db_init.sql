@@ -3,7 +3,15 @@ PRAGMA foreign_keys = ON;
 CREATE TABLE "wyposarzenie" (
     "id"              INTEGER PRIMARY KEY,
     "nazwa"           TEXT NOT NULL,
-    "obciążenie"      INTEGER NOT NULL
+    "obciążenie"      INTEGER
+);
+
+CREATE TABLE "dostępność" (
+    "id"                           INTEGER PRIMARY KEY,
+    "nazwa"                        TEXT NOT NULL,
+    "wioska"                         TEXT,
+    "miasteczko"                         TEXT,
+    "miasto"                         TEXT
 );
 
 CREATE TABLE "typ_pancerza" (
@@ -16,50 +24,50 @@ CREATE TABLE "lokalizacja_pancerza" (
     "nazwa"                        TEXT NOT NULL
 );
 
+CREATE TABLE "cechy_pancerz" (
+    "id"                           INTEGER PRIMARY KEY,
+    "nazwa"                        TEXT NOT NULL,
+    "opis"                         TEXT NOT NULL
+);
+
 CREATE TABLE "pancerz" (
     "id"                           INTEGER PRIMARY KEY,
     "nazwa"                        TEXT NOT NULL,
-    "cena"                         TEXT NOT NULL,
-
+    "cena"                         TEXT,
 
     "kara"                         TEXT,
-    "lokalizacja_pancerza"         TEXT,
 
     "punkty_pancerza"              INTEGER NOT NULL,
 
-    "zalety"                       TEXT,
-    "wady"                         TEXT,
-
-    "dostępność_id"                   INTEGER NOT NULL,
+    "dostępność_id"                INTEGER NOT NULL,
     "typ_pancerza_id"              INTEGER NOT NULL,
 
      "opciążenie"                   INTEGER,
 
 
-    FOREIGN KEY ("dostępność_id") REFERENCES "dostępność_id"("id") ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY ("dostępność_id") REFERENCES "dostępność"("id") ON UPDATE CASCADE ON DELETE CASCADE
     FOREIGN KEY ("typ_pancerza_id") REFERENCES "typ_pancerza"("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
-CREATE TABLE "dostępność" (
-    "id"                           INTEGER PRIMARY KEY,
-    "nazwa"                        TEXT NOT NULL,
-    "wioska"                         TEXT,
-    "miasteczko"                         TEXT,
-    "miasto"                         TEXT
+CREATE TABLE "lokalizacja_pancerza_pancerz" (
+    "pancerz_id"          INTEGER NOT NULL,
+    "lokalizacja_pancerza_id"          INTEGER NOT NULL,
+
+
+     FOREIGN KEY ("pancerz_id") REFERENCES "pancerz"("id") ON UPDATE CASCADE ON DELETE CASCADE,
+     FOREIGN KEY ("lokalizacja_pancerza_id") REFERENCES "lokalizacja_pancerza"("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE "zalety_pancerz" (
-    "id"                           INTEGER PRIMARY KEY,
-    "nazwa"                        TEXT NOT NULL,
-    "opis"                         TEXT NOT NULL
+CREATE TABLE "cechy_pancerz_pancerz" (
+    "pancerz_id"          INTEGER NOT NULL,
+    "cecha_id"          INTEGER NOT NULL,
+
+
+     FOREIGN KEY ("pancerz_id") REFERENCES "pancerz"("id") ON UPDATE CASCADE ON DELETE CASCADE,
+     FOREIGN KEY ("cecha_id") REFERENCES "cechy_pancerz"("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE "wady_pancerz" (
-    "id"                           INTEGER PRIMARY KEY,
-    "nazwa"                        TEXT NOT NULL,
-    "opis"                         TEXT NOT NULL
-);
 
 CREATE TABLE "status" (
     "id"        INTEGER PRIMARY KEY,
@@ -124,32 +132,48 @@ CREATE TABLE "poziom" (
 CREATE TABLE "typ_broni" (
     "id"            INTEGER PRIMARY KEY,
     "nazwa"         TEXT NOT NULL,
-    "czy_zaciągowa" INTEGER NOT NULL
+    "czy_zacięgowa" INTEGER NOT NULL,
+
+    "opis_specjalny" TEXT
+);
+
+CREATE TABLE "cechy_broni" (
+    "id"                   INTEGER PRIMARY KEY,
+    "nazwa"          TEXT NOT NULL,
+    "opis"          TEXT NOT NULL
 );
 
 CREATE TABLE "broń" (
     "id"                     INTEGER PRIMARY KEY,
     "nazwa"                  TEXT NOT NULL,
-    "czy_dwuręczna"          INTEGER NOT NULL,
-    "cena"                   TEXT NOT NULL,
-    "obciążenie"             INTEGER NOT NULL,
+
+    "cena"                   TEXT,
 
     "zasięg"                 TEXT NOT NULL,
+
     "obrażenia"              TEXT NOT NULL,
-    "zalety"                 TEXT NOT NULL,
-    "wady"                   TEXT NOT NULL,
-    "kategoria"              TEXT NOT NULL,
-    "cechy_broni"                  TEXT,
+
+    "obciążenie"             INTEGER,
 
     "czy_własna"             INTEGER NOT NULL,
 
     "typ_broni_id"           INTEGER NOT NULL,
     "dostępność_id"                   INTEGER NOT NULL,
 
-    FOREIGN KEY ("typ_broni_id") REFERENCES "typ_broni"("id") ON UPDATE CASCADE ON DELETE CASCADE
-     FOREIGN KEY ("dostępność_id") REFERENCES "dostępność_id"("id") ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY ("typ_broni_id") REFERENCES "typ_broni"("id") ON UPDATE CASCADE ON DELETE CASCADE,
+     FOREIGN KEY ("dostępność_id") REFERENCES "dostępność"("id") ON UPDATE CASCADE ON DELETE CASCADE
+);
 
 
+
+
+CREATE TABLE "cecha_broni_broń" (
+    "broń_id"          INTEGER NOT NULL,
+    "cecha_id"          INTEGER NOT NULL,
+
+
+     FOREIGN KEY ("broń_id") REFERENCES "broń"("id") ON UPDATE CASCADE ON DELETE CASCADE,
+     FOREIGN KEY ("cecha_id") REFERENCES "cechy_broni"("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE "rasa_profesja" (
@@ -189,7 +213,7 @@ CREATE TABLE "karta" (
     "punkty_przeznaczenia"               INTEGER,
     "punkty_szczescia"                   INTEGER,
 
-    "punkty_bohatera"           I        INTEGER,
+    "punkty_bohatera"                    INTEGER,
     "punkty_determinacji"                INTEGER,
 
     "punkty_dodatkowe"                   INTEGER,
@@ -202,8 +226,11 @@ CREATE TABLE "karta" (
     "sreblo"                             INTEGER,
     "złota_korona"                       INTEGER,
 
+    "żywotność_aktualna"                 INTEGER,
+
     "psyhologia"                         TEXT,
     "zepsucie_i_mutacje"                 TEXT,
+
     "punkty_grzechu"                     INTEGER,
 
     "ambicja_krótkoterminowa"            TEXT,
@@ -272,6 +299,7 @@ CREATE TABLE "karta_cecha" (
 CREATE TABLE "karta_broń"(
 "karta_id"      INTEGER NOT NULL,
 "broń_id"       INTEGER NOT NULL,
+
 FOREIGN KEY ("karta_id") REFERENCES "karta"("id") ON UPDATE CASCADE ON DELETE CASCADE,
 FOREIGN KEY ("broń_id") REFERENCES "broń"("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -308,10 +336,11 @@ CREATE TABLE "karta_umiętność" (
     FOREIGN KEY ("umiejętności_id") REFERENCES "umiejętności"("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE "karta_wypasarzenie" (
+CREATE TABLE "karta_wyposarzenie" (
 
-    "karta_id"                     INTEGER NOT NULL,
-    "wyposarzenie_id"             INTEGER NOT NULL,
+    "karta_id"                       INTEGER NOT NULL,
+    "wyposarzenie_id"                INTEGER NOT NULL,
+    "sztuk"                          INTEGER,
 
      FOREIGN KEY ("karta_id") REFERENCES "karta"("id") ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY ("wyposarzenie_id") REFERENCES "wyposarzenie"("id") ON UPDATE CASCADE ON DELETE CASCADE
@@ -319,10 +348,24 @@ CREATE TABLE "karta_wypasarzenie" (
 );
 
 CREATE TABLE "tradycja" (
-    "id"          INTEGER NOT NULL,
+    "id"          INTEGER PRIMARY KEY,
     "nazwa"       TEXT NOT NULL,
     "opis"        TEXT NOT NULL
 );
+
+
+INSERT INTO "tradycja"("nazwa","opis")
+    VALUES
+        ('Tradycja Cieni','OPIS'),
+        ('Tradycja Metalu','OPIS'),
+        ('Tradycja Śmierci','OPIS'),
+        ('Tradycja Ognia','OPIS'),
+        ('Tradycja Niebios','OPIS'),
+        ('Tradycja Zwierząt','OPIS'),
+        ('Tradycja Światla','OPIS');
+
+
+
 
 CREATE TABLE "zaklęcia" (
     "id"                   INTEGER PRIMARY KEY,
@@ -336,19 +379,102 @@ CREATE TABLE "zaklęcia" (
     "tradycja_id"          INTEGER NOT NULL,
 
     FOREIGN KEY ("tradycja_id") REFERENCES "tradycja"("id")  ON UPDATE CASCADE ON DELETE CASCADE
+);
 
+INSERT INTO "zaklęcia"("nazwa","poziom_zaklęcia","zacięg","cel","czas","opis","tradycja_id")
+    VALUES
+
+        ('Całun niewidzialności', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','Otulasz cel całunem Ulgu. Staje się on niewidzialny i nie może zostać dostrzeżony przez zwykłych śmiertelników. Automatycznie zmylisz każdego, kto nie posiada Talentu Percepcja Magiczna. Ci, którzy posiadają ten Talent, muszą zdać Wymagający (+0) Test Percepcji, by zauważyć, że ktoś jest w pobliżu, ale nie będą w stanie podać jego dokładnego położenia. Aby to zrobić, muszą rozproszyć zaklęcie. Oczywiście można wyczuć cel innymi zmysłami, a zaklęcie zostanie przerwane, jeśli cel będzie wydawał głośne dźwięki lub kogoś zaatakuje.',1),
+        ('Dusiciel', 6 ,'Liczba metrów równa Bonusowi z Siły Woli','1','Liczba Rund równa Bonusowi z Siły Woli','Oplatasz szyje swoich wrogów cienistymi mackami Ulgu. Zakładając, że muszą oni oddychać, otrzymują 1 poziom Zmęczenia, nie mogą mówić, a ponadto stosuje się w ich przypadku zasady Duszenia',1),
+        ('Sobowtór', 10 ,'Rzucający','Rzucający','Liczba minut równa Bonusowi z Inteligencji','Tkasz z Ulgu maskę i płaszcz, które nakładasz na siebie, przybierając postać podobną do innego humanoida, którego dobrze znasz (co ustalane jest przez MG). Podobieństwo jest na tyle dobre, że jeśli ktoś nie posiada Talentu Percepcja Magiczna, nie pozna się na sztuczce, choć niektórzy mogą zauważyć, że część manieryzmów nie jest identyczna. Nawet ci, którzy posiadają ten Talent, muszą zdać Trudny (-10) Test Percepcji, a w przypadku niepowodzenia nie przejrzą twojego magicznego przebrania. Jednakże, nawet jeśli uda im się wyczuć fortel, nie będą w stanie spojrzeć „poza” zaklęcie. Aby zobaczyć twoją prawdziwą formę, muszą rozproszyć zaklęcie.',1),
+        ('Iluzja', 8 ,'Liczba metrów równa Sile Woli','Obszarowy (liczba metrów równa Bonusowi z Inicjatywy)','Liczba Rund równa Bonusowi z Siły Woli','Tworzysz zawiłą sieć z kosmyków Ulgu, zaciemniając Zasięg dzięki iluzorycznemu obrazowi, który sobie wymyśliłeś. Automatycznie zmylisz każdego, kto nie posiada Talentu Percepcja Magiczna. Nawet ci, którzy posiadają ten Talent, muszą zdać Trudny (-10) Test Percepcji, a w przypadku niepowodzenia nie przejrzą twojej iluzji. Jednakże, nawet jeśli uda im się wyczuć fortel, nie będą w stanie spojrzeć „poza” zaklęcie. W tym celu muszą rozproszyć zaklęcie. Iluzja z definicji jest statyczna. W ramach swojej Akcji, jeśli powiedzie ci się Trudny (-20) Test Splatania Magii, możesz sprawić, by iluzja się w tej Rundzie poruszała.',1),
+        ('Krok przez cienie', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','Tworzysz cienisty portal z Wiatru Ulgu, który może nieść cię poprzez Eter. Znikasz w miejscu, w którym stoisz, i natychmiast pojawiasz się w innym, które znajduje się w Zasięgu równym twojej Sile Woli liczonym w metrach. Wszyscy wrogowie, którzy byli Związani walką z tobą lub stają się Związani walką, zostają Zaskoczeni.',1),
+        ('Luka w pamięci', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','Czas: Liczba minut równa Sile Woli Wyczarowujesz delikatne nici Ulgu w umyśle swojego celu, sprawiając, że jego pamięć zupełnie znika na czas trwania zaklęcia. Gdy zaklęcie się skończy, cel musi zdać Przeciętny (+20) Test Inteligencji. Jeśli to się nie uda, utrata pamięci będzie trwała (choć można ją usunąć, rozpraszając ten efekt).',1),
+        ('Rumak z cieni', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','Czas: Do następnego wschodu słońca Przyzywasz rumaka z cieni. Nienaturalne ciało stworzenia jest czarne jak noc o północy i wydaje się jednocześnie materialne i niematerialne. Stosuje się do niego normalne zasady jeździectwa. Kiedy rumak z cieni nie przebywa na słońcu, zyskuje następujące Cechy Stworzenia: Eteryczny, Magiczny, Nie Czuje Bólu, Skryty, Strach (1), Ochrona (9+) oraz Widzenie w Ciemności. Mimo tego, że rumak nie jest materialny, można na nim normalnie jeździć. Jeźdźcy, którzy posiadają Talent Magia Tajemna (Cienie), zyskują w tym przypadku premię +20 do Testów Jeździectwa. Wszyscy inni otrzymują karę -20 do Testów Jeździectwa. Rumaki z cieni nie znają zmęczenia i nie muszą odpoczywać (choć ich jeźdźcy owszem!). Gdy pierwsze promienie słońca przebiją się nad horyzontem, rumak rozwiewa się w niematerialną mgłę. Jeździec, który w momencie zakończenia zaklęcia lub jego rozproszenia będzie dosiadał rumaka, otrzyma Obrażenia z powodu Upadku',1),
+        ('Strefa zamętu', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','Wysyłasz przed siebie wijące się kłęby mgły cieni, które przedzierają się przez powietrze i mylą zmysły. Każdy w zasięgu mgły, kto nie posiada Talentu Magia Tajemna (Cienie), zostaje dotknięty przez zamęt, otrzymując 1 poziom Ogłuszenia, Oślepienia i Zmęczenia, które będą się utrzymywać, dopóki trwa zaklęcie. Każdy objęty czarem musi także zdać Wymagający (+0) Test Percepcji, w przeciwnym wypadku zostanie Powalony. Jeśli zaklęcie zostanie rozproszone podczas trwania, każdy nim objęty musi zdać Łatwy (+40) Test Inicjatywy – jeśli się nie uda, otrzyma 1 poziom Oszołomienia.',1),
+
+        ('Kuźnia Chamonu', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',2),
+        ('Lśniąca szata', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',2),
+        ('Pancerz z ołowiu', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',2),
+        ('Przekształcenie metalu', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',2),
+        ('Transmutacja Chamonu', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',2),
+        ('Tygiel Chamonu', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',2),
+        ('Umagicznienie broni', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',2),
+        ('Złoto głupców', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',2),
+
+        ('Błyskawica T Essli', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',3),
+        ('Kometa Kasandory', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',3),
+        ('Łaska losu', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',3),
+        ('Niebiańska tarcza', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',3),
+        ('Pod nieszczęśliwą gwiazdą', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',3),
+        ('Pierwsze proroctwo Amul', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',3),
+        ('Drugie proroctwo Amul', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',3),
+        ('Trzecie proroctwo Amul', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',3),
+
+        ('Gorejący miecz Rhuin', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',4),
+        ('Ognista korona', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',4),
+        ('Oczyszczający płomień', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',4),
+        ('Płomienna zasłona', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',4),
+        ('Pożoga zagłady U zhula', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',4),
+        ('Przypalenie', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',4),
+        ('Tarcza Aqshy', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',4),
+        ('Żar serc', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',4),
+
+        ('Dotyk śmierci', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',5),
+        ('Kosa żniwiarza', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',5),
+        ('Krąg śmierci', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',5),
+        ('Ostatnie słowa', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',5),
+        ('Pieszczota Laniph', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',5),
+        ('Posłaniec śmierci', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',5),
+        ('Purpurowy całun', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',5),
+        ('Wyssanie życia', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',5),
+
+        ('Jasność umysłu', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',6),
+        ('Leczące światło', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',6),
+        ('Natchnienie', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',6),
+        ('Ochrona Phâ', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',6),
+        ('Rozbłysk', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',6),
+        ('Sieć Amyntoka', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',6),
+        ('Wypędzenie', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',6),
+        ('Zguba demonów', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',6),
+
+        ('Bursztynowa włócznia', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',7),
+        ('Dzika postać Wissana', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',7),
+        ('Głos pana', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',7),
+        ('Mowa zwierząt', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',7),
+        ('Skóra łowcy', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',7),
+        ('Szpony furii', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',7),
+        ('Uczta kruków', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',7),
+        ('Zwierzęca postać', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',7),
+
+        ('Krew ziemi', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',8),
+        ('Pole cierniowe', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',8),
+        ('Rozkwitanie', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',8),
+        ('Regeneracja', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',8),
+        ('Skóra z kory', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',8),
+        ('Wrota ziemi', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',8),
+        ('Ziemia karmicielka', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',8),
+        ('Ziemia przewodniczka', 8 ,'Dotyk','1','Liczba Rund równa Bonusowi z Siły Woli','',8);
+
+
+
+
+
+CREATE TABLE "karta_zaklęcia"(
+"karta_id"      INTEGER NOT NULL,
+"zaklęcia_id"       INTEGER NOT NULL,
+
+FOREIGN KEY ("karta_id") REFERENCES "karta"("id") ON UPDATE CASCADE ON DELETE CASCADE,
+FOREIGN KEY ("zaklęcia_id") REFERENCES "zaklęcia"("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE "kolor_oczu"(
-
     "id" INTEGER PRIMARY KEY,
     "kolor" TEXT,
     "rasa_id" INTEGER
-
 );
 
 CREATE TABLE "kolor_wlosy"(
-
     "id" INTEGER PRIMARY KEY,
     "kolor" TEXT,
     "rasa_id" INTEGER
@@ -1156,327 +1282,327 @@ VALUES
     ("ZŁOTO 7"),
     ("BRĄZ 0");
 
-   INSERT INTO "poziom" ("nazwa", "profesja_id","status_id","schemat_cech","schemat_umiejetnosci" )
+   INSERT INTO "poziom" (      "nazwa",       "profesja_id",  "status_id",   "schemat_cech",                           "schemat_umiejetnosci",                                                                                                   "schemat_talentow" )
    VALUES
-        ("Uczennica Aptekarki", 1,3,"4,7,8","48,61,8,71,109,114,119"),
-        ("Aptekarka", 1,6,"4,7,8,10","48,61,8,71,109,114,119,3,49,13,14,20,117"),
-        ("Farmaceutka", 1, 8,"4,5,7,8,10","26,4,6,48,61,8,71,109,114,119,3,49,13,14,20,117"),
-        ("Mistrzyni Aptekarstwa", 1, 1,"4,5,7,8,9,10","7,25,26,4,6,48,61,8,71,109,114,119,3,49,13,14,20,117"),
+                        ('Uczennica Aptekarki',   1,              3,            '4,7,8',                               '8,48,61,71,109,114,119',                                                                                                 '2,37,47,131,192'),
+                        ('Aptekarka',             1,              6,           '4,7,8,10',                      '3,13,14,20,49,117,8,48,61,71,109,114,119',                                                                                            '1,45,130,205'),
+                        ('Farmaceutka',           1,              8,          '4,5,7,8,10',                  '4,6,26,78,3,13,14,20,49,117,8,48,61,71,109,114,119',                                                                                     '24,91,95,115'),
+                        ('Mistrzyni Aptekarstwa', 1,              1,          '4,5,7,8,9,10',               '7,25,4,6,26,78,3,13,14,20,49,117,8,48,61,71,109,114,119',                                                                                '189,197,201'),
 
-        ("Uczeń Czarodzieja", 2, 3,"1,8,9","48,61,8,71,109,114,119"),
-        ("Czarodziej", 2, 8,"1,6,8,9","48,61,8,71,109,114,119"),
-        ("Mistrz Magii", 2, 11,"1,5,6,8,9","48,61,8,71,109,114,119"),
-        ("Arcymag", 2, 12,"1,5,6,8,9,10","48,61,8,71,109,114,119"),
+                        ('Uczeń Czarodzieja',    2,               3,            '1,8,9',                        '2,6,13,21,28,51,87,88,89,90,91,92,93,94,115',                                                                                             '37,75,119,200'),
+                        ('Czarodziej',           2,               8,            '1,6,8,9',                  '3,11,14,25,46,2,6,13,21,28,51,87,88,89,90,91,92,93,94,115',                                                                        '76,77,78,79,80,81,82,83,84,85,86,87,134,136,152'),
+                        ('Mistrz Magii',         2,               11,           '1,5,6,8,9',            '7,68,121,3,11,14,25,46,2,6,13,21,28,51,87,88,89,90,91,92,93,94,115',                                                                           '44,54,127,190'),
+                        ('Arcymag',              2,               12,               '1,5,6,8,9,10', '46,47,48,49,50,51,52,53,109,110,111,112,113,114,116,117,118,119,120,7,68,121,3,11,14,25,46,2,6,13,21,28,51,87,88,89,90,91,92,93,94,115',           '71,145,199,204'),
 
-        ("Student Inżynierii", 3, 4,"2,7,8","48,61,8,71,109,114,119"),
-        ("Inżynier", 3, 7,"2,5,7,8","48,61,8,71,109,114,119"),
-        ("Renomowany Inżynier", 3, 9,"2,4,5,7,8","48,61,8,71,109,114,119"),
-        ("Mistrz Inżynierii", 3, 12,"2,4,5,7,8,9","48,61,8,71,109,114,119"),
+        ('Student Inżynierii', 3, 4, '2,7,8', '8,10,11,13,37,48,113', '3,37,163,198'),
+        ('Inżynier', 3, 7, '2,5,7,8', '9,15,21,26,34,49,8,10,11,13,37,48,113', '45,148,188,192'),
+        ('Renomowany Inżynier', 3, 9, '2,4,5,7,8', '4,7,50,78,9,15,21,26,34,49,8,10,11,13,37,48,113', '47,52,91,143'),
+        ('Mistrz Inżynierii', 3, 12, '2,4,5,7,8,9', '109,110,111,112,113,114,115,116,117,118,119,120,4,7,50,78,9,15,21,26,34,49,8,10,11,13,37,48,113', '2,107,157,201'),
 
-        ("Kleryk", 4, 2,"4,6,9","48,61,8,71,109,114,119"),
-        ("Kapłan", 4, 6,"4,6,9,10","48,61,8,71,109,114,119"),
-        ("Arcykapłan", 4, 11,"4,6,8,9,10","48,61,8,71,109,114,119"),
-        ("Lektor", 4, 12,"4,5,6,8,9,10","48,61,8,71,109,114,119"),
+        ("Kleryk", 4, 2,"4,6,9","48,61,8,71,109,114,119",'1,2,3'),
+        ("Kapłan", 4, 6,"4,6,9,10","48,61,8,71,109,114,119",'4,5,6'),
+        ("Arcykapłan", 4, 11,"4,6,8,9,10","48,61,8,71,109,114,119",'7,8,9'),
+        ("Lektor", 4, 12,"4,5,6,8,9,10","48,61,8,71,109,114,119",'10,11,12'),
 
-       ("Studentka Medycyny", 5, 4,"7,8,9","48,61,8,71,109,114,119"),
-       ("Medyczka", 5, 8,"7,8,9,10","48,61,8,71,109,114,119"),
-       ("Doktor",5 , 10,"5,7,8,9,10","48,61,8,71,109,114,119"),
-       ("Nadworna Medyczka", 5, 11,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Studentka Medycyny", 5, 4,"7,8,9","48,61,8,71,109,114,119",'13,14,15'),
+       ("Medyczka", 5, 8,"7,8,9,10","48,61,8,71,109,114,119",'16,17,18'),
+       ("Doktor",5 , 10,"5,7,8,9,10","48,61,8,71,109,114,119",'19,20,21'),
+       ("Nadworna Medyczka", 5, 11,"5,6,7,8,9,10","48,61,8,71,109,114,119",'22,23,24'),
 
-       ("Nowicjuszka", 6,1 ,"7,8,10","48,61,8,71,109,114,119"),
-       ("Mniszka", 6, 4,"7,8,9,10","48,61,8,71,109,114,119"),
-       ("Przeorysza", 6,7 ,"5,7,8,9,10","48,61,8,71,109,114,119"),
-       ("Matka Przełożona", 6, 10,"4,5,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Nowicjuszka", 6,1 ,"7,8,10","48,61,8,71,109,114,119",'25,26,27'),
+       ("Mniszka", 6, 4,"7,8,9,10","48,61,8,71,109,114,119",'28,29,30'),
+       ("Przeorysza", 6,7 ,"5,7,8,9,10","48,61,8,71,109,114,119",'31,32,33'),
+       ("Matka Przełożona", 6, 10,"4,5,7,8,9,10","48,61,8,71,109,114,119",'31,32,33'),
 
-       ("Studentka Prawa", 7, 4,"5,7,8","48,61,8,71,109,114,119"),
-       ("Prawniczka", 7, 8,"5,7,8,10","48,61,8,71,109,114,119"),
-       ("Obrońca", 7, 11,"5,7,8,9,10","48,61,8,71,109,114,119"),
-       ("Sędzia", 7, 12,"4,5,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Studentka Prawa", 7, 4,"5,7,8","48,61,8,71,109,114,119",'31,32,33'),
+       ("Prawniczka", 7, 8,"5,7,8,10","48,61,8,71,109,114,119",'31,32,33'),
+       ("Obrońca", 7, 11,"5,7,8,9,10","48,61,8,71,109,114,119",'31,32,33'),
+       ("Sędzia", 7, 12,"4,5,7,8,9,10","48,61,8,71,109,114,119",'31,32,33'),
 
-       ("Student", 8, 3,"4,8,9","48,61,8,71,109,114,119"),
-       ("Uczony", 8, 7,"4,5,8,9","48,61,8,71,109,114,119"),
-       ("Wykładowca", 8, 10,"4,5,8,9,10","48,61,8,71,109,114,119"),
-       ("Profesor", 8,11 ,"4,5,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Student", 8, 3,"4,8,9","48,61,8,71,109,114,119",'31,32,33'),
+       ("Uczony", 8, 7,"4,5,8,9","48,61,8,71,109,114,119",'31,32,33'),
+       ("Wykładowca", 8, 10,"4,5,8,9,10","48,61,8,71,109,114,119",'31,32,33'),
+       ("Profesor", 8,11 ,"4,5,7,8,9,10","48,61,8,71,109,114,119",'31,32,33'),
 
-       ("Pamflecista", 9,1 ,"2,8,10","48,61,8,71,109,114,119"),
-       ("Agitator", 9, 2,"2,6,8,10","48,61,8,71,109,114,119"),
-       ("Podżegacz", 9, 3,"1,2,6,8,10","48,61,8,71,109,114,119"),
-       ("Demagog", 9, 5,"1,2,5,6,8,10","48,61,8,71,109,114,119"),
+       ("Pamflecista", 9,1 ,"2,8,10","48,61,8,71,109,114,119",'31,32,33'),
+       ("Agitator", 9, 2,"2,6,8,10","48,61,8,71,109,114,119",'31,32,33'),
+       ("Podżegacz", 9, 3,"1,2,6,8,10","48,61,8,71,109,114,119",'31,32,33'),
+       ("Demagog", 9, 5,"1,2,5,6,8,10","48,61,8,71,109,114,119",'31,32,33'),
 
-       ("Handlarz", 10, 7,"6,9,10","48,61,8,71,109,114,119"),
-       ("Kupiec", 10, 10,"6,8,9,10","48,61,8,71,109,114,119"),
-       ("Mistrz Kupiectwa", 10, 11,"5,6,8,9,10","48,61,8,71,109,114,119"),
-       ("Patrycjusz", 10,13,"1,5,6,8,9,10" ,"48,61,8,71,109,114,119"),
+       ("Handlarz", 10, 7,"6,9,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Kupiec", 10, 10,"6,8,9,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Mistrz Kupiectwa", 10, 11,"5,6,8,9,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Patrycjusz", 10,13,"1,5,6,8,9,10" ,"48,61,8,71,109,114,119",'54,53,65'),
 
-       ("Przekupka", 11,6 ,"6,8,10","48,61,8,71,109,114,119"),
-       ("Mieszczka", 11,7 ,"5,6,8,10","48,61,8,71,109,114,119"),
-       ("Rajczyni Miejska", 11,10 ,"5,6,7,8,10","48,61,8,71,109,114,119"),
-       ("Burmistrz", 11, 11,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Przekupka", 11,6 ,"6,8,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Mieszczka", 11,7 ,"5,6,8,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Rajczyni Miejska", 11,10 ,"5,6,7,8,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Burmistrz", 11, 11,"5,6,7,8,9,10","48,61,8,71,109,114,119",'54,53,65'),
 
-       ("Czeladniczka", 12, 2,"3,4,7","48,61,8,71,109,114,119"),
-       ("Rzemieślniczka", 12,6 ,"3,4,7,10","48,61,8,71,109,114,119"),
-       ("Mistrzyni Rzemiosła", 12,8 ,"3,4,7,9,10","48,61,8,71,109,114,119"),
-       ("Mistrzyni Cechu", 12,11 ,"3,4,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Czeladniczka", 12, 2,"3,4,7","48,61,8,71,109,114,119",'54,53,65'),
+       ("Rzemieślniczka", 12,6 ,"3,4,7,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Mistrzyni Rzemiosła", 12,8 ,"3,4,7,9,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Mistrzyni Cechu", 12,11 ,"3,4,7,8,9,10","48,61,8,71,109,114,119",'54,53,65'),
 
-       ("Rekrut Straży", 13, 3 ,"1,3,10","48,61,8,71,109,114,119"),
-       ("Strażnik", 13, 6 ,"1,3,9,10","48,61,8,71,109,114,119"),
-       ("Sierżant Straży", 13, 8 ,"1,3,5,9,10","48,61,8,71,109,114,119"),
-       ("Kapitan Straży", 13, 11 ,"1,3,5,8,9,10","48,61,8,71,109,114,119"),
+       ("Rekrut Straży", 13, 3 ,"1,3,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Strażnik", 13, 6 ,"1,3,9,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Sierżant Straży", 13, 8 ,"1,3,5,9,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Kapitan Straży", 13, 11 ,"1,3,5,8,9,10","48,61,8,71,109,114,119",'54,53,65'),
 
-       ("Uczeń Szczurołapa", 14,3 ,"1,2,9","48,61,8,71,109,114,119"),
-       ("Szczurołap", 14, 6 ,"1,2,4,9","48,61,8,71,109,114,119"),
-       ("Strażnik Kanałów", 14,7 ,"1,2,4,5,9","48,61,8,71,109,114,119"),
-       ("Tępiciel", 14, 8, "1,2,3,4,5,9","48,61,8,71,109,114,119"),
+       ("Uczeń Szczurołapa", 14,3 ,"1,2,9","48,61,8,71,109,114,119",'54,53,65'),
+       ("Szczurołap", 14, 6 ,"1,2,4,9","48,61,8,71,109,114,119",'54,53,65'),
+       ("Strażnik Kanałów", 14,7 ,"1,2,4,5,9","48,61,8,71,109,114,119",'54,53,65'),
+       ("Tępiciel", 14, 8, "1,2,3,4,5,9","48,61,8,71,109,114,119",'54,53,65'),
 
-       ("Szpicel", 15, 6 ,"5,6,8","48,61,8,71,109,114,119"),
-       ("Śledczy", 15, 7 ,"5,6,8,10","48,61,8,71,109,114,119"),
-       ("Starszy Śledczy", 15, 8 ,"5,6,7,8,10","48,61,8,71,109,114,119"),
-       ("Detektyw", 15,10 ,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Szpicel", 15, 6 ,"5,6,8","48,61,8,71,109,114,119",'54,53,65'),
+       ("Śledczy", 15, 7 ,"5,6,8,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Starszy Śledczy", 15, 8 ,"5,6,7,8,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Detektyw", 15,10 ,"5,6,7,8,9,10","48,61,8,71,109,114,119",'54,53,65'),
 
-       ("Biedak", 16, 17 ,"4,6,10","48,61,8,71,109,114,119"),
-       ("Żebrak", 16, 2 ,"4,6,9,10","48,61,8,71,109,114,119"),
-       ("Mistrz Żebraków", 16,4 ,"1,4,6,9,10","48,61,8,71,109,114,119"),
-       ("Król Żebraków", 16, 7,"1,4,5,6,9,10","48,61,8,71,109,114,119") ,
+       ("Biedak", 16, 17 ,"4,6,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Żebrak", 16, 2 ,"4,6,9,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Mistrz Żebraków", 16,4 ,"1,4,6,9,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Król Żebraków", 16, 7,"1,4,5,6,9,10","48,61,8,71,109,114,119",'54,53,65') ,
 
-       ("Uczennica Artysty", 17, 6,"3,5,7","48,61,8,71,109,114,119"),
-       ("Artystka", 17, 8,"3,5,7,10","48,61,8,71,109,114,119"),
-       ("Mistrzyni Sztuki", 17,10,"3,5,7,9,10","48,61,8,71,109,114,119"),
-       ("Maestro", 17,12 ,"3,5,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Uczennica Artysty", 17, 6,"3,5,7","48,61,8,71,109,114,119",'54,53,65'),
+       ("Artystka", 17, 8,"3,5,7,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Mistrzyni Sztuki", 17,10,"3,5,7,9,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Maestro", 17,12 ,"3,5,7,8,9,10","48,61,8,71,109,114,119",'54,53,65'),
 
-       ("Asystent", 18,7 ,"4,5,6","48,61,8,71,109,114,119"),
-       ("Doradca", 18,9 ,"4,5,6,10","48,61,8,71,109,114,119"),
-       ("Radca", 18,11 ,"4,5,6,8,10","48,61,8,71,109,114,119"),
-       ("Kanclerz", 18, 13 ,"4,5,6,8,9,10","48,61,8,71,109,114,119"),
+       ("Asystent", 18,7 ,"4,5,6","48,61,8,71,109,114,119",'54,53,65'),
+       ("Doradca", 18,9 ,"4,5,6,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Radca", 18,11 ,"4,5,6,8,10","48,61,8,71,109,114,119",'54,53,65'),
+       ("Kanclerz", 18, 13 ,"4,5,6,8,9,10","48,61,8,71,109,114,119",'54,53,65'),
 
-       ("Nadzorca", 19, 6,"3,4,9","48,61,8,71,109,114,119"),
-       ("Namiestnik", 19, 8,"1,3,4,9","48,61,8,71,109,114,119"),
-       ("Seneszal", 19, 11 ,"1,3,4,9,10","48,61,8,71,109,114,119"),
-       ("Gubernator", 19, 13 ,"1,3,4,8,9,10","48,61,8,71,109,114,119"),
+       ("Nadzorca", 19, 6,"3,4,9","48,61,8,71,109,114,119",'45,98,46'),
+       ("Namiestnik", 19, 8,"1,3,4,9","48,61,8,71,109,114,119",'45,98,46'),
+       ("Seneszal", 19, 11 ,"1,3,4,9,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Gubernator", 19, 13 ,"1,3,4,8,9,10","48,61,8,71,109,114,119",'45,98,46'),
 
-       ("Herold", 20, 7 ,"4,6,10","48,61,8,71,109,114,119"),
-       ("Poseł", 20,9 ,"4,6,8,10","48,61,8,71,109,114,119"),
-       ("Dyplomata", 20, 12,"4,5,6,8,10","48,61,8,71,109,114,119"),
-       ("Ambasador", 20, 15,"4,5,6,8,9,10","48,61,8,71,109,114,119"),
+       ("Herold", 20, 7 ,"4,6,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Poseł", 20,9 ,"4,6,8,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Dyplomata", 20, 12,"4,5,6,8,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Ambasador", 20, 15,"4,5,6,8,9,10","48,61,8,71,109,114,119",'45,98,46'),
 
-       ("Posługaczka", 21,6 ,"3,4,6","48,61,8,71,109,114,119"),
-       ("Służąca", 21, 8 ,"3,4,5,6","48,61,8,71,109,114,119"),
-       ("Pokojowa", 21,10 ,"3,4,5,6,8","48,61,8,71,109,114,119"),
-       ("Ochmistrzyni", 21,11 ,"3,4,5,6,8,10","48,61,8,71,109,114,119"),
+       ("Posługaczka", 21,6 ,"3,4,6","48,61,8,71,109,114,119",'45,98,46'),
+       ("Służąca", 21, 8 ,"3,4,5,6","48,61,8,71,109,114,119",'45,98,46'),
+       ("Pokojowa", 21,10 ,"3,4,5,6,8","48,61,8,71,109,114,119",'45,98,46'),
+       ("Ochmistrzyni", 21,11 ,"3,4,5,6,8,10","48,61,8,71,109,114,119",'45,98,46'),
 
-       ("Dziedzic", 22, 11 ,"1,5,7","48,61,8,71,109,114,119"),
-       ("Szlachcic", 22, 13 ,"1,5,7,10","48,61,8,71,109,114,119"),
-       ("Magnat", 22, 15 ,"1,5,7,8,10","48,61,8,71,109,114,119"),
-       ("Lord", 22, 16 ,"1,5,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Dziedzic", 22, 11 ,"1,5,7","48,61,8,71,109,114,119",'45,98,46'),
+       ("Szlachcic", 22, 13 ,"1,5,7,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Magnat", 22, 15 ,"1,5,7,8,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Lord", 22, 16 ,"1,5,7,8,9,10","48,61,8,71,109,114,119",'45,98,46'),
 
-       ("Informator", 23, 3 ,"6,9,10","48,61,8,71,109,114,119"),
-       ("Szpieg", 23, 8 ,"1,6,9,10","48,61,8,71,109,114,119"),
-       ("Agent", 23, 11 ,"1,5,6,9,10","48,61,8,71,109,114,119"),
-       ("Mistrz Szpiegów", 23, 14,"1,5,6,8,9,10","48,61,8,71,109,114,119"),
+       ("Informator", 23, 3 ,"6,9,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Szpieg", 23, 8 ,"1,6,9,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Agent", 23, 11 ,"1,5,6,9,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Mistrz Szpiegów", 23, 14,"1,5,6,8,9,10","48,61,8,71,109,114,119",'45,98,46'),
 
-       ("Szermierz", 24,8 ,"1,5,6","48,61,8,71,109,114,119"),
-       ("Zwadźca", 24,10 ,"1,2,5,6","48,61,8,71,109,114,119"),
-       ("Mistrz Pojedynków", 24,11,"1,2,3,5,6","48,61,8,71,109,114,119"),
-       ("Szampierz Sądowy", 24,13 ,"1,2,3,5,6,9","48,61,8,71,109,114,119"),
+       ("Szermierz", 24,8 ,"1,5,6","48,61,8,71,109,114,119",'45,98,46'),
+       ("Zwadźca", 24,10 ,"1,2,5,6","48,61,8,71,109,114,119",'45,98,46'),
+       ("Mistrz Pojedynków", 24,11,"1,2,3,5,6","48,61,8,71,109,114,119",'45,98,46'),
+       ("Szampierz Sądowy", 24,13 ,"1,2,3,5,6,9","48,61,8,71,109,114,119",'45,98,46'),
 
-       ("Wyrobnica", 25, 2,"3,4,6","48,61,8,71,109,114,119"),
-       ("Chłopka", 25, 3,"1,3,4,6","48,61,8,71,109,114,119"),
-       ("Gospodyni", 25, 4,"1,3,4,6,10","48,61,8,71,109,114,119"),
-       ("Starsza Wioski", 25, 7,"1,3,4,6,8,10","48,61,8,71,109,114,119"),
+       ("Wyrobnica", 25, 2,"3,4,6","48,61,8,71,109,114,119",'45,98,46'),
+       ("Chłopka", 25, 3,"1,3,4,6","48,61,8,71,109,114,119",'45,98,46'),
+       ("Gospodyni", 25, 4,"1,3,4,6,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Starsza Wioski", 25, 7,"1,3,4,6,8,10","48,61,8,71,109,114,119",'45,98,46'),
 
-       ("Poszukiwacz", 26, 2,"3,4,9","48,61,8,71,109,114,119"),
-       ("Górnik", 26, 4,"1,3,4,9","48,61,8,71,109,114,119"),
-       ("Sztygar", 26, 5,"1,3,4,5,9","48,61,8,71,109,114,119"),
-       ("Mistrz Górnictwa", 26, 9,"1,3,4,5,9,10","48,61,8,71,109,114,119"),
+       ("Poszukiwacz", 26, 2,"3,4,9","48,61,8,71,109,114,119",'45,98,46'),
+       ("Górnik", 26, 4,"1,3,4,9","48,61,8,71,109,114,119",'45,98,46'),
+       ("Sztygar", 26, 5,"1,3,4,5,9","48,61,8,71,109,114,119",'45,98,46'),
+       ("Mistrz Górnictwa", 26, 9,"1,3,4,5,9,10","48,61,8,71,109,114,119",'45,98,46'),
 
-       ("Uczeń Guślarza", 27, 1,"4,5,7","48,61,8,71,109,114,119"),
-       ("Guślarz", 27, 2,"4,5,7,8","48,61,8,71,109,114,119"),
-       ("Starszy Guślarzy", 27,3 ,"4,5,7,8,10","48,61,8,71,109,114,119"),
-       ("Wiedzący", 27, 5,"4,5,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Uczeń Guślarza", 27, 1,"4,5,7","48,61,8,71,109,114,119",'45,98,46'),
+       ("Guślarz", 27, 2,"4,5,7,8","48,61,8,71,109,114,119",'45,98,46'),
+       ("Starszy Guślarzy", 27,3 ,"4,5,7,8,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Wiedzący", 27, 5,"4,5,7,8,9,10","48,61,8,71,109,114,119",'45,98,46'),
 
-       ("Traperka", 28, 2,"3,4,7","48,61,8,71,109,114,119"),
-       ("Łowczyni", 28,4 ,"2,3,4,7","48,61,8,71,109,114,119"),
-       ("Tropicielka", 28, 6,"2,3,4,5,7","48,61,8,71,109,114,119"),
-       ("Nadworna Łowczyni", 28, 8,"2,3,4,5,7,8","48,61,8,71,109,114,119"),
+       ("Traperka", 28, 2,"3,4,7","48,61,8,71,109,114,119",'45,98,46'),
+       ("Łowczyni", 28,4 ,"2,3,4,7","48,61,8,71,109,114,119",'45,98,46'),
+       ("Tropicielka", 28, 6,"2,3,4,5,7","48,61,8,71,109,114,119",'45,98,46'),
+       ("Nadworna Łowczyni", 28, 8,"2,3,4,5,7,8","48,61,8,71,109,114,119",'45,98,46'),
 
-       ("Wróżbiarka", 29, 1,"5,7,10","48,61,8,71,109,114,119"),
-       ("Mistyczka", 29, 2,"5,7,9,10","48,61,8,71,109,114,119"),
-       ("Widząca", 29, 3,"5,6,7,9,10","48,61,8,71,109,114,119"),
-       ("Prorokini", 29, 4,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Wróżbiarka", 29, 1,"5,7,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Mistyczka", 29, 2,"5,7,9,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Widząca", 29, 3,"5,6,7,9,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Prorokini", 29, 4,"5,6,7,8,9,10","48,61,8,71,109,114,119",'45,98,46'),
 
-       ("Poborca Podatków", 30,6 ,"1,5,9","48,61,8,71,109,114,119"),
-       ("Zarządca", 30,10 ,"1,5,9,10","48,61,8,71,109,114,119"),
-       ("Włodarz", 30,11,"1,5,6,9,10","48,61,8,71,109,114,119"),
-       ("Komornik", 30, 13,"1,5,6,8,9,10","48,61,8,71,109,114,119"),
+       ("Poborca Podatków", 30,6 ,"1,5,9","48,61,8,71,109,114,119",'45,98,46'),
+       ("Zarządca", 30,10 ,"1,5,9,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Włodarz", 30,11,"1,5,6,9,10","48,61,8,71,109,114,119",'45,98,46'),
+       ("Komornik", 30, 13,"1,5,6,8,9,10","48,61,8,71,109,114,119",'45,98,46'),
 
-       ("Zbieraczka Ziół", 31, 2,"4,5,6","48,61,8,71,109,114,119"),
-       ("Zielarka", 31, 4,"4,5,6,7","48,61,8,71,109,114,119"),
-       ("Mistrzyni Ziołolecznictwa", 31, 6,"4,5,6,7,10","48,61,8,71,109,114,119"),
-       ("Arcyzielarka", 31,8,"4,5,6,7,8,10","48,61,8,71,109,114,119"),
+       ("Zbieraczka Ziół", 31, 2,"4,5,6","48,61,8,71,109,114,119",'34,47,78'),
+       ("Zielarka", 31, 4,"4,5,6,7","48,61,8,71,109,114,119",'34,47,78'),
+       ("Mistrzyni Ziołolecznictwa", 31, 6,"4,5,6,7,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Arcyzielarka", 31,8,"4,5,6,7,8,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Przewodnik", 32, 3,"4,5,6","48,61,8,71,109,114,119"),
-       ("Zwiadowca", 32,5 ,"2,4,5,6","48,61,8,71,109,114,119"),
-       ("Przepatrywacz", 32, 6,"2,4,5,6,8","48,61,8,71,109,114,119"),
-       ("Odkrywca", 32,10 ,"2,4,5,6,7,8","48,61,8,71,109,114,119"),
+       ("Przewodnik", 32, 3,"4,5,6","48,61,8,71,109,114,119",'34,47,78'),
+       ("Zwiadowca", 32,5 ,"2,4,5,6","48,61,8,71,109,114,119",'34,47,78'),
+       ("Przepatrywacz", 32, 6,"2,4,5,6,8","48,61,8,71,109,114,119",'34,47,78'),
+       ("Odkrywca", 32,10 ,"2,4,5,6,7,8","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Gorliwiec", 33, 17,"1,3,4","48,61,8,71,109,114,119"),
-       ("Biczownik", 33, 17,"1,3,4,9","48,61,8,71,109,114,119"),
-       ("Pokutnik", 33,17 ,"1,3,4,5,9","48,61,8,71,109,114,119"),
-       ("Piewca Zagłady", 33,17 ,"1,3,4,5,9,10","48,61,8,71,109,114,119"),
+       ("Gorliwiec", 33, 17,"1,3,4","48,61,8,71,109,114,119",'34,47,78'),
+       ("Biczownik", 33, 17,"1,3,4,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Pokutnik", 33,17 ,"1,3,4,5,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Piewca Zagłady", 33,17 ,"1,3,4,5,9,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Powsinoga", 34, 1,"4,7,9","48,61,8,71,109,114,119"),
-       ("Domokrążca", 34, 4,"4,7,9,10","48,61,8,71,109,114,119"),
-       ("Doświadczony Domokrążca", 34,6 ,"4,5,7,9,10","48,61,8,71,109,114,119"),
-       ("Wędrowny Handlarz", 34, 8,"4,5,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Powsinoga", 34, 1,"4,7,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Domokrążca", 34, 4,"4,7,9,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Doświadczony Domokrążca", 34,6 ,"4,5,7,9,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Wędrowny Handlarz", 34, 8,"4,5,7,8,9,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Muzykantka", 35, 3,"5,6,10","48,61,8,71,109,114,119"),
-       ("Kuglarka", 35, 5,"1,5,6,10","48,61,8,71,109,114,119"),
-       ("Trubadurka", 35, 8,"1,2,5,6,10","48,61,8,71,109,114,119"),
-       ("Przywódczyni Trupy", 35, 11,"1,2,4,5,6,10","48,61,8,71,109,114,119"),
+       ("Muzykantka", 35, 3,"5,6,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Kuglarka", 35, 5,"1,5,6,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Trubadurka", 35, 8,"1,2,5,6,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Przywódczyni Trupy", 35, 11,"1,2,4,5,6,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Oprawca", 36,6,"1,4,9","48,61,8,71,109,114,119"),
-       ("Łowca Czarownic", 36,8 ,"1,2,4,9","48,61,8,71,109,114,119"),
-       ("Inkwizytor", 36, 10,"1,2,4,9,10","48,61,8,71,109,114,119"),
-       ("Generał Łowców Czarownic", 36,11 ,"1,2,4,8,9,10","48,61,8,71,109,114,119"),
+       ("Oprawca", 36,6,"1,4,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Łowca Czarownic", 36,8 ,"1,2,4,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Inkwizytor", 36, 10,"1,2,4,9,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Generał Łowców Czarownic", 36,11 ,"1,2,4,8,9,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Pogromczyni Złodziei", 37, 6,"1,4,6","48,61,8,71,109,114,119"),
-       ("Łowczyni Nagród", 37,8 ,"1,2,4,6","48,61,8,71,109,114,119"),
-       ("Doświadczona Łowczyni Nagród", 37,10,"1,2,3,4,6","48,61,8,71,109,114,119"),
-       ("Legendarna Łowczyni Nagród", 37,11,"1,2,3,4,6,8","48,61,8,71,109,114,119"),
+       ("Pogromczyni Złodziei", 37, 6,"1,4,6","48,61,8,71,109,114,119",'34,47,78'),
+       ("Łowczyni Nagród", 37,8 ,"1,2,4,6","48,61,8,71,109,114,119",'34,47,78'),
+       ("Doświadczona Łowczyni Nagród", 37,10,"1,2,3,4,6","48,61,8,71,109,114,119",'34,47,78'),
+       ("Legendarna Łowczyni Nagród", 37,11,"1,2,3,4,6,8","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Goniec", 38, 3,"4,5,6","48,61,8,71,109,114,119"),
-       ("Posłaniec", 38, 6,"1,4,5,6","48,61,8,71,109,114,119"),
-       ("Kurier", 38, 8,"1,4,5,6,9","48,61,8,71,109,114,119"),
-       ("Kapitan Kurierów", 38,10,"1,4,5,6,9,10","48,61,8,71,109,114,119"),
+       ("Goniec", 38, 3,"4,5,6","48,61,8,71,109,114,119",'34,47,78'),
+       ("Posłaniec", 38, 6,"1,4,5,6","48,61,8,71,109,114,119",'34,47,78'),
+       ("Kurier", 38, 8,"1,4,5,6,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Kapitan Kurierów", 38,10,"1,4,5,6,9,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Mytniczka", 39,5 ,"2,4,5","48,61,8,71,109,114,119"),
-       ("Strażniczka Dróg", 39, 7,"1,2,4,5","48,61,8,71,109,114,119"),
-       ("Sierżant Strażników Dróg", 39, 9,"1,2,4,5,10","48,61,8,71,109,114,119"),
-       ("Kapitan Strażników Dróg", 39, 11,"1,2,4,5,8,10","48,61,8,71,109,114,119"),
+       ("Mytniczka", 39,5 ,"2,4,5","48,61,8,71,109,114,119",'34,47,78'),
+       ("Strażniczka Dróg", 39, 7,"1,2,4,5","48,61,8,71,109,114,119",'34,47,78'),
+       ("Sierżant Strażników Dróg", 39, 9,"1,2,4,5,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Kapitan Strażników Dróg", 39, 11,"1,2,4,5,8,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Foryś", 40, 6,"2,4,9","48,61,8,71,109,114,119"),
-       ("Woźnica", 40,7 ,"2,4,6,9","48,61,8,71,109,114,119"),
-       ("Mistrz Woźniców", 40,8,"1,2,4,6,9","48,61,8,71,109,114,119"),
-       ("Mistrz Szlaków", 40,10 ,"1,2,4,5,6,9","48,61,8,71,109,114,119"),
+       ("Foryś", 40, 6,"2,4,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Woźnica", 40,7 ,"2,4,6,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Mistrz Woźniców", 40,8,"1,2,4,6,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Mistrz Szlaków", 40,10 ,"1,2,4,5,6,9","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Pomocnik Dokera", 41,3,"1,4,5","48,61,8,71,109,114,119"),
-       ("Doker", 41, 6,"1,3,4,5","48,61,8,71,109,114,119"),
-       ("Brygadzista", 41, 8,"1,3,4,5,9","48,61,8,71,109,114,119"),
-       ("Mistrz Dokerów", 41,10 ,"1,3,4,5,8,9","48,61,8,71,109,114,119"),
+       ("Pomocnik Dokera", 41,3,"1,4,5","48,61,8,71,109,114,119",'34,47,78'),
+       ("Doker", 41, 6,"1,3,4,5","48,61,8,71,109,114,119",'34,47,78'),
+       ("Brygadzista", 41, 8,"1,3,4,5,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Mistrz Dokerów", 41,10 ,"1,3,4,5,8,9","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Rybak", 42, 2,"4,6,7","48,61,8,71,109,114,119"),
-       ("Flisak", 42, 3,"1,4,6,7","48,61,8,71,109,114,119"),
-       ("Znawca Rzeki", 42, 5,"1,4,5,6,7","48,61,8,71,109,114,119"),
-       ("Starszy Rzeczny", 42, 7,"1,4,5,6,7,10","48,61,8,71,109,114,119"),
+       ("Rybak", 42, 2,"4,6,7","48,61,8,71,109,114,119",'34,47,78'),
+       ("Flisak", 42, 3,"1,4,6,7","48,61,8,71,109,114,119",'34,47,78'),
+       ("Znawca Rzeki", 42, 5,"1,4,5,6,7","48,61,8,71,109,114,119",'34,47,78'),
+       ("Starszy Rzeczny", 42, 7,"1,4,5,6,7,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Przewodniczka Rzeczna", 43,4,"1,4,5","48,61,8,71,109,114,119"),
-       ("Pilotka Rzeczna", 43, 6,"1,4,5,9","48,61,8,71,109,114,119"),
-       ("Starsza Pilotka", 43,8 ,"1,4,5,8,9","48,61,8,71,109,114,119"),
-       ("Legendarna Pilotka", 43,10,"1,4,5,8,9,10","48,61,8,71,109,114,119"),
+       ("Przewodniczka Rzeczna", 43,4,"1,4,5","48,61,8,71,109,114,119",'34,47,78'),
+       ("Pilotka Rzeczna", 43, 6,"1,4,5,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Starsza Pilotka", 43,8 ,"1,4,5,8,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Legendarna Pilotka", 43,10,"1,4,5,8,9,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Szabrownik", 44, 2,"1,3,5","48,61,8,71,109,114,119"),
-       ("Pirat Rzeczny", 44, 3,"1,3,5,9","48,61,8,71,109,114,119"),
-       ("Łupieżca", 44, 5,"1,2,3,5,9","48,61,8,71,109,114,119"),
-       ("Kapitan Łupieżców", 44, 7,"1,2,3,5,9,10","48,61,8,71,109,114,119"),
+       ("Szabrownik", 44, 2,"1,3,5","48,61,8,71,109,114,119",'34,47,78'),
+       ("Pirat Rzeczny", 44, 3,"1,3,5,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Łupieżca", 44, 5,"1,2,3,5,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Kapitan Łupieżców", 44, 7,"1,2,3,5,9,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Szmuglerka Rzeczna", 45, 2,"6,7,9","48,61,8,71,109,114,119"),
-       ("Przemytniczka", 45,3 ,"5,6,7,9","48,61,8,71,109,114,119"),
-       ("Doświadczona Przemytniczka", 45, 5,"5,6,7,8,9","48,61,8,71,109,114,119"),
-       ("Królowa Przemytników", 45,7,"5,6,7,8,9,10","48,61,8,71,109,114,119" ),
+       ("Szmuglerka Rzeczna", 45, 2,"6,7,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Przemytniczka", 45,3 ,"5,6,7,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Doświadczona Przemytniczka", 45, 5,"5,6,7,8,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Królowa Przemytników", 45,7,"5,6,7,8,9,10","48,61,8,71,109,114,119" ,'34,47,78'),
 
-       ("Chłopiec Pokładowy", 46, 6,"3,4,6","48,61,8,71,109,114,119"),
-       ("Przewoźnik", 46, 7,"3,4,5,6","48,61,8,71,109,114,119"),
-       ("Sternik", 46, 8,"3,4,5,6,7","48,61,8,71,109,114,119"),
-       ("Kapitan Barki", 46, 10,"3,4,5,6,7,8","48,61,8,71,109,114,119"),
+       ("Chłopiec Pokładowy", 46, 6,"3,4,6","48,61,8,71,109,114,119",'34,47,78'),
+       ("Przewoźnik", 46, 7,"3,4,5,6","48,61,8,71,109,114,119",'34,47,78'),
+       ("Sternik", 46, 8,"3,4,5,6,7","48,61,8,71,109,114,119",'34,47,78'),
+       ("Kapitan Barki", 46, 10,"3,4,5,6,7,8","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Rekrut Rzeczny", 47, 6,"2,3,10","48,61,8,71,109,114,119"),
-       ("Strażnik Rzeczny", 47, 7,"1,2,3,10","48,61,8,71,109,114,119"),
-       ("Żołnierz Okrętowy", 47,9 ,"1,2,3,5,10","48,61,8,71,109,114,119"),
-       ("Mistrz Żołnierzy Okrętowych", 47, 11,"1,2,3,5,8,10","48,61,8,71,109,114,119"),
+       ("Rekrut Rzeczny", 47, 6,"2,3,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Strażnik Rzeczny", 47, 7,"1,2,3,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Żołnierz Okrętowy", 47,9 ,"1,2,3,5,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Mistrz Żołnierzy Okrętowych", 47, 11,"1,2,3,5,8,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Szczur Lądowy", 48, 6,"6,7,10","48,61,8,71,109,114,119"),
-       ("Żeglarz", 48, 8,"1,6,7,10","48,61,8,71,109,114,119"),
-       ("Bosman", 48, 10,"1,5,6,7,10","48,61,8,71,109,114,119"),
-       ("Kapitan Statku", 48,12 ,"1,5,6,7,8,10","48,61,8,71,109,114,119"),
+       ("Szczur Lądowy", 48, 6,"6,7,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Żeglarz", 48, 8,"1,6,7,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Bosman", 48, 10,"1,5,6,7,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Kapitan Statku", 48,12 ,"1,5,6,7,8,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Zbój", 49, 1,"1,3,4","48,61,8,71,109,114,119"),
-       ("Banita", 49, 2,"1,2,3,4","48,61,8,71,109,114,119"),
-       ("Herszt Banitów", 49,4,"1,2,3,4,5","48,61,8,71,109,114,119"),
-       ("Król Banitów", 49,7,"1,2,3,4,5,10","48,61,8,71,109,114,119"),
+       ("Zbój", 49, 1,"1,3,4","48,61,8,71,109,114,119",'34,47,78'),
+       ("Banita", 49, 2,"1,2,3,4","48,61,8,71,109,114,119",'34,47,78'),
+       ("Herszt Banitów", 49,4,"1,2,3,4,5","48,61,8,71,109,114,119",'34,47,78'),
+       ("Król Banitów", 49,7,"1,2,3,4,5,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Szeptucha", 50,1 ,"1,4,9","48,61,8,71,109,114,119"),
-       ("Czarownica", 50, 2,"1,4,5,9","48,61,8,71,109,114,119"),
-       ("Wiedźma", 50, 3,"1,4,5,9,10","48,61,8,71,109,114,119"),
-       ("Arcyczarownica", 50, 5,"1,4,5,8,9,10","48,61,8,71,109,114,119"),
+       ("Szeptucha", 50,1 ,"1,4,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Czarownica", 50, 2,"1,4,5,9","48,61,8,71,109,114,119",'34,47,78'),
+       ("Wiedźma", 50, 3,"1,4,5,9,10","48,61,8,71,109,114,119",'34,47,78'),
+       ("Arcyczarownica", 50, 5,"1,4,5,8,9,10","48,61,8,71,109,114,119",'34,47,78'),
 
-       ("Porywaczka Zwłok", 51,2,"3,5,9","48,61,8,71,109,114,119"),
-       ("Hiena Cmentarna", 51, 3,"1,3,5,9","48,61,8,71,109,114,119"),
-       ("Rabuś Grobowców", 51,6 ,"1,3,5,7,9","48,61,8,71,109,114,119"),
-       ("Łowczyni Skarbów", 51, 10,"1,3,5,7,8,9","48,61,8,71,109,114,119"),
+       ("Porywaczka Zwłok", 51,2,"3,5,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Hiena Cmentarna", 51, 3,"1,3,5,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Rabuś Grobowców", 51,6 ,"1,3,5,7,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Łowczyni Skarbów", 51, 10,"1,3,5,7,8,9","48,61,8,71,109,114,119",'76,53,21'),
 
-       ("Pośrednik", 52,6 ,"5,6,10","48,61,8,71,109,114,119"),
-       ("Paser", 52, 7,"5,6,7,10","48,61,8,71,109,114,119"),
-       ("Mistrz Paserów", 52, 8,"5,6,7,8,10","48,61,8,71,109,114,119"),
-       ("Broker Informacji", 52, 9,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Pośrednik", 52,6 ,"5,6,10","48,61,8,71,109,114,119",'76,53,21'),
+       ("Paser", 52, 7,"5,6,7,10","48,61,8,71,109,114,119",'76,53,21'),
+       ("Mistrz Paserów", 52, 8,"5,6,7,8,10","48,61,8,71,109,114,119",'76,53,21'),
+       ("Broker Informacji", 52, 9,"5,6,7,8,9,10","48,61,8,71,109,114,119",'76,53,21'),
 
-       ("Naganiacz", 53,1 ,"6,7,10","48,61,8,71,109,114,119"),
-       ("Rajfur", 53, 3,"5,6,7,10","48,61,8,71,109,114,119"),
-       ("Stręczyciel", 53,6 ,"5,6,7,9,10","48,61,8,71,109,114,119"),
-       ("Herszt Rajfurów", 53, 8,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Naganiacz", 53,1 ,"6,7,10","48,61,8,71,109,114,119",'76,53,21'),
+       ("Rajfur", 53, 3,"5,6,7,10","48,61,8,71,109,114,119",'76,53,21'),
+       ("Stręczyciel", 53,6 ,"5,6,7,9,10","48,61,8,71,109,114,119",'76,53,21'),
+       ("Herszt Rajfurów", 53, 8,"5,6,7,8,9,10","48,61,8,71,109,114,119",'76,53,21'),
 
-       ("Zakapiorka", 54,3,"1,3,4" ,"48,61,8,71,109,114,119"),
-       ("Rekietierka", 54,5,"1,3,4,10" ,"48,61,8,71,109,114,119"),
-       ("Głowa Gangu", 54,8 ,"1,3,4,9,10","48,61,8,71,109,114,119"),
-       ("Królowa Podziemia", 54,10,"1,3,4,8,9,10","48,61,8,71,109,114,119" ),
+       ("Zakapiorka", 54,3,"1,3,4" ,"48,61,8,71,109,114,119",'76,53,21'),
+       ("Rekietierka", 54,5,"1,3,4,10" ,"48,61,8,71,109,114,119",'76,53,21'),
+       ("Głowa Gangu", 54,8 ,"1,3,4,9,10","48,61,8,71,109,114,119",'76,53,21'),
+       ("Królowa Podziemia", 54,10,"1,3,4,8,9,10","48,61,8,71,109,114,119",'76,53,21' ),
 
-       ("Kanciarz", 55,3 ,"5,7,10","48,61,8,71,109,114,119"),
-       ("Szarlatan", 55, 5,"5,7,9,10","48,61,8,71,109,114,119"),
-       ("Oszust", 55, 7,"5,6,7,9,10","48,61,8,71,109,114,119"),
-       ("Łajdak", 55, 9,"5,6,7,8,9,10","48,61,8,71,109,114,119"),
+       ("Kanciarz", 55,3 ,"5,7,10","48,61,8,71,109,114,119",'76,53,21'),
+       ("Szarlatan", 55, 5,"5,7,9,10","48,61,8,71,109,114,119",'76,53,21'),
+       ("Oszust", 55, 7,"5,6,7,9,10","48,61,8,71,109,114,119",'76,53,21'),
+       ("Łajdak", 55, 9,"5,6,7,8,9,10","48,61,8,71,109,114,119",'76,53,21'),
 
-       ("Bandzior", 56, 1,"5,6,9","48,61,8,71,109,114,119"),
-       ("Złodziej", 56, 3,"5,6,7,9","48,61,8,71,109,114,119"),
-       ("Mistrz Złodziejski", 56,5,"3,5,6,7,9","48,61,8,71,109,114,119"),
-       ("Włamywacz", 56, 8,"3,5,6,7,9,10","48,61,8,71,109,114,119"),
+       ("Bandzior", 56, 1,"5,6,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Złodziej", 56, 3,"5,6,7,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Mistrz Złodziejski", 56,5,"3,5,6,7,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Włamywacz", 56, 8,"3,5,6,7,9,10","48,61,8,71,109,114,119",'76,53,21'),
 
-       ("Pięściarz", 57, 4,"1,3,4","48,61,8,71,109,114,119"),
-       ("Gladiator", 57,7,"1,3,4,5" ,"48,61,8,71,109,114,119"),
-       ("Mistrz Areny", 57, 10,"1,3,4,5,6","48,61,8,71,109,114,119"),
-       ("Legenda Areny", 57,12 ,"1,3,4,5,6,10","48,61,8,71,109,114,119"),
+       ("Pięściarz", 57, 4,"1,3,4","48,61,8,71,109,114,119",'76,53,21'),
+       ("Gladiator", 57,7,"1,3,4,5" ,"48,61,8,71,109,114,119",'76,53,21'),
+       ("Mistrz Areny", 57, 10,"1,3,4,5,6","48,61,8,71,109,114,119",'76,53,21'),
+       ("Legenda Areny", 57,12 ,"1,3,4,5,6,10","48,61,8,71,109,114,119",'76,53,21'),
 
-       ("Nowicjusz Kapłanów Bitewnych", 58,2 ,"1,4,9","48,61,8,71,109,114,119"),
-       ("Kapłan Bitewny", 58, 7,"1,3,4,9","48,61,8,71,109,114,119"),
-       ("Kapłan-sierżant", 58, 8,"1,3,4,5,9","48,61,8,71,109,114,119"),
-       ("Kapłan-kapitan", 58, 9,"1,3,4,5,9,10","48,61,8,71,109,114,119"),
+       ("Nowicjusz Kapłanów Bitewnych", 58,2 ,"1,4,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Kapłan Bitewny", 58, 7,"1,3,4,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Kapłan-sierżant", 58, 8,"1,3,4,5,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Kapłan-kapitan", 58, 9,"1,3,4,5,9,10","48,61,8,71,109,114,119",'76,53,21'),
 
-       ("Jeździec", 59, 7,"1,3,6","48,61,8,71,109,114,119"),
-       ("Kawalerzysta", 59,9 ,"1,2,3,6","48,61,8,71,109,114,119"),
-       ("Sierżant Kawalerii", 59,11,"1,2,3,5,6" ,"48,61,8,71,109,114,119"),
-       ("Oficer Kawalerii", 59, 12,"1,2,3,5,6,10","48,61,8,71,109,114,119"),
+       ("Jeździec", 59, 7,"1,3,6","48,61,8,71,109,114,119",'76,53,21'),
+       ("Kawalerzysta", 59,9 ,"1,2,3,6","48,61,8,71,109,114,119",'76,53,21'),
+       ("Sierżant Kawalerii", 59,11,"1,2,3,5,6" ,"48,61,8,71,109,114,119",'76,53,21'),
+       ("Oficer Kawalerii", 59, 12,"1,2,3,5,6,10","48,61,8,71,109,114,119",'76,53,21'),
 
-       ("Stróż", 60, 6,"1,4,6","48,61,8,71,109,114,119"),
-       ("Ochroniarz", 60,7 ,"1,4,5,6","48,61,8,71,109,114,119"),
-       ("Gwardzista", 60,8 ,"1,3,4,5,6","48,61,8,71,109,114,119"),
-       ("Oficer Gwardii", 60, 10,"1,3,4,5,6,8","48,61,8,71,109,114,119"),
+       ("Stróż", 60, 6,"1,4,6","48,61,8,71,109,114,119",'76,53,21'),
+       ("Ochroniarz", 60,7 ,"1,4,5,6","48,61,8,71,109,114,119",'76,53,21'),
+       ("Gwardzista", 60,8 ,"1,3,4,5,6","48,61,8,71,109,114,119",'76,53,21'),
+       ("Oficer Gwardii", 60, 10,"1,3,4,5,6,8","48,61,8,71,109,114,119",'76,53,21'),
 
-       ("Tani Drań", 61, 2,"1,4,6","48,61,8,71,109,114,119"),
-       ("Oprych", 61,6 ,"1,4,5,6","48,61,8,71,109,114,119"),
-       ("Płatny Morderca", 61,9,"1,2,4,5,6" ,"48,61,8,71,109,114,119"),
-       ("Skrytobójca", 61,11,"1,2,4,5,6,10" ,"48,61,8,71,109,114,119"),
+       ("Tani Drań", 61, 2,"1,4,6","48,61,8,71,109,114,119",'76,53,21'),
+       ("Oprych", 61,6 ,"1,4,5,6","48,61,8,71,109,114,119",'76,53,21'),
+       ("Płatny Morderca", 61,9,"1,2,4,5,6" ,"48,61,8,71,109,114,119",'76,53,21'),
+       ("Skrytobójca", 61,11,"1,2,4,5,6,10" ,"48,61,8,71,109,114,119",'76,53,21'),
 
-       ("Giermek", 62,8,"3,5,6" ,"48,61,8,71,109,114,119"),
-       ("Rycerz", 62, 10,"1,3,5,6","48,61,8,71,109,114,119"),
-       ("Pierwszy Rycerz", 62,12 ,"1,3,5,6,9","48,61,8,71,109,114,119"),
-       ("Rycerz Wewnętrznego Kręgu", 62,14,"1,3,5,6,9,10" ,"48,61,8,71,109,114,119"),
+       ("Giermek", 62,8,"3,5,6" ,"48,61,8,71,109,114,119",'76,53,21'),
+       ("Rycerz", 62, 10,"1,3,5,6","48,61,8,71,109,114,119",'76,53,21'),
+       ("Pierwszy Rycerz", 62,12 ,"1,3,5,6,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Rycerz Wewnętrznego Kręgu", 62,14,"1,3,5,6,9,10" ,"48,61,8,71,109,114,119",'76,53,21'),
 
-       ("Zabójca Trolli", 63,2 ,"1,3,9","48,61,8,71,109,114,119"),
-       ("Zabójca Olbrzymów", 63,2 ,"1,3,4,9","48,61,8,71,109,114,119"),
-       ("Zabójca Smoków", 63, 2 ,"1,3,4,6,9","48,61,8,71,109,114,119"),
-       ("Zabójca Demonów", 63, 2 ,"1,3,4,5,6,9","48,61,8,71,109,114,119"),
+       ("Zabójca Trolli", 63,2 ,"1,3,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Zabójca Olbrzymów", 63,2 ,"1,3,4,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Zabójca Smoków", 63, 2 ,"1,3,4,6,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Zabójca Demonów", 63, 2 ,"1,3,4,5,6,9","48,61,8,71,109,114,119",'76,53,21'),
 
-       ("Rekrut", 64,6 ,"1,4,9","48,61,8,71,109,114,119"),
-       ("Żołnierz", 64, 8,"1,2,4,9","48,61,8,71,109,114,119"),
-       ("Sierżant", 64,10 ,"1,2,4,5,9","48,61,8,71,109,114,119"),
-       ("Oficer", 64,11 ,"1,2,4,5,9,10","48,61,8,71,109,114,119");
+       ("Rekrut", 64,6 ,"1,4,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Żołnierz", 64, 8,"1,2,4,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Sierżant", 64,10 ,"1,2,4,5,9","48,61,8,71,109,114,119",'76,53,21'),
+       ("Oficer", 64,11 ,"1,2,4,5,9,10","48,61,8,71,109,114,119",'76,53,21');
 
 
   INSERT INTO "dostępność"("nazwa","wioska","miasteczko","miasto")
@@ -1487,14 +1613,10 @@ VALUES
         ('Egzotyczna',"Nie ma","Nie ma","Nie ma");
 
 
-    INSERT INTO "zalety_pancerz"("nazwa","opis")
+    INSERT INTO "cechy_pancerz"("nazwa","opis")
        VALUES
         ('Giętki',"Giętki pancerz możesz nosić pod warstwą innego pancerza (niepo- siadającego tej Zalety). W takim przypadku uzyskujesz korzyści obu pancerzy"),
-        ('Nieprzebijalny',"Taki pancerz jest wyjątkowo odporny, co sprawia, że większość ata- ków nie jest w stanie go przebić. Wszystkie Rany Krytyczne wynikłe na skutek nieparzystego wyniku rzutu na trafienie (na przykład 11 lub 33) są ignorowane.");
-
-
-    INSERT INTO "wady_pancerz"("nazwa","opis")
-        VALUES
+        ('Nieprzebijalny',"Taki pancerz jest wyjątkowo odporny, co sprawia, że większość ata- ków nie jest w stanie go przebić. Wszystkie Rany Krytyczne wynikłe na skutek nieparzystego wyniku rzutu na trafienie (na przykład 11 lub 33) są ignorowane."),
          ('Częściowy',"Pancerz nie okrywa całego Miejsca Trafienia. Przeciwnik, który uzy- ska parzysty wynik rzutu na trafienie albo wyrzuci Trafienie Krytycz- ne, ignoruje PP Częściowego pancerza."),
          ('Wrażliwe punkty',"Pancerz ma niewielkie miejsca, w które może wślizgnąć się ostrze, jeśli przeciwnik ma wystarczające umiejętności lub dość szczęścia. Jeśli wróg posługuje się bronią Nadziewającą i uzyska Trafienie Kry- tyczne, wszystkie PP tego pancerza są ignorowane.");
 
@@ -1509,33 +1631,377 @@ VALUES
 
   INSERT INTO "lokalizacja_pancerza"("nazwa")
     VALUES
+        ('wszystko'),
         ('ramiona'),
         ('korpus'),
         ('nogi'),
         ('głowa'),
-        ('wszystko');
+        ('Prawa Ręka'),
+        ('Lewa Ręka'),
+        ('Prawa Noga'),
+        ('Lewa Noga');
 
-  INSERT INTO "pancerz"("nazwa","cena","kara","lokalizacja_pancerza","punkty_pancerza","zalety","wady","dostępność_id","typ_pancerza_id")
+
+  INSERT INTO "pancerz"("nazwa","cena","kara","punkty_pancerza","dostępność_id","typ_pancerza_id")
     VALUES
-        ('Skórzana kurta','12s',NULL,'1,2',1,'','',1,1),
-        ('Czepiec kolczy','1 ZK','-10 do Percepcji','1',2,'1','1',2,1),
-        ('Nagolenniki płytowe','10 ZK','-10 do Skradania','3', 2,'1,2','1,2',3,4);
+        ('Skórzana kurta','12s',NULL,1,1,1),
+        ('Czepiec kolczy','1 ZK','-10 do Percepcji',2,2,1),
+        ('Nagolenniki płytowe','10 ZK','-10 do Skradania',2,3,4);
 
+
+  INSERT INTO "lokalizacja_pancerza_pancerz"("pancerz_id","lokalizacja_pancerza_id")
+    VALUES
+        (1,2),
+        (1,3),
+        (2,1),
+        (3,5);
+
+  INSERT INTO "cechy_pancerz_pancerz"("pancerz_id","cecha_id")
+    VALUES
+        (2,1),
+        (2,3),
+        (3,2),
+        (3,4);
 
 
    INSERT INTO "talent" ("nazwa", "maksimum","testy","opis","cechy_id" )
        VALUES
        ('Aptekarz','Bonus z Inteligencj','Rzemiosło (Aptekarstwo)','Jesteś świetnym aptekarzem i lepiej od innych wyrabiasz pigułki, maści, smarowidła, olejki, kremy i im podobne. Możesz odwrócić ko- lejność kości nieudanego Testu Rzemiosła (Aptekarstwa), jeśli nowy wynik pozwoli ci odnieść sukces.',8),
        ('Arcydzieło','brak','','Jesteś niekwestionowanym mistrzem w swojej dziedzinie, two- rzącym dzieła tak złożone, że inni mogą je tylko podziwiać, zachwycając się twoim geniuszem. Za każdym razem, gdy wy- kupujesz ten Talent, tworzysz niezwykłe dzieło, wykorzystując Umiejętność Sztuka lub Rzemiosło. Nie ma ono sobie równych, będzie po wieki inspirowało, zadziwiało i budziło zachwyt swoją wyjątkowością. MG określa premie, które ci przysługują z tej ra- cji. Zwykle wpływają one na Testy Ogłady w kontaktach z tymi, którzy podziwiają twoją sztukę. Sprzedaż dzieła powinna dać ci przynajmniej dziesięciokrotną wartość zwykłej ceny, a czasami nawet więcej.',0),
-
        ('Artylerzysta','Bonus ze Zręcznośc','','Z łatwością przeładowujesz broń prochową. Dodaj PS równe liczbie wykupień tego Talentu do każdego Wydłużonego Testu związanego z przeładowaniem broni prochowej.',0),
+       ('Atak Wyprzedzający','Bonus z Inicjatywy','','Twoje błyskawiczne ciosy pozwalają na powalenie przeciwników, zanim oni sami zdążą zaatakować. Kiedy wróg na ciebie Szarżuje, wykonaj udany Wymagający (+0) Test Inicjatywy, by natychmiastwykonać Darmowy Atak poza normalną kolejnością Rundy. Używasz broni, którą trzymasz w wiodącej ręce. Możesz wykonać tyle. Ataków Wyprzedzających w Rundzie, ile razy wykupiłeś ten Talent, ale tylko raz na każdego szarżującego.',0),
+       ('Atrakcyjny','Bonus z Ogłady','Charyzma, by wpłynąć na tych, którym się podobasz','OPIS',0),
 
-       ('Nazwa','maksimum','testy(kiedy dziala)','OPIS ',0),
+       ('Bardzo Silny','1','','OPIS',0),
+       ('Bardzo Szybki','1','testykiedydziala','OPIS',0),
+       ('Berserkerska Szarża','Maksimum','Testy','OPIS',0),
+       ('Biczownik','Maksimum','Testy','OPIS',0),
+       ('Bitewna Furia','Maksimum','Testy','OPIS',0),
+       ('Bitewny Refleks','Maksimum','Testy','OPIS',0),
+       ('Błękitna Krew','Maksimum','Testy','OPIS',0),
+
+       ('Błogosławieństwo (Manann)','Maksimum','Testy','OPIS',0),
+       ('Błogosławieństwo (Morr)','Maksimum','Testy','OPIS',0),
+       ('Błogosławieństwo (Myrmidia)','Maksimum','Testy','OPIS',0),
+       ('Błogosławieństwo (Ranald)','Maksimum','Testy','OPIS',0),
+       ('Błogosławieństwo (Rhya)','Maksimum','Testy','OPIS',0),
+       ('Błogosławieństwo (Shallya)','Maksimum','Testy','OPIS',0),
+       ('Błogosławieństwo (Sigmar)','Maksimum','Testy','OPIS',0),
+       ('Błogosławieństwo (Taal)','Maksimum','Testy','OPIS',0),
+       ('Błogosławieństwo (Ulryk)','Maksimum','Testy','OPIS',0),
+       ('Błogosławieństwo (Verena)','Maksimum','Testy','OPIS',0),
+
+       ('Błyskawiczny Strzał','Maksimum','Testy','OPIS',0),
+       ('Błyskotliwość','Maksimum','Testy','OPIS',0),
+
+       ('Celny Strzał','Maksimum','Testy','OPIS',0),
+       ('Charyzmatyczny','Maksimum','Testy','OPIS',0),
+       ('Chirurgia','Maksimum','Testy','OPIS',0),
+       ('Chodu!','Maksimum','Testy','OPIS',0),
+       ('Cień','Maksimum','Testy','OPIS',0),
+       ('Cios Mierzony','Maksimum','Testy','OPIS',0),
+       ('Cios Poniżej Pasa','Maksimum','Testy','OPIS',0),
+       ('Czarownica!','Maksimum','Testy','OPIS',0),
+       ('Człowiek Guma','Maksimum','Testy','OPIS',0),
+       ('Czujny','Maksimum','Testy','OPIS',0),
+       ('Czysta Dusza','Maksimum','Testy','OPIS',0),
+       ('Czytanie z Ruchu Warg','Maksimum','Testy','OPIS',0),
+       ('Czytanie/Pisanie','Maksimum','Testy','OPIS',0),
+
+       ('Defraudant','Maksimum','Testy','OPIS',0),
+       ('Dobrze Przygotowany','Maksimum','Testy','OPIS',0),
+
+       ('Doświadczony Wędrowiec (Lasy)','Maksimum','Testy','OPIS',0),
+       ('Doświadczony Wędrowiec (Pustyni)','Maksimum','Testy','OPIS',0),
+       ('Doświadczony Wędrowiec (Wybrzeża)','Maksimum','Testy','OPIS',0),
+       ('Doświadczony Wędrowiec (Inne)','Maksimum','Testy','OPIS',0),
+
+       ('Dwie Bronie','Maksimum','Testy','OPIS',0),
+
+       ('Etykieta (Członkowie Gildii)','Maksimum','Testy','OPIS',0),
+       ('Etykieta (Kultyści)','Maksimum','Testy','OPIS',0),
+       ('Etykieta (Uczeni)','Maksimum','Testy','OPIS',0),
+       ('Etykieta (Szlachta)','Maksimum','Testy','OPIS',0),
+       ('Etykieta (Inne)','Maksimum','Testy','OPIS',0),
 
 
-       ('Artylerzysta','Bonus ze Zręcznośc','','OPIS  ',0);
+       ('Finta','Maksimum','Testy','OPIS',0),
+
+       ('Gadanina','Maksimum','Testy','OPIS',0),
+       ('Geniusz Arytmetyczny','Maksimum','Testy','OPIS',0),
+       ('Gładkie Słówka','Maksimum','Testy','OPIS',0),
+       ('Groźny','Maksimum','Testy','OPIS',0),
+
+       ('Hulaka','Maksimum','Testy','OPIS',0),
+
+       ('Inspirujący','Maksimum','Testy','OPIS',0),
+       ('Intrygant','Maksimum','Testy','OPIS',0),
+
+       ('Inwokacja (Manann)','Maksimum','Testy','OPIS',0),
+       ('Inwokacja (Morr)','Maksimum','Testy','OPIS',0),
+       ('Inwokacja (Myrmidia)','Maksimum','Testy','OPIS',0),
+       ('Inwokacja (Ranald)','Maksimum','Testy','OPIS',0),
+       ('Inwokacja (Rhya)','Maksimum','Testy','OPIS',0),
+       ('Inwokacja (Shallya)','Maksimum','Testy','OPIS',0),
+       ('Inwokacja (Sigmar)','Maksimum','Testy','OPIS',0),
+       ('Inwokacja (Taal)','Maksimum','Testy','OPIS',0),
+       ('Inwokacja (Ulryk)','Maksimum','Testy','OPIS',0),
+       ('Inwokacja (Verena)','Maksimum','Testy','OPIS',0),
+
+       ('Krasomówstwo','Maksimum','Testy','OPIS',0),
+       ('Krzepki','Maksimum','Testy','OPIS',0),
+
+       ('Łapówkarz','Maksimum','Testy','OPIS',0),
+
+       ('Mag Bitewny','Maksimum','Testy','OPIS',0),
+
+       ('Magia Chaosu (Nurgla)','Maksimum','Testy','OPIS',0),
+       ('Magia Chaosu (Slaanesha)','Maksimum','Testy','OPIS',0),
+       ('Magia Chaosu (Tzeentcha)','Maksimum','Testy','OPIS',0),
+
+       ('Magia Prosta','Maksimum','Testy','OPIS',0),
+
+       ('Magia Tajemna (Cieni)','Maksimum','Testy','OPIS',0),
+       ('Magia Tajemna (Metalu)','Maksimum','Testy','OPIS',0),
+       ('Magia Tajemna (Niebios)','Maksimum','Testy','OPIS',0),
+       ('Magia Tajemna (Ognia)','Maksimum','Testy','OPIS',0),
+       ('Magia Tajemna (Śmierci)','Maksimum','Testy','OPIS',0),
+       ('Magia Tajemna (Światłą)','Maksimum','Testy','OPIS',0),
+       ('Magia Tajemna (Zwierząt)','Maksimum','Testy','OPIS',0),
+       ('Magia Tajemna (Życia)','Maksimum','Testy','OPIS',0),
+
+       ('Magia Tajemna (Guślarstwa)','Maksimum','Testy','OPIS',0),
+       ('Magia Tajemna (Czarownictwa)','Maksimum','Testy','OPIS',0),
+       ('Magia Tajemna (Demonologii)','Maksimum','Testy','OPIS',0),
+       ('Magia Tajemna (Nekromancji)','Maksimum','Testy','OPIS',0),
+
+       ('Majętny','Maksimum','Testy','OPIS',0),
+       ('Mały','Maksimum','Testy','OPIS',0),
+       ('Mistrz Charakteryzacji','Maksimum','Testy','OPIS',0),
+
+       ('Mistrz Rzemiosła (Rzemiosło)','Maksimum','Testy','OPIS',0),
+
+       ('Mistrz Walki','Maksimum','Testy','OPIS',0),
+       ('Mocne Plecy','Maksimum','Testy','OPIS',0),
+       ('Morderczy Atak','Maksimum','Testy','OPIS',0),
+       ('Mól Książkowy','Maksimum','Testy','OPIS',0),
+       ('Mówca','Maksimum','Testy','OPIS',0),
+       ('Musztra','Maksimum','Testy','OPIS',0),
+
+       ('Na Cztery Łapy','Maksimum','Testy','OPIS',0),
+       ('Naciągacz','Maksimum','Testy','OPIS',0),
+       ('Naśladowca','Maksimum','Testy','OPIS',0),
+       ('Niegodny Uwagi','Maksimum','Testy','OPIS',0),
+
+       ('Nienawiść (Grupa)','Maksimum','Testy','OPIS',0),
+
+       ('Nieubłagany','Maksimum','Testy','OPIS',0),
+       ('Nieugięty','Maksimum','Testy','OPIS',0),
+       ('Nieustępliwy','Maksimum','Testy','OPIS',0),
+
+       ('Nieustraszony (typ wroga)','Maksimum','Testy','OPIS',0),
+
+       ('Niewzruszony','Maksimum','Testy','OPIS',0),
+       ('Niezwykle Odporny','Maksimum','Testy','OPIS',0),
+       ('Nos do Kłopotów','Maksimum','Testy','OPIS',0),
+       ('Numizmatyka','Maksimum','Testy','OPIS',0),
+
+       ('Obieżyświat','Maksimum','Testy','OPIS',0),
+       ('Oburęczność','Maksimum','Testy','OPIS',0),
+       ('Odporność na Magię','Maksimum','Testy','OPIS',0),
+       ('Odporność Psychiczna','Maksimum','Testy','OPIS',0),
+
+       ('Odporny na (Wybrane Zagrożenie)','Maksimum','Testy','OPIS',0),
+
+       ('Odwrócenie Szans','Maksimum','Testy','OPIS',0),
+       ('Ogłuszenie','Maksimum','Testy','OPIS',0),
+       ('Oko Łowcy','Maksimum','Testy','OPIS',0),
+
+       ('Percepcja Magiczna','Maksimum','Testy','OPIS',0),
+       ('Pierwsza Pomoc','Maksimum','Testy','OPIS',0),
+       ('Pilot','Maksimum','Testy','OPIS',0),
+       ('Pilot Rzeczny','Maksimum','Testy','OPIS',0),
+       ('Poliglota','Maksimum','Testy','OPIS',0),
+       ('Pomocny','Maksimum','Testy','OPIS',0),
+       ('Porywająca Gorliwość','Maksimum','Testy','OPIS',0),
+       ('Posłuch u Zwierząt','Maksimum','Testy','OPIS',0),
+       ('Precyzyjne Inkantowanie','Maksimum','Testy','OPIS',0),
+       ('Prosto Między Oczy','Maksimum','Testy','OPIS',0),
+       ('Przekonujący','Maksimum','Testy','OPIS',0),
+       ('Przestępca','Maksimum','Testy','OPIS',0),
+       ('Przyrządzanie Mikstur','Maksimum','Testy','OPIS',0),
+
+       ('Riposta','Maksimum','Testy','OPIS',0),
+       ('Rozbrojenie','Maksimum','Testy','OPIS',0),
+       ('Rozpoznanie Artefaktu','Maksimum','Testy','OPIS',0),
+       ('Rozproszenie Uwagi','Maksimum','Testy','OPIS',0),
+       ('Ruchliwe dłonie','Maksimum','Testy','OPIS',0),
+       ('Rybak','Maksimum','Testy','OPIS',0),
+       ('Sekretna Tożsamość','Maksimum','Testy','OPIS',0),
+
+       ('Silne Nogi','Maksimum','Testy','OPIS',0),
+       ('Silny Cios','Maksimum','Testy','OPIS',0),
+       ('Skrócenie Dystansu','Maksimum','Testy','OPIS',0),
+       ('Słuch Absolutny','Maksimum','Testy','OPIS',0),
+       ('Snajper','Maksimum','Testy','OPIS',0),
+       ('Sprężynka','Maksimum','Testy','OPIS',0),
+       ('Straszny','Maksimum','Testy','OPIS',0),
+       ('Strzał Przebijający','Maksimum','Testy','OPIS',0),
+       ('Strzał w Dziesiątkę','Maksimum','Testy','OPIS',0),
+       ('Strzelec Wyborowy','Maksimum','Testy','OPIS',0),
+       ('Szał Bojowy','Maksimum','Testy','OPIS',0),
+       ('Szczęście','Maksimum','Testy','OPIS',0),
+       ('Szczur Tunelowy','Maksimum','Testy','OPIS',0),
+       ('Szósty Zmysł','Maksimum','Testy','OPIS',0),
+       ('Szuler','Maksimum','Testy','OPIS',0),
+       ('Szuler Kościany','Maksimum','Testy','OPIS',0),
+       ('Szybki Refleks','Maksimum','Testy','OPIS',0),
+       ('Szybkie Czytanie','Maksimum','Testy','OPIS',0),
+       ('Szybkie Przeładowanie','Maksimum','Testy','OPIS',0),
+       ('Szybkobiegacz','Maksimum','Testy','OPIS',0),
+       ('Szycha','Maksimum','Testy','OPIS',0),
+
+       ('Świetny Pływak','Maksimum','Testy','OPIS',0),
+       ('Święta Nienawiść','Maksimum','Testy','OPIS',0),
+       ('Święte Wizje','Maksimum','Testy','OPIS',0),
+
+       ('Talent Artystyczny','Maksimum','Testy','OPIS',0),
+       ('Tarczownik','Maksimum','Testy','OPIS',0),
+       ('Towarzyski','Maksimum','Testy','OPIS',0),
+       ('Tragarz','Maksimum','Testy','OPIS',0),
+       ('Traper','Maksimum','Testy','OPIS',0),
+       ('Twardziel','Maksimum','Testy','OPIS',0),
+
+       ('Ulicznik','Maksimum','Testy','OPIS',0),
+       ('Urodzony w Siodle','Maksimum','Testy','OPIS',0),
+       ('Urodzony Wojownik','Maksimum','Testy','OPIS',0),
+       ('Urodzony Żeglarz','Maksimum','Testy','OPIS',0),
+
+       ('Waleczne Serce','Maksimum','Testy','OPIS',0),
+       ('Walka w Ciasnocie','Maksimum','Testy','OPIS',0),
+       ('Widzenie w Ciemności','Maksimum','Testy','OPIS',0),
+       ('Wieża Pamięci','Maksimum','Testy','OPIS',0),
+       ('Wilk Morski','Maksimum','Testy','OPIS',0),
+       ('Władcza Postura','Maksimum','Testy','OPIS',0),
+       ('Włóczykij','Maksimum','Testy','OPIS',0),
+       ('Wodniak','Maksimum','Testy','OPIS',0),
+       ('Woltyżerka','Maksimum','Testy','OPIS',0),
+       ('Wódz','Maksimum','Testy','OPIS',0),
+       ('Wróżba Losu','Maksimum','Testy','OPIS',0),
+       ('Wstrzemięźliwy','Maksimum','Testy','OPIS',0),
+       ('Wściekły Atak','Maksimum','Testy','OPIS',0),
+       ('Wtargnięcie z Włamaniem','Maksimum','Testy','OPIS',0),
+       ('Wyborny Wspinacz','Maksimum','Testy','OPIS',0),
+       ('Wyczucie Kierunku','Maksimum','Testy','OPIS',0),
+       ('Wyczulony Zmysł','Maksimum','Testy','OPIS',0),
+       ('Wykrywanie Magii','Maksimum','Testy','OPIS',0),
+       ('Wytrwały','Maksimum','Testy','OPIS',0),
+       ('Wytwórca','Maksimum','Testy','OPIS',0),
+
+       ('Z Bata','Maksimum','Testy','OPIS',0),
+       ('Zabójca','Maksimum','Testy','OPIS',0),
+       ('Zbicie Broni','Maksimum','Testy','OPIS',0),
+       ('Zejście z Linii','Maksimum','Testy','OPIS',0),
+       ('Zimna krew','Maksimum','Testy','OPIS',0),
+       ('Złota Rączka','Maksimum','Testy','OPIS',0),
+       ('Zmysł Bitewny','Maksimum','Testy','OPIS',0),
+       ('Zmysł Magii','Maksimum','Testy','OPIS',0),
+       ('Znawca (Wiedza)','Maksimum','Testy','OPIS',0),
+       ('Zręczny','Maksimum','Testy','OPIS',0),
+
+       ('Żelazna Szczęka','Maksimum','Testy','OPIS',0),
+       ('Żelazna Wola','Maksimum','Testy','OPIS',0),
+       ('Żyłka Handlowa','Bonus z Ogłady','Targowanie','Jesteś sprawnym przekupniem i znasz sposoby na dobicie targu. Kiedy używasz Umiejętności Targowanie, obniżasz lub podwyższasz cenę o dodatkowe 10%.',0);
+
+
+  INSERT INTO "typ_broni"("nazwa","czy_zacięgowa","opis_specjalny")
+    VALUES
+        ("PODSTAWOWA",0,NULL),
+        ("KAWALERYJSKA",0,"Broń kawaleryjska przeznaczona jest do używania z grzbietu wierz-  broni kawaleryjskiej nie jest używana z wierzchowca, liczy się po pro-stu jako Broń Dwuręczna. Jednoręczna broń kawaleryjska normalnie nie jest przeznaczona do używania, gdy nie dosiada się wierzchowca."),
+        ("SZERMIERCZA",0,NULL),
+        ("BIJATYKA",0,NULL),
+        ("KORBACZE",0,"Nieposiadający odpowiedniej Umiejętności bohaterowie dodają do opisu używanego korbacza efekt Wady broni Niebezpieczna. Jak zwykle Zalety broni nie mogą zostać wykorzystane."),
+        ("PARUJĄCA",0,"Dowolna broń jednoręczna z Zaletą Parująca może być używana z wykorzystaniem Umiejętności Broń Biała (Parująca). Używając Umiejętności Broń Biała (Parująca), można wykorzystać taki oręż do sparowania ataku przeciwnika bez normalnej kary -20 za użycie broni w drugiej ręce."),
+        ("DRZEWCOWA",0,NULL),
+        ("DWURĘCZNA",0,NULL),
+
+        ("PROCHOWA",1,NULL),
+        ("ŁUKI",1,NULL),
+        ("KUSZE",1,NULL),
+        ("EKSPERYMENTALNA",1,NULL),
+        ("MATERIAŁY WYBUCHOWE",1,NULL),
+        ("PROCE",1,NULL),
+        ("MIOTANA",1,NULL),
+        ("PROCE",1,NULL);
+
+  INSERT INTO "cechy_broni"("nazwa","opis")
+    VALUES
+        ('Celna','Strzelając z tej broni, łatwo trafić w cel. W takiej sytuacji zyskujesz premię +10 do Testu trafienia.'),
+        ('Dekoncentrująca','Ze względu na swoją niebezpieczną naturę broń Dekoncentrująca może zmuszać wroga do cofania się. Zwykle działa podobnie jak bicz. Zamiast zadawać Obrażenia, udany atak bronią Dekoncentrującą może zmusić przeciwnika do cofnięcia się o 1 metr na każdy PS,o który wygrywasz Test Przeciwstawny.'),
+        ('Druzgocząca','OPIS'),
+        ('Łamacz mieczy','OPIS'),
+        ('Nadziewająca','OPIS'),
+        ('Niełamliwa','OPIS'),
+        ('Ogłuszająca','OPIS'),
+        ('Parująca','OPIS'),
+        ('Pistolety','OPIS'),
+        ('Plącząca','OPIS'),
+        ('Precyzyjna','Tą bronią łatwo trafić w cel. Zyskujesz premię +1 PS do każdego udanego Testu podczas ataku tą bronią.'),
+        ('Prochowa','OPIS'),
+        ('Przebijająca','OPIS'),
+        ('Przekłuwająca','OPIS'),
+        ('Rąbiąca','OPIS'),
+        ('Szybka','OPIS'),
+        ('Tarcza (wartość)','OPIS'),
+        ('Unieruchamiająca','OPIS'),
+        ('Wielostrzał (wartość)','OPIS'),
+        ('Odłamkowa (wartość)','OPIS'),
+
+        ('Ciężka','Używanie tej broni jest męczące lub trudno ją opanować. Możesz korzystać z Zalet broni Druzgocząca i Przebijająca tylko w Turze, w której wykonujesz Szarżę.'),
+        ('Niebezpieczna','OPIS'),
+        ('Nieprecyzyjna','OPIS'),
+        ('Powolna','OPIS'),
+        ('Przeładowanie (wartość)','OPIS'),
+        ('Tępa','OPIS');
+
+        INSERT INTO "broń"("nazwa","cena","zasięg","obrażenia","czy_własna","typ_broni_id","dostępność_id")
+         VALUES
+
+                ('Sztylet','16 s','Bardzo krótka','+BS+2',0,1,1),
+                ('Floret','18 s 2 p','Kontaktowa','+BS+3',0,1,2),
+                ('Korbacz','1 ZK 2 s 6 p','Bardzo długa','+BS+1',1,3,2),
+                ('Nadziak','darmo','Długa','+BS+2',1,5,3),
+                ('Włócznia','3 ZK','Średnia','+BS+2',1,6,3),
+                ('Lewak','33 ZK','Bardzo krótka','+BS+5',1,7,4);
+
+
+         INSERT INTO "cecha_broni_broń"("broń_id","cecha_id")
+            VALUES
+            (1,1),
+            (1,2),
+            (1,5),
+            (2,1),
+            (2,2),
+            (2,6),
+            (3,3),
+            (3,4),
+            (3,7),
+            (4,1),
+            (4,6),
+            (4,2),
+            (5,2),
+            (5,5),
+            (5,9),
+            (6,1),
+            (6,3),
+            (6,7);
 
 
 
-
-
+  INSERT INTO "wyposarzenie"("nazwa")
+    VALUES
+        ('Lina'),
+        ('Plecak'),
+        ('Namiot'),
+        ('Kartka papieru'),
+        ('Czapka');

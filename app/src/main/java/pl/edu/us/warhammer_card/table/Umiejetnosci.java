@@ -3,13 +3,33 @@ package pl.edu.us.warhammer_card.table;
 public class Umiejetnosci{
 
     int id;
-    int karta_id;
-    int rozwoj;
-    int cecha_id;
+    int kartaId;
 
     int wortascCecha;
+    int rozwoj;
+    int suma;
+
+    int cechaId;
+
     String nazwa;
-    String cecha_nazwa;
+    String cechaNazwa;
+
+    Cechy cecha;
+
+    public Cechy getCecha() {
+        return cecha;
+    }
+
+    public void setCecha(Cechy cecha) {
+        this.cecha = cecha;
+        this.wortascCecha = cecha.getWartPo()+ cecha.getRozw();
+        this.suma = wortascCecha + rozwoj;
+
+    }
+
+    public int getSuma() {
+        return suma;
+    }
 
     public int getWortascCecha() {
         return wortascCecha;
@@ -27,12 +47,12 @@ public class Umiejetnosci{
         this.id = id;
     }
 
-    public int getKarta_id() {
-        return karta_id;
+    public int getKartaId() {
+        return kartaId;
     }
 
-    public void setKarta_id(int karta_id) {
-        this.karta_id = karta_id;
+    public void setKartaId(int kartaId) {
+        this.kartaId = kartaId;
     }
 
     public int getRozwoj() {
@@ -43,12 +63,12 @@ public class Umiejetnosci{
         this.rozwoj = rozwoj;
     }
 
-    public int getCecha_id() {
-        return cecha_id;
+    public int getCechaId() {
+        return cechaId;
     }
 
-    public void setCecha_id(int cecha_id) {
-        this.cecha_id = cecha_id;
+    public void setCechaId(int cechaId) {
+        this.cechaId = cechaId;
     }
 
     public String getNazwa() {
@@ -59,11 +79,11 @@ public class Umiejetnosci{
         this.nazwa = nazwa;
     }
 
-    public String getCecha_nazwa() {
-        return cecha_nazwa;
+    public String getCechaNazwa() {
+        return cechaNazwa;
     }
 
-    public void setCecha_nazwa(String cecha_nazwa) {
-        this.cecha_nazwa = cecha_nazwa;
+    public void setCechaNazwa(String cechaNazwa) {
+        this.cechaNazwa = cechaNazwa;
     }
 }

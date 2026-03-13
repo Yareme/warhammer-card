@@ -27,10 +27,9 @@ public class KartaFragmentViewModel extends ViewModel {
 
 
         String[] projection = {"kampania_id"};
-        String[] colums = {"*"};  /*id,profesja_id,rasa_id,imie*/
+        String[] colums = {"*"};
         String[] selectionArgs = {Integer.toString(kampanieID)};
-        // String sortOrder = "nazwa ASC";
-        // String[] id ={"3"};
+
 
         Cursor cursor = db.query("karta", colums, "kampania_id = ?", selectionArgs, null, null, null);
         List<Karta> listaKarta = new ArrayList<>();
@@ -46,14 +45,9 @@ public class KartaFragmentViewModel extends ViewModel {
 
             listaKarta.add(karta);
             Log.d("Karta", String.valueOf("KartaID=" + karta.getId()));
-
         }
         cursor.close();
        kartaLiveData.postValue(listaKarta);
-
         return listaKarta;
     }
-
-
-
 }

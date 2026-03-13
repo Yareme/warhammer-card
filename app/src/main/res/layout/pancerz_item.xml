@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="10dp">
+    android:layout_margin="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/karta_item_backgroundd">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/karta_item_backgroundd">
+        android:padding="12dp">
 
-        <LinearLayout
+
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -40,7 +43,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/titel_list_item"
                         tools:text="Metalowy Hełm" />
 
                     <!-- Dostępność -->
@@ -48,7 +51,7 @@
                         android:id="@+id/dostepnosc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/titel_ex_list_item"
                         android:paddingStart="8dp"
                         android:textColor="#FFFFFF"
                         tools:text="Rzadki" />
@@ -59,7 +62,7 @@
                     android:id="@+id/lokalizacja"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/elemet_item_list"
                     tools:text="Głowa, Nogi, Ramiona" />
 
                 <!-- Punkty pancerza -->
@@ -67,7 +70,7 @@
                     android:id="@+id/pp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/elemet_item_list"
                     tools:text="2 PP" />
 
                 <!-- Cechy -->
@@ -75,7 +78,7 @@
                     android:id="@+id/cechy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/elemet_item_list"
                     tools:text="Giętki, Słaby Punkt" />
 
                 <CheckBox

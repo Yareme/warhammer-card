@@ -1,8 +1,6 @@
 package pl.edu.us.warhammer_card.table;
 
-import android.icu.text.SimpleDateFormat;
-
-import java.util.Date;
+import java.util.List;
 
 public class Karta {
 
@@ -13,7 +11,6 @@ public class Karta {
     private  String wzrost;
     private  String wlosy;
     private  String oczy;
-
 
     private int punktyPrzeznaczenia;
     private int punktySzczescia;
@@ -29,7 +26,6 @@ public class Karta {
     private int punktyGrzechu;
 
     private String psyhologia;
-
     private String motywacja;
     private String zepsucieIMutacje;
     private String ambicjaKrotkoterminowa;
@@ -38,6 +34,119 @@ public class Karta {
     private String ambicjaDruzynowaKrotkoterm;
     private String ambicjaDruzynowaDlugoterm;
     private String czlonkowieDruzyny;
+    private List<Cechy> cechyList;
+    private List<Umiejetnosci> umiejetnosciList;
+    private List<Umiejetnosci> umiejetnosciZaawansowaneList;
+    private List<Talent> talentList;
+    private List<Wyposarzenia> wyposarzeniaList;
+    private List<Pancerz> pancerzList;
+
+    private List<Bron> bronList;
+    private List<Zaklecia> zakleciaList;
+
+    private Rasa rasa;
+
+    private PoziomProfesja poziomProfesja;
+
+    private Profesja profesja;
+
+    public List<Bron> getBronList() {
+        return bronList;
+    }
+
+    public void setBronList(List<Bron> bronList) {
+        this.bronList = bronList;
+    }
+
+    public List<Umiejetnosci> getUmiejetnosciZaawansowaneList() {
+        return umiejetnosciZaawansowaneList;
+    }
+
+    public void setUmiejetnosciZaawansowaneList(List<Umiejetnosci> umiejetnosciZaawansowaneList) {
+        this.umiejetnosciZaawansowaneList = umiejetnosciZaawansowaneList;
+    }
+
+    public List<Pancerz> getPancerzList() {
+        return pancerzList;
+    }
+
+    public void setPancerzList(List<Pancerz> pancerzList) {
+        this.pancerzList = pancerzList;
+    }
+
+    public List<Umiejetnosci> getUmiejetnosciList() {
+        return umiejetnosciList;
+    }
+
+    public void setUmiejetnosciList(List<Umiejetnosci> umiejetnosciList) {
+        this.umiejetnosciList = umiejetnosciList;
+    }
+
+    public Profesja getProfesja() {
+        return profesja;
+    }
+
+    public void setProfesja(Profesja profesja) {
+        this.profesja = profesja;
+    }
+
+    public PoziomProfesja getPoziomProfesja() {
+        return poziomProfesja;
+    }
+
+    public void setPoziomProfesja(PoziomProfesja poziomProfesja) {
+        this.poziomProfesja = poziomProfesja;
+    }
+
+    public Rasa getRasa() {
+        return rasa;
+    }
+
+    public void setRasa(Rasa rasa) {
+        this.rasa = rasa;
+    }
+
+    public List<Wyposarzenia> getWyposarzeniaList() {
+        return wyposarzeniaList;
+    }
+
+    public void setWyposarzeniaList(List<Wyposarzenia> wyposarzeniaList) {
+        this.wyposarzeniaList = wyposarzeniaList;
+    }
+
+    public List<Zaklecia> getZakleciaList() {
+        return zakleciaList;
+    }
+
+    public void setZakleciaList(List<Zaklecia> zakleciaList) {
+        this.zakleciaList = zakleciaList;
+    }
+
+    public List<Talent> getTalentList() {
+        return talentList;
+    }
+
+    public void setTalentList(List<Talent> talentList) {
+        this.talentList = talentList;
+    }
+
+    public List<Cechy> getCechyList() {
+        return cechyList;
+    }
+
+    public void setCechyList(List<Cechy> cechyList) {
+        this.cechyList = cechyList;
+    }
+
+    private int zywotnoscAktualna;
+
+    public int getZywotnoscAktualna() {
+        return zywotnoscAktualna;
+    }
+
+    public void setZywotnoscAktualna(int zywotnoscAktualna) {
+        this.zywotnoscAktualna = zywotnoscAktualna;
+    }
 
     private int kampaniaId;
     private int rasaId;

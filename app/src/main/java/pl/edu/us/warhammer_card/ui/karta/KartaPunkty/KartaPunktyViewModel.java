@@ -34,14 +34,12 @@ public class KartaPunktyViewModel extends AndroidViewModel{
         return kartaLiveData;
     }
 
-
     private void loadKarta(int kartaId) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 SQLiteDatabase db = dbHelper.getReadableDatabase();
                 Karta karta = dbHelper.getKartaById(db, kartaId);
-
 
                 if (karta != null) {
                     kartaLiveData.postValue(karta);
@@ -56,5 +54,3 @@ public class KartaPunktyViewModel extends AndroidViewModel{
     }
 
 }
-
-
