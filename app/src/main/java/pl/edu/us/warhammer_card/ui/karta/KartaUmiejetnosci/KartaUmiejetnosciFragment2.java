@@ -39,12 +39,20 @@ import pl.edu.us.warhammer_card.table.PoziomProfesja;
 import pl.edu.us.warhammer_card.table.Umiejetnosci;
 import pl.edu.us.warhammer_card.table.Wyposarzenia;
 
+
+/*Dla testu PR etwssetsfsdsfdss */
 public class KartaUmiejetnosciFragment2 extends Fragment {
 
     FragmentKartaUmiejetnosci2Binding binding;
 
     UmiejetnoscAdapter2 adapter;
     Karta karta;
+    /*Dla testu PR etwssetsfsdsfdss */
+    /*Dla testu PR etwssetsfsdsfdss */
+    /*Dla testu PR etwssetsfsdsfdss */
+    /*Dla testu PR etwssetsfsdsfdss */
+    /*Dla testu PR etwssetsfsdsfdss */
+    /*Dla testu PR etwssetsfsdsfdss */
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -66,6 +74,9 @@ public class KartaUmiejetnosciFragment2 extends Fragment {
 
         adapter = new UmiejetnoscAdapter2(new ArrayList<>());
         recyclerView.setAdapter(adapter);
+        /*Dla testu PR etwssetsfsdsfdss */
+        /*Dla testu PR etwssetsfsdsfdss */
+        /*Dla testu PR etwssetsfsdsfdss */
 
         UmiejetnosciViewModel2 umiejetnosciViewModel2 =
                 new ViewModelProvider(this).get(UmiejetnosciViewModel2.class);
